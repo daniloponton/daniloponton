@@ -303,3 +303,35 @@ footer {
   border-top: 1px solid var(--border);
   padding-top: 1rem;
 }
+
+/* ───────────────────────────── Memorial ─────────────────────────────── */
+.memorial {
+  background: #fff;
+  color: #111;
+  padding: 2rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.memorial h1 { font-size: 1.5rem; margin: 0 0 0.2rem; }
+.memorial h2 { font-size: 1.15rem; margin: 1.4rem 0 0.4rem; border-bottom: 2px solid #111; padding-bottom: 0.2rem; }
+.memorial h3 { font-size: 1rem; margin: 0.9rem 0 0.3rem; }
+.memorial .memorial-project { font-size: 1.1rem; font-weight: 600; margin: 0 0 0.8rem; }
+.memorial .memorial-norm { color: #444; margin: 0.2rem 0 0.6rem; }
+.memorial table { width: 100%; border-collapse: collapse; margin: 0.4rem 0; }
+.memorial th, .memorial td { border: 1px solid #999; padding: 0.35rem 0.5rem; text-align: left; vertical-align: top; }
+.memorial .memorial-meta th, .memorial-table th { background: #f0f0f0; font-weight: 600; }
+.memorial .mono { font-family: ui-monospace, Menlo, monospace; }
+.memorial .memorial-trace { font-size: 0.72rem; color: #555; word-break: break-all; margin-top: 0.4rem; }
+.memorial .memorial-warnings { margin: 0.4rem 0; }
+.memorial .memorial-foot { margin-top: 2rem; font-size: 0.8rem; color: #333; }
+.memorial .memorial-sign { margin-top: 2.5rem; text-align: center; line-height: 1.6; }
+
+@media print {
+  body { background: #fff; }
+  .no-print, .app > header.no-print, nav.tabs, .project-bar, .app > footer, .error { display: none !important; }
+  .app { max-width: none; padding: 0; }
+  .memorial { padding: 0; border-radius: 0; }
+  .memorial-section { break-inside: avoid; }
+  @page { size: A4; margin: 16mm; }
+}

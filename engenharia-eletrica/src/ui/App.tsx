@@ -28,8 +28,9 @@ import { ProjectBar } from "./components/ProjectBar";
 import { PowerQualityPanel } from "./components/PowerQualityPanel";
 import { GroundingPanel } from "./components/GroundingPanel";
 import { PvPanel } from "./components/PvPanel";
+import { MemorialView } from "./components/MemorialView";
 
-type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding" | "pv";
+type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding" | "pv" | "memorial";
 
 function seedCircuit(): Circuit {
   return {
@@ -155,7 +156,7 @@ export function App() {
 
   return (
     <div className="app">
-      <header>
+      <header className="no-print">
         <h1>Ferramenta de Engenharia Elétrica</h1>
         <p className="subtitle">
           IEC / NBR · motor v{ENGINE_VERSION} · 100% no navegador, determinístico e auditável
@@ -176,7 +177,7 @@ export function App() {
         onEvaluate={onEvaluate}
       />
 
-      <nav className="tabs">
+      <nav className="tabs no-print">
         <button className={tab === "short_circuit" ? "tab active" : "tab"} onClick={() => setTab("short_circuit")}>
           1 · Curto-Circuito (IEC 60909)
         </button>
@@ -194,6 +195,9 @@ export function App() {
         </button>
         <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => setTab("pv")}>
           6 · Fotovoltaico (GD)
+        </button>
+        <button className={tab === "memorial" ? "tab active" : "tab"} onClick={() => setTab("memorial")}>
+          7 · Memorial
         </button>
       </nav>
 
@@ -234,9 +238,18 @@ export function App() {
         {tab === "grounding" && <GroundingPanel onError={setError} />}
 
         {tab === "pv" && <PvPanel onError={setError} />}
+
+        {tab === "memorial" && (
+          <MemorialView
+            projectName={projectName}
+            shortCircuit={scResult}
+            protection={selResult}
+            cable={cableResult}
+          />
+        )}
       </main>
 
-      <footer>
+      <footer className="no-print">
         <p>
           Fluxo sugerido: <strong>1 → 2 → 3</strong>, ou clique em <strong>Avaliar circuito completo</strong> —
           a I"k do curto alimenta a proteção e o cabo, e o tempo de atuação da proteção alimenta a verificação

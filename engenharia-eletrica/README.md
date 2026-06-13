@@ -51,7 +51,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)
-- [ ] Documentation & Compliance (memorial em PDF, matriz de conformidade)
+- [x] **Documentation** — memorial de cálculo imprimível (PDF via navegador, `@media print`)
 
 ## Normas (escopo inicial)
 
@@ -82,6 +82,14 @@ Os três módulos se encadeiam (fluxo **1 → 2 → 3**), fechando o ciclo de c�
    verificação térmica de curto-circuito (antes digitados à mão).
 
 Na UI, as caixas "Usar valores calculados" puxam automaticamente esses valores.
+
+## Memorial de cálculo
+
+A aba **Memorial** consolida os resultados dos módulos do circuito (curto →
+proteção → cabo) num documento com dados do responsável técnico, semáforo de
+conformidade, memória de cálculo passo a passo e hash de auditoria por seção.
+A geração de PDF é feita pelo próprio navegador (Imprimir → Salvar como PDF),
+via `@media print` — sem dependências e mantendo o funcionamento offline.
 
 ## Status
 

@@ -12,3 +12,4 @@ export * from "./modules/powerQuality";
 export * from "./modules/grounding";
 export * from "./modules/pv";
 export * from "./project";
+export * from "./documentation";
