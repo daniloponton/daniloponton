@@ -1,33 +1,66 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   calculateCableSizing,
   calculateShortCircuit,
   checkSelectivity,
+  createDefaultStore,
+  createCircuit,
+  createProject,
+  evaluateCircuit,
   ENGINE_VERSION,
   type CableSizingInput,
   type CableSizingResult,
+  type Circuit,
+  type Project,
+  type ProjectMeta,
   type SelectivityInput,
   type SelectivityResult,
   type ShortCircuitInput,
   type ShortCircuitResult,
 } from "@core/index";
-import { CableSizingForm } from "./components/CableSizingForm";
+import { CableSizingForm, cableDefaults } from "./components/CableSizingForm";
 import { CalculationReport } from "./components/CalculationReport";
-import { ShortCircuitForm } from "./components/ShortCircuitForm";
+import { ShortCircuitForm, shortCircuitDefaults } from "./components/ShortCircuitForm";
 import { ShortCircuitReport } from "./components/ShortCircuitReport";
-import { ProtectionForm } from "./components/ProtectionForm";
+import { ProtectionForm, protectionDefaultInput } from "./components/ProtectionForm";
 import { ProtectionReport } from "./components/ProtectionReport";
+import { ProjectBar } from "./components/ProjectBar";
 
 type Tab = "cable" | "short_circuit" | "protection";
 
+function seedCircuit(): Circuit {
+  return {
+    ...createCircuit("Circuito 1"),
+    shortCircuit: shortCircuitDefaults,
+    protection: protectionDefaultInput(),
+    cable: cableDefaults,
+  };
+}
+
 export function App() {
+  const store = useMemo(() => createDefaultStore(), []);
+
   const [tab, setTab] = useState<Tab>("short_circuit");
   const [error, setError] = useState<string | null>(null);
+
+  const [projectName, setProjectName] = useState("Projeto sem título");
+  const [currentId, setCurrentId] = useState<string | null>(null);
+  const [projects, setProjects] = useState<ProjectMeta[]>([]);
+  const [circuit, setCircuit] = useState<Circuit>(seedCircuit);
+  const [dirty, setDirty] = useState(false);
+  const [loadNonce, setLoadNonce] = useState(0);
+  const [evaluating, setEvaluating] = useState(false);
+
   const [cableResult, setCableResult] = useState<CableSizingResult | null>(null);
   const [scResult, setScResult] = useState<ShortCircuitResult | null>(null);
   const [selResult, setSelResult] = useState<SelectivityResult | null>(null);
 
-  // Valores compartilhados entre módulos (fecham o ciclo de cálculo).
+  const refreshList = () => store.list().then(setProjects);
+  useEffect(() => {
+    refreshList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const linkedIkKA = scResult?.ikSymKA ?? null;
   const linkedClearingS =
     selResult && Number.isFinite(selResult.downstreamClearingAtFaultS)
@@ -44,6 +77,79 @@ export function App() {
     }
   }
 
+  function onSc(input: ShortCircuitInput) {
+    setCircuit((c) => ({ ...c, shortCircuit: input }));
+    setDirty(true);
+    run(() => calculateShortCircuit(input), setScResult);
+  }
+  function onProt(input: SelectivityInput) {
+    setCircuit((c) => ({ ...c, protection: input }));
+    setDirty(true);
+    run(() => checkSelectivity(input), setSelResult);
+  }
+  function onCable(input: CableSizingInput) {
+    setCircuit((c) => ({ ...c, cable: input }));
+    setDirty(true);
+    run(() => calculateCableSizing(input), setCableResult);
+  }
+
+  async function onEvaluate() {
+    setError(null);
+    setEvaluating(true);
+    try {
+      const e = await evaluateCircuit(circuit);
+      setScResult(e.shortCircuit);
+      setSelResult(e.protection);
+      setCableResult(e.cable);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setEvaluating(false);
+    }
+  }
+
+  function onNew() {
+    setCurrentId(null);
+    setProjectName("Projeto sem título");
+    setCircuit(seedCircuit());
+    setScResult(null);
+    setSelResult(null);
+    setCableResult(null);
+    setDirty(false);
+    setLoadNonce((n) => n + 1);
+  }
+
+  async function onSave() {
+    const existing = currentId ? await store.get(currentId) : null;
+    const project: Project = existing
+      ? { ...existing, name: projectName, circuits: [circuit] }
+      : { ...createProject(projectName), circuits: [circuit] };
+    await store.save(project);
+    setCurrentId(project.id);
+    setDirty(false);
+    refreshList();
+  }
+
+  async function onLoad(id: string) {
+    const p = await store.get(id);
+    if (!p) return;
+    setCurrentId(p.id);
+    setProjectName(p.name);
+    setCircuit(p.circuits[0] ?? seedCircuit());
+    setScResult(null);
+    setSelResult(null);
+    setCableResult(null);
+    setDirty(false);
+    setLoadNonce((n) => n + 1);
+  }
+
+  async function onDelete() {
+    if (!currentId) return;
+    await store.remove(currentId);
+    onNew();
+    refreshList();
+  }
+
   return (
     <div className="app">
       <header>
@@ -52,6 +158,20 @@ export function App() {
           IEC / NBR · motor v{ENGINE_VERSION} · 100% no navegador, determinístico e auditável
         </p>
       </header>
+
+      <ProjectBar
+        name={projectName}
+        projects={projects}
+        currentId={currentId}
+        dirty={dirty}
+        evaluating={evaluating}
+        onNameChange={(n) => { setProjectName(n); setDirty(true); }}
+        onNew={onNew}
+        onSave={onSave}
+        onLoad={onLoad}
+        onDelete={onDelete}
+        onEvaluate={onEvaluate}
+      />
 
       <nav className="tabs">
         <button className={tab === "short_circuit" ? "tab active" : "tab"} onClick={() => setTab("short_circuit")}>
@@ -70,17 +190,14 @@ export function App() {
 
         {tab === "short_circuit" && (
           <>
-            <ShortCircuitForm onCalculate={(i: ShortCircuitInput) => run(() => calculateShortCircuit(i), setScResult)} />
+            <ShortCircuitForm key={`sc-${loadNonce}`} initial={circuit.shortCircuit} onCalculate={onSc} />
             {scResult && <ShortCircuitReport result={scResult} />}
           </>
         )}
 
         {tab === "protection" && (
           <>
-            <ProtectionForm
-              linkedIkKA={linkedIkKA}
-              onCalculate={(i: SelectivityInput) => run(() => checkSelectivity(i), setSelResult)}
-            />
+            <ProtectionForm key={`pr-${loadNonce}`} initial={circuit.protection} linkedIkKA={linkedIkKA} onCalculate={onProt} />
             {selResult && <ProtectionReport result={selResult} />}
           </>
         )}
@@ -88,9 +205,11 @@ export function App() {
         {tab === "cable" && (
           <>
             <CableSizingForm
+              key={`cb-${loadNonce}`}
+              initial={circuit.cable}
               linkedIkKA={linkedIkKA}
               linkedClearingS={linkedClearingS}
-              onCalculate={(i: CableSizingInput) => run(() => calculateCableSizing(i), setCableResult)}
+              onCalculate={onCable}
             />
             {cableResult && <CalculationReport result={cableResult} />}
           </>
@@ -99,8 +218,9 @@ export function App() {
 
       <footer>
         <p>
-          Fluxo sugerido: <strong>1 → 2 → 3</strong>. A I"k do curto alimenta a proteção e o cabo;
-          o tempo de atuação da proteção alimenta a verificação térmica do cabo.
+          Fluxo sugerido: <strong>1 → 2 → 3</strong>, ou clique em <strong>Avaliar circuito completo</strong> —
+          a I"k do curto alimenta a proteção e o cabo, e o tempo de atuação da proteção alimenta a verificação
+          térmica do cabo (propagação feita no núcleo de cálculo).
         </p>
         <p>
           Ferramenta de apoio ao projetista. <strong>Não assina projetos</strong> —

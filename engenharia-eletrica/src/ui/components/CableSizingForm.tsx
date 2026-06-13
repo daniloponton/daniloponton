@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { CableSizingInput } from "@core/index";
 
-const defaults: CableSizingInput = {
+export const cableDefaults: CableSizingInput = {
   ibAmps: 45,
   system: "three",
   voltageV: 380,
@@ -23,10 +23,11 @@ interface Props {
   linkedIkKA?: number | null;
   /** Tempo de atuação [s] vindo do módulo de proteção. */
   linkedClearingS?: number | null;
+  initial?: CableSizingInput;
 }
 
-export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS }: Props) {
-  const [form, setForm] = useState<CableSizingInput>(defaults);
+export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, initial }: Props) {
+  const [form, setForm] = useState<CableSizingInput>(initial ? { ...cableDefaults, ...initial } : cableDefaults);
   const [useLinked, setUseLinked] = useState(false);
 
   const hasLinks = linkedIkKA != null || linkedClearingS != null;

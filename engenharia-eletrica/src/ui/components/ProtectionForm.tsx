@@ -23,28 +23,60 @@ const initial: FormState = {
   minMarginS: 0.2,
 };
 
+function toStages(d: DeviceForm): SelectivityInput["downstream"]["stages"] {
+  const stages: SelectivityInput["downstream"]["stages"] = [
+    { kind: "inverse", pickupA: d.pickupA, tms: d.tms, curve: d.curve },
+  ];
+  if (d.instEnabled) stages.push({ kind: "instantaneous", pickupA: d.instPickupA, delayS: 0.02 });
+  return stages;
+}
+
+/** SelectivityInput padrão, para semear o circuito inicial. */
+export function protectionDefaultInput(): SelectivityInput {
+  return {
+    downstream: { id: "down", name: "Jusante", stages: toStages(initial.downstream) },
+    upstream: { id: "up", name: "Montante", stages: toStages(initial.upstream) },
+    faultCurrentKA: initial.faultCurrentKA,
+    minMarginS: initial.minMarginS,
+  };
+}
+
+function deviceFromInput(d: SelectivityInput["downstream"]): DeviceForm {
+  const inv = d.stages.find((s) => s.kind === "inverse");
+  const inst = d.stages.find((s) => s.kind === "instantaneous");
+  return {
+    pickupA: inv?.kind === "inverse" ? inv.pickupA : 100,
+    tms: inv?.kind === "inverse" ? inv.tms : 0.1,
+    curve: inv?.kind === "inverse" ? inv.curve : "SI",
+    instEnabled: !!inst,
+    instPickupA: inst?.kind === "instantaneous" ? inst.pickupA : 2000,
+  };
+}
+
 interface Props {
   onCalculate: (input: SelectivityInput) => void;
   /** I"k vinda do módulo de curto-circuito, se houver. */
   linkedIkKA?: number | null;
+  initial?: SelectivityInput;
 }
 
-export function ProtectionForm({ onCalculate, linkedIkKA }: Props) {
-  const [form, setForm] = useState<FormState>(initial);
+export function ProtectionForm({ onCalculate, linkedIkKA, initial: initialInput }: Props) {
+  const [form, setForm] = useState<FormState>(
+    initialInput
+      ? {
+          downstream: deviceFromInput(initialInput.downstream),
+          upstream: deviceFromInput(initialInput.upstream),
+          faultCurrentKA: initialInput.faultCurrentKA,
+          minMarginS: initialInput.minMarginS ?? 0.2,
+        }
+      : initial,
+  );
   const [useLinked, setUseLinked] = useState(false);
 
   const faultKA = useLinked && linkedIkKA ? linkedIkKA : form.faultCurrentKA;
 
   function dev(which: "upstream" | "downstream", patch: Partial<DeviceForm>) {
     setForm((f) => ({ ...f, [which]: { ...f[which], ...patch } }));
-  }
-
-  function toStages(d: DeviceForm): SelectivityInput["downstream"]["stages"] {
-    const stages: SelectivityInput["downstream"]["stages"] = [
-      { kind: "inverse", pickupA: d.pickupA, tms: d.tms, curve: d.curve },
-    ];
-    if (d.instEnabled) stages.push({ kind: "instantaneous", pickupA: d.instPickupA, delayS: 0.02 });
-    return stages;
   }
 
   function submit(e: React.FormEvent) {

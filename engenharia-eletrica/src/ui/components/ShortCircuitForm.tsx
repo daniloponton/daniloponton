@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ShortCircuitInput } from "@core/index";
 
-const defaults: ShortCircuitInput = {
+export const shortCircuitDefaults: ShortCircuitInput = {
   faultVoltageV: 400,
   faultVoltageLevel: "LV",
   cVariant: "max",
@@ -19,10 +19,11 @@ const defaults: ShortCircuitInput = {
 
 interface Props {
   onCalculate: (input: ShortCircuitInput) => void;
+  initial?: ShortCircuitInput;
 }
 
-export function ShortCircuitForm({ onCalculate }: Props) {
-  const [form, setForm] = useState(defaults);
+export function ShortCircuitForm({ onCalculate, initial }: Props) {
+  const [form, setForm] = useState(initial ? { ...shortCircuitDefaults, ...initial } : shortCircuitDefaults);
 
   function update(patch: Partial<ShortCircuitInput>) {
     setForm((f) => ({ ...f, ...patch }));

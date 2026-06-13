@@ -179,6 +179,44 @@ table.steps td {
   word-break: break-all;
 }
 
+.project-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.project-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.field.grow {
+  flex: 1 1 240px;
+}
+.field em {
+  font-style: normal;
+  font-size: 0.8rem;
+}
+.project-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.project-actions .primary {
+  margin-left: auto;
+}
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+button.primary {
+  background: var(--ok);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .device-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;

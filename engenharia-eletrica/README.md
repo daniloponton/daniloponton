@@ -25,9 +25,19 @@ src/core/                 núcleo determinístico (independe da UI)
   engine/                 tipos, rastreabilidade (trace + hash), unidades
   norms/                  perfis normativos versionados (DADO, não código)
   modules/cableSizing/    schema (zod) + motor de cálculo
-src/ui/                   React (forma + memorial de cálculo)
+  modules/shortCircuit/   curto-circuito IEC 60909
+  modules/protection/     curvas TCC IEC 60255 + seletividade
+  project/                entidade Circuit/Project, orquestração e persistência
+src/ui/                   React (formulários, memoriais, gráfico TCC, projeto)
 test/                     casos de referência, validação e propriedades
 ```
+
+### Projeto e persistência
+
+A entidade **`Circuit`** (fonte → proteção → cabo → carga) guarda as entradas
+dos três módulos; **`evaluateCircuit`** os encadeia no núcleo, propagando I"k e
+tempo de atuação. Projetos são persistidos via `ProjectStore` — **IndexedDB** no
+navegador (offline) e **em memória** nos testes, selecionados automaticamente.
 
 A regra de ouro: **a UI depende apenas de `src/core` (via `@core`)**, nunca de
 arquivos internos. O motor pode ser executado em CI, validado por terceiros e,
