@@ -50,8 +50,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
-- [ ] Motors & Drives
-- [ ] PV & Geração Distribuída (NBR 16690)
+- [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)
 - [ ] Documentation & Compliance (memorial em PDF, matriz de conformidade)
 
 ## Normas (escopo inicial)

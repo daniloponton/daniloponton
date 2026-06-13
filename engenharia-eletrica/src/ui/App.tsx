@@ -27,8 +27,9 @@ import { ProtectionReport } from "./components/ProtectionReport";
 import { ProjectBar } from "./components/ProjectBar";
 import { PowerQualityPanel } from "./components/PowerQualityPanel";
 import { GroundingPanel } from "./components/GroundingPanel";
+import { PvPanel } from "./components/PvPanel";
 
-type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding";
+type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding" | "pv";
 
 function seedCircuit(): Circuit {
   return {
@@ -191,6 +192,9 @@ export function App() {
         <button className={tab === "grounding" ? "tab active" : "tab"} onClick={() => setTab("grounding")}>
           5 · Aterramento & SPDA
         </button>
+        <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => setTab("pv")}>
+          6 · Fotovoltaico (GD)
+        </button>
       </nav>
 
       <main>
@@ -228,6 +232,8 @@ export function App() {
         )}
 
         {tab === "grounding" && <GroundingPanel onError={setError} />}
+
+        {tab === "pv" && <PvPanel onError={setError} />}
       </main>
 
       <footer>
