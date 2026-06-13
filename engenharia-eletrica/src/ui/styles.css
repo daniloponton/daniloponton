@@ -281,6 +281,22 @@ svg.tcc .fault-text {
   fill: var(--fail);
 }
 
+.steps input,
+.steps select {
+  background: #0d1117;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.3rem;
+  width: 100%;
+  font-size: 0.85rem;
+}
+.result-mini {
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.8rem;
+}
+
 footer {
   color: var(--muted);
   font-size: 0.85rem;

@@ -1,0 +1,216 @@
+import { useState } from "react";
+import {
+  analyzeMotorStarting,
+  calculateVoltageDrop,
+  sizeCapacitorBank,
+  type CapacitorBankResult,
+  type MotorStartingInput,
+  type MotorStartingResult,
+  type VoltageDropResult,
+} from "@core/index";
+
+const SECTIONS = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240];
+
+interface Segment {
+  sectionMm2: number;
+  lengthM: number;
+  currentA: number;
+  cosPhi: number;
+  label: string;
+}
+
+interface Props {
+  /** Sk" [MVA] vindo do módulo de curto-circuito, se houver. */
+  linkedSkMVA?: number | null;
+  onError: (msg: string | null) => void;
+}
+
+export function PowerQualityPanel({ linkedSkMVA, onError }: Props) {
+  return (
+    <div className="pq">
+      <VoltageDropCard onError={onError} />
+      <CapacitorCard onError={onError} />
+      <MotorStartingCard linkedSkMVA={linkedSkMVA} onError={onError} />
+    </div>
+  );
+}
+
+/* ───────────────────────── Queda de tensão (alimentador) ───────────────── */
+function VoltageDropCard({ onError }: { onError: (m: string | null) => void }) {
+  const [baseV, setBaseV] = useState(380);
+  const [maxPct, setMaxPct] = useState(4);
+  const [segs, setSegs] = useState<Segment[]>([
+    { sectionMm2: 35, lengthM: 100, currentA: 80, cosPhi: 0.9, label: "Tronco" },
+    { sectionMm2: 16, lengthM: 50, currentA: 40, cosPhi: 0.9, label: "Ramal" },
+  ]);
+  const [res, setRes] = useState<VoltageDropResult | null>(null);
+
+  function setSeg(i: number, patch: Partial<Segment>) {
+    setSegs((s) => s.map((seg, idx) => (idx === i ? { ...seg, ...patch } : seg)));
+  }
+
+  async function calc() {
+    onError(null);
+    try {
+      setRes(await calculateVoltageDrop({ system: "three", baseVoltageV: baseV, maxVoltageDropPct: maxPct, segments: segs }));
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Queda de tensão — alimentador multi-trecho</h3>
+      <div className="grid">
+        <label className="field"><span>Tensão base [V]</span>
+          <input type="number" value={baseV} onChange={(e) => setBaseV(Number(e.target.value))} /></label>
+        <label className="field"><span>Limite [%]</span>
+          <input type="number" step="0.5" value={maxPct} onChange={(e) => setMaxPct(Number(e.target.value))} /></label>
+      </div>
+
+      <table className="steps">
+        <thead><tr><th>Trecho</th><th>Seção [mm²]</th><th>L [m]</th><th>I [A]</th><th>cosφ</th><th></th></tr></thead>
+        <tbody>
+          {segs.map((s, i) => (
+            <tr key={i}>
+              <td><input value={s.label} onChange={(e) => setSeg(i, { label: e.target.value })} /></td>
+              <td>
+                <select value={s.sectionMm2} onChange={(e) => setSeg(i, { sectionMm2: Number(e.target.value) })}>
+                  {SECTIONS.map((sec) => <option key={sec} value={sec}>{sec}</option>)}
+                </select>
+              </td>
+              <td><input type="number" value={s.lengthM} onChange={(e) => setSeg(i, { lengthM: Number(e.target.value) })} /></td>
+              <td><input type="number" value={s.currentA} onChange={(e) => setSeg(i, { currentA: Number(e.target.value) })} /></td>
+              <td><input type="number" step="0.01" value={s.cosPhi} onChange={(e) => setSeg(i, { cosPhi: Number(e.target.value) })} /></td>
+              <td><button type="button" className="ghost" onClick={() => setSegs((x) => x.filter((_, idx) => idx !== i))}>×</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="project-actions">
+        <button type="button" className="ghost" onClick={() => setSegs((s) => [...s, { sectionMm2: 16, lengthM: 50, currentA: 30, cosPhi: 0.9, label: "" }])}>+ trecho</button>
+        <button type="button" onClick={calc}>Calcular queda</button>
+      </div>
+
+      {res && (
+        <div className="result-mini">
+          <p>
+            Queda total: <strong>{res.totalDropPct}%</strong>{" "}
+            <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : res.status === "warning" ? "⚠️" : "❌"}</span>
+          </p>
+          <table className="steps">
+            <thead><tr><th>Nó</th><th>ΔU trecho [V]</th><th>ΔU acum. [V]</th><th>ΔU acum. [%]</th><th>U no nó [V]</th></tr></thead>
+            <tbody>
+              {res.nodes.map((n, i) => (
+                <tr key={i}><td>{n.label}</td><td>{n.segmentDropV}</td><td>{n.cumulativeDropV}</td><td>{n.cumulativeDropPct}</td><td>{n.voltageAtNodeV}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ───────────────────────── Banco de capacitores ────────────────────────── */
+function CapacitorCard({ onError }: { onError: (m: string | null) => void }) {
+  const [p, setP] = useState(100);
+  const [cos1, setCos1] = useState(0.8);
+  const [cos2, setCos2] = useState(0.95);
+  const [v, setV] = useState(380);
+  const [res, setRes] = useState<CapacitorBankResult | null>(null);
+
+  async function calc() {
+    onError(null);
+    try {
+      setRes(await sizeCapacitorBank({ activePowerKW: p, currentCosPhi: cos1, targetCosPhi: cos2, voltageV: v }));
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Correção de fator de potência</h3>
+      <div className="grid">
+        <label className="field"><span>P [kW]</span><input type="number" value={p} onChange={(e) => setP(Number(e.target.value))} /></label>
+        <label className="field"><span>cosφ atual</span><input type="number" step="0.01" value={cos1} onChange={(e) => setCos1(Number(e.target.value))} /></label>
+        <label className="field"><span>cosφ desejado</span><input type="number" step="0.01" value={cos2} onChange={(e) => setCos2(Number(e.target.value))} /></label>
+        <label className="field"><span>Tensão [V]</span><input type="number" value={v} onChange={(e) => setV(Number(e.target.value))} /></label>
+      </div>
+      <div className="project-actions"><button type="button" onClick={calc}>Dimensionar banco</button></div>
+      {res && (
+        <div className="result-mini">
+          <p>Banco necessário: <strong>{res.requiredKvar} kvar</strong> · recomendado comercial: <strong>{res.recommendedKvar} kvar</strong></p>
+          <p className="muted">S: {res.apparentBeforeKVA} → {res.apparentAfterKVA} kVA · corrente: {res.currentBeforeA} → {res.currentAfterA} A (−{res.currentReductionPct}%)</p>
+          {res.warnings.map((w) => <p key={w.code} className="muted">⚠️ {w.message}</p>)}
+        </div>
+      )}
+    </section>
+  );
+}
+
+/* ───────────────────────── Partida de motores ──────────────────────────── */
+function MotorStartingCard({ linkedSkMVA, onError }: { linkedSkMVA?: number | null; onError: (m: string | null) => void }) {
+  const [form, setForm] = useState<MotorStartingInput>({
+    motorPowerKW: 75, voltageV: 380, efficiency: 0.93, cosPhi: 0.86,
+    lockedRotorRatio: 7, startingCosPhi: 0.3, startMethod: "DOL",
+    sourceShortCircuitMVA: 8, maxVoltageDipPct: 10,
+  });
+  const [useLinked, setUseLinked] = useState(false);
+  const [res, setRes] = useState<MotorStartingResult | null>(null);
+
+  const skMVA = useLinked && linkedSkMVA ? linkedSkMVA : form.sourceShortCircuitMVA;
+  const set = (patch: Partial<MotorStartingInput>) => setForm((f) => ({ ...f, ...patch }));
+
+  async function calc() {
+    onError(null);
+    try {
+      setRes(await analyzeMotorStarting({ ...form, sourceShortCircuitMVA: skMVA }));
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Partida de motor — afundamento de tensão</h3>
+      <div className="grid">
+        <label className="field"><span>Potência [kW]</span><input type="number" value={form.motorPowerKW} onChange={(e) => set({ motorPowerKW: Number(e.target.value) })} /></label>
+        <label className="field"><span>Tensão [V]</span><input type="number" value={form.voltageV} onChange={(e) => set({ voltageV: Number(e.target.value) })} /></label>
+        <label className="field"><span>Ip/In</span><input type="number" step="0.5" value={form.lockedRotorRatio} onChange={(e) => set({ lockedRotorRatio: Number(e.target.value) })} /></label>
+        <label className="field"><span>Método</span>
+          <select value={form.startMethod} onChange={(e) => set({ startMethod: e.target.value as MotorStartingInput["startMethod"] })}>
+            <option value="DOL">Direta (DOL)</option>
+            <option value="star_delta">Estrela-triângulo</option>
+            <option value="autotransformer">Autotransformador</option>
+            <option value="soft_starter">Soft-starter</option>
+            <option value="vfd">Inversor (VFD)</option>
+          </select>
+        </label>
+        <label className="field"><span>Sk" fonte [MVA]</span>
+          <input type="number" value={skMVA} disabled={useLinked && !!linkedSkMVA} onChange={(e) => set({ sourceShortCircuitMVA: Number(e.target.value) })} /></label>
+        <label className="field"><span>Afund. máx. [%]</span><input type="number" value={form.maxVoltageDipPct} onChange={(e) => set({ maxVoltageDipPct: Number(e.target.value) })} /></label>
+        {linkedSkMVA != null && (
+          <label className="field check"><span>Usar Sk" do curto</span>
+            <input type="checkbox" checked={useLinked} onChange={(e) => setUseLinked(e.target.checked)} />
+            <small className="muted">{linkedSkMVA} MVA</small></label>
+        )}
+      </div>
+      <div className="project-actions"><button type="button" onClick={calc}>Analisar partida</button></div>
+      {res && (
+        <div className="result-mini">
+          <p>
+            Afundamento: <strong>{res.voltageDipPct}%</strong> (residual {res.residualVoltagePct}%){" "}
+            <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : res.status === "warning" ? "⚠️" : "❌"}</span>
+          </p>
+          <p className="muted">In = {res.ratedCurrentA} A · I partida = {res.startingCurrentA} A · torque rel. = {res.startingTorqueFactor}× (DOL)</p>
+          {res.warnings.map((w) => <p key={w.code} className="muted">⚠️ {w.message}</p>)}
+        </div>
+      )}
+    </section>
+  );
+}

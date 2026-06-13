@@ -25,8 +25,9 @@ import { ShortCircuitReport } from "./components/ShortCircuitReport";
 import { ProtectionForm, protectionDefaultInput } from "./components/ProtectionForm";
 import { ProtectionReport } from "./components/ProtectionReport";
 import { ProjectBar } from "./components/ProjectBar";
+import { PowerQualityPanel } from "./components/PowerQualityPanel";
 
-type Tab = "cable" | "short_circuit" | "protection";
+type Tab = "cable" | "short_circuit" | "protection" | "power_quality";
 
 function seedCircuit(): Circuit {
   return {
@@ -183,6 +184,9 @@ export function App() {
         <button className={tab === "cable" ? "tab active" : "tab"} onClick={() => setTab("cable")}>
           3 · Dimensionamento de Cabos
         </button>
+        <button className={tab === "power_quality" ? "tab active" : "tab"} onClick={() => setTab("power_quality")}>
+          4 · Queda de Tensão & FP
+        </button>
       </nav>
 
       <main>
@@ -213,6 +217,10 @@ export function App() {
             />
             {cableResult && <CalculationReport result={cableResult} />}
           </>
+        )}
+
+        {tab === "power_quality" && (
+          <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} />
         )}
       </main>
 

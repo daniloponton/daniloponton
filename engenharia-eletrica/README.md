@@ -48,7 +48,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **CableSizing** — dimensionamento de cabos BT (ampacidade + queda de tensão + curto-circuito)
 - [x] **Short-Circuit IEC 60909** — I"k trifásica, fator κ, pico ip, S"k
 - [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
-- [ ] VoltageDrop & PowerFactor (harmônicas, partida de motores)
+- [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores
 - [ ] Grounding & SPDA (IEEE 80, IEC 62305 / NBR 5419)
 - [ ] Motors & Drives
 - [ ] PV & Geração Distribuída (NBR 16690)
