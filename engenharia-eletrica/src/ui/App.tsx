@@ -26,8 +26,9 @@ import { ProtectionForm, protectionDefaultInput } from "./components/ProtectionF
 import { ProtectionReport } from "./components/ProtectionReport";
 import { ProjectBar } from "./components/ProjectBar";
 import { PowerQualityPanel } from "./components/PowerQualityPanel";
+import { GroundingPanel } from "./components/GroundingPanel";
 
-type Tab = "cable" | "short_circuit" | "protection" | "power_quality";
+type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding";
 
 function seedCircuit(): Circuit {
   return {
@@ -187,6 +188,9 @@ export function App() {
         <button className={tab === "power_quality" ? "tab active" : "tab"} onClick={() => setTab("power_quality")}>
           4 · Queda de Tensão & FP
         </button>
+        <button className={tab === "grounding" ? "tab active" : "tab"} onClick={() => setTab("grounding")}>
+          5 · Aterramento & SPDA
+        </button>
       </nav>
 
       <main>
@@ -222,6 +226,8 @@ export function App() {
         {tab === "power_quality" && (
           <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} />
         )}
+
+        {tab === "grounding" && <GroundingPanel onError={setError} />}
       </main>
 
       <footer>

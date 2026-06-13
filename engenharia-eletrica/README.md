@@ -49,7 +49,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **Short-Circuit IEC 60909** — I"k trifásica, fator κ, pico ip, S"k
 - [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores
-- [ ] Grounding & SPDA (IEEE 80, IEC 62305 / NBR 5419)
+- [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [ ] Motors & Drives
 - [ ] PV & Geração Distribuída (NBR 16690)
 - [ ] Documentation & Compliance (memorial em PDF, matriz de conformidade)
