@@ -36,6 +36,26 @@ header h1 {
   margin-top: 0.25rem;
 }
 
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.95rem;
+}
+.tab.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+
 .card {
   background: var(--card);
   border: 1px solid var(--border);

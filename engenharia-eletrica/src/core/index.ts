@@ -6,3 +6,4 @@ export { ENGINE_VERSION } from "./version";
 export * from "./engine/types";
 export * from "./norms";
 export * from "./modules/cableSizing";
+export * from "./modules/shortCircuit";
