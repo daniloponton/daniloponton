@@ -36,7 +36,8 @@ no futuro, reaproveitado num backend, sem retrabalho.
 ## Módulos planejados
 
 - [x] **CableSizing** — dimensionamento de cabos BT (ampacidade + queda de tensão + curto-circuito)
-- [ ] Protection & Coordination (curvas TCC, seletividade, IEC 60909)
+- [x] **Short-Circuit IEC 60909** — I"k trifásica, fator κ, pico ip, S"k
+- [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
 - [ ] VoltageDrop & PowerFactor (harmônicas, partida de motores)
 - [ ] Grounding & SPDA (IEEE 80, IEC 62305 / NBR 5419)
 - [ ] Motors & Drives
@@ -61,8 +62,22 @@ npm run typecheck  # checagem de tipos
 npm run build      # build estático em dist/
 ```
 
+## Integração entre módulos
+
+Os três módulos se encadeiam (fluxo **1 → 2 → 3**), fechando o ciclo de cálculo:
+
+1. **Curto-Circuito** calcula a I"k no ponto.
+2. **Proteção** usa a I"k como limite da faixa de coordenação e devolve o tempo
+   de atuação na falta.
+3. **Dimensionamento de Cabos** consome a I"k e o tempo de atuação para a
+   verificação térmica de curto-circuito (antes digitados à mão).
+
+Na UI, as caixas "Usar valores calculados" puxam automaticamente esses valores.
+
 ## Status
 
-Versão `0.1.0` — primeiro corte vertical: `CableSizing` completo com
-rastreabilidade. As tabelas normativas devem ser cruzadas contra a edição
-vigente da norma antes de uso em projeto real (ver casos em `test/`).
+Versão `0.1.0` — três módulos com rastreabilidade e integração. As tabelas
+normativas devem ser cruzadas contra a edição vigente da norma antes de uso em
+projeto real (ver casos em `test/`). Curvas TCC implementadas para relés
+IEC 60255 (paramétricas); curvas de disjuntores/fusíveis por banda de fabricante
+ficam para a fase de importação de catálogo.

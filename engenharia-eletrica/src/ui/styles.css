@@ -179,6 +179,70 @@ table.steps td {
   word-break: break-all;
 }
 
+.device-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .device-cols {
+    grid-template-columns: 1fr;
+  }
+}
+fieldset.device {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem;
+}
+fieldset.device legend {
+  color: var(--accent);
+  padding: 0 0.4rem;
+  font-size: 0.85rem;
+}
+fieldset.device .field {
+  margin-bottom: 0.6rem;
+}
+
+.field.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.field.check input[type="checkbox"] {
+  width: auto;
+}
+
+input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+svg.tcc {
+  width: 100%;
+  height: auto;
+  background: #0d1117;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 0.5rem 0 1rem;
+}
+svg.tcc .grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+svg.tcc .axis {
+  fill: var(--muted);
+  font-size: 11px;
+}
+svg.tcc .fault-line {
+  stroke: var(--fail);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+svg.tcc .fault-text {
+  fill: var(--fail);
+}
+
 footer {
   color: var(--muted);
   font-size: 0.85rem;

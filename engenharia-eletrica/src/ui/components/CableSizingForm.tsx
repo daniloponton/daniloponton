@@ -19,10 +19,19 @@ const defaults: CableSizingInput = {
 
 interface Props {
   onCalculate: (input: CableSizingInput) => void;
+  /** I"k [kA] vinda do módulo de curto-circuito. */
+  linkedIkKA?: number | null;
+  /** Tempo de atuação [s] vindo do módulo de proteção. */
+  linkedClearingS?: number | null;
 }
 
-export function CableSizingForm({ onCalculate }: Props) {
+export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS }: Props) {
   const [form, setForm] = useState<CableSizingInput>(defaults);
+  const [useLinked, setUseLinked] = useState(false);
+
+  const hasLinks = linkedIkKA != null || linkedClearingS != null;
+  const effShortCircuitKA = useLinked && linkedIkKA != null ? linkedIkKA : form.shortCircuitKA;
+  const effClearingS = useLinked && linkedClearingS != null ? linkedClearingS : form.faultClearingS;
 
   function num(key: keyof CableSizingInput) {
     return (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -38,7 +47,7 @@ export function CableSizingForm({ onCalculate }: Props) {
       className="card grid"
       onSubmit={(e) => {
         e.preventDefault();
-        onCalculate(form);
+        onCalculate({ ...form, shortCircuitKA: effShortCircuitKA, faultClearingS: effClearingS });
       }}
     >
       <Field label="Corrente de projeto Ib [A]">
@@ -82,11 +91,34 @@ export function CableSizingForm({ onCalculate }: Props) {
         <input type="number" step="0.5" value={form.maxVoltageDropPct} onChange={num("maxVoltageDropPct")} />
       </Field>
       <Field label="Icc presumida [kA]">
-        <input type="number" step="0.5" value={form.shortCircuitKA} onChange={num("shortCircuitKA")} />
+        <input
+          type="number"
+          step="0.5"
+          value={effShortCircuitKA}
+          disabled={useLinked && linkedIkKA != null}
+          onChange={num("shortCircuitKA")}
+        />
       </Field>
       <Field label="Tempo de atuação [s]">
-        <input type="number" step="0.05" value={form.faultClearingS} onChange={num("faultClearingS")} />
+        <input
+          type="number"
+          step="0.05"
+          value={effClearingS}
+          disabled={useLinked && linkedClearingS != null}
+          onChange={num("faultClearingS")}
+        />
       </Field>
+
+      {hasLinks && (
+        <label className="field check">
+          <span>Usar valores calculados</span>
+          <input type="checkbox" checked={useLinked} onChange={(e) => setUseLinked(e.target.checked)} />
+          <small className="muted">
+            {linkedIkKA != null ? `I"k=${linkedIkKA} kA` : ""}
+            {linkedClearingS != null ? ` · t=${linkedClearingS} s` : ""}
+          </small>
+        </label>
+      )}
 
       <div className="full">
         <button type="submit">Calcular</button>

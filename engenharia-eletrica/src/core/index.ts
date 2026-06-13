@@ -7,3 +7,4 @@ export * from "./engine/types";
 export * from "./norms";
 export * from "./modules/cableSizing";
 export * from "./modules/shortCircuit";
+export * from "./modules/protection";
