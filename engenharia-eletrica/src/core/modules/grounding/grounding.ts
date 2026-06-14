@@ -237,6 +237,101 @@ export async function analyzeGrounding(rawInput: GroundingInput): Promise<Ground
   };
 }
 
+/* ───────────────── Corrente de malha de projeto (IEEE 80) ────────────────── */
+
+export const gridCurrentInputSchema = z.object({
+  /** Corrente de falta simétrica (ex.: I"k do IEC 60909) [kA]. */
+  symmetricalFaultKA: z.number().positive(),
+  /** Relação X/R no ponto de falta. */
+  xrRatio: z.number().positive().default(10),
+  /** Duração da falta tf [s]. */
+  faultDurationS: z.number().positive().default(0.5),
+  /** Frequência [Hz]. */
+  frequencyHz: z.number().positive().default(60),
+  /** Fator de divisão de corrente Sf (fração que escoa pela malha, 0–1). */
+  splitFactor: z.number().min(0).max(1).default(1),
+});
+
+export type GridCurrentInput = z.input<typeof gridCurrentInputSchema>;
+
+export interface GridCurrentResult {
+  readonly traceId: string;
+  readonly inputHash: string;
+  readonly engineVersion: string;
+  readonly timestamp: string;
+
+  /** Constante de tempo CC Ta = (X/R)/ω [s]. */
+  readonly dcTimeConstantS: number;
+  /** Fator de decremento Df (assimetria/offset CC). */
+  readonly decrementFactor: number;
+  /** Corrente simétrica de malha Ig = Sf·If [kA]. */
+  readonly symmetricalGridCurrentKA: number;
+  /** Corrente de malha de projeto IG = Df·Sf·If [kA]. */
+  readonly gridCurrentKA: number;
+
+  readonly steps: readonly CalculationStep[];
+}
+
+/**
+ * Corrente de malha de projeto pela IEEE 80: aplica o fator de divisão Sf
+ * (parcela que escoa pela malha) e o fator de decremento Df (offset CC) sobre
+ * a corrente de falta simétrica.
+ *
+ *   Ta = (X/R)/ω ;  Df = √(1 + (Ta/tf)·(1 − e^(−2·tf/Ta))) ;  IG = Df·Sf·If
+ */
+export async function gridCurrentIEEE80(rawInput: GridCurrentInput): Promise<GridCurrentResult> {
+  const inp = gridCurrentInputSchema.parse(rawInput);
+  const trace = new CalculationTrace();
+
+  const omega = 2 * Math.PI * inp.frequencyHz;
+  const ta = inp.xrRatio / omega;
+  trace.step({
+    label: "Constante de tempo CC (Ta)",
+    formula: "Ta = (X/R) / (2πf)",
+    inputs: { xrRatio: inp.xrRatio, frequencyHz: inp.frequencyHz },
+    result: ta,
+    unit: "s",
+    normRef: "IEEE Std 80 §15",
+  });
+
+  const tf = inp.faultDurationS;
+  const df = Math.sqrt(1 + (ta / tf) * (1 - Math.exp((-2 * tf) / ta)));
+  trace.step({
+    label: "Fator de decremento (Df)",
+    formula: "Df = √(1 + (Ta/tf)·(1 − e^(−2·tf/Ta)))",
+    inputs: { Ta: round(ta, 5), tf },
+    result: df,
+    unit: "-",
+    normRef: "IEEE Std 80 Eq. 79",
+  });
+
+  const ig = inp.splitFactor * inp.symmetricalFaultKA;
+  const igDesign = df * ig;
+  trace.step({
+    label: "Corrente de malha de projeto (IG)",
+    formula: "IG = Df · Sf · If",
+    inputs: { Df: round(df, 4), Sf: inp.splitFactor, If_kA: inp.symmetricalFaultKA },
+    result: igDesign,
+    unit: "kA",
+    normRef: "IEEE Std 80 §16.4",
+  });
+
+  const canonical = canonicalJson({ input: inp, engineVersion: ENGINE_VERSION, norm: "IEEE Std 80" });
+  const inputHash = await sha256Hex(canonical);
+
+  return {
+    traceId: `IG-${inputHash.slice(0, 12)}`,
+    inputHash,
+    engineVersion: ENGINE_VERSION,
+    timestamp: new Date().toISOString(),
+    dcTimeConstantS: round(ta, 5),
+    decrementFactor: round(df, 4),
+    symmetricalGridCurrentKA: round(ig, 3),
+    gridCurrentKA: round(igDesign, 3),
+    steps: trace.steps,
+  };
+}
+
 /* ───────────── Cálculo detalhado de malha retangular (IEEE 80) ───────────── */
 
 export const groundGridInputSchema = z.object({

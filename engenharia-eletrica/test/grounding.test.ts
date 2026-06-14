@@ -3,6 +3,7 @@ import {
   analyzeGrounding,
   analyzeGroundGrid,
   analyzeSpda,
+  gridCurrentIEEE80,
   rollingSphereRadius,
   type GroundGridInput,
   type GroundingInput,
@@ -132,6 +133,28 @@ describe("Malha de aterramento detalhada (IEEE 80)", () => {
     const a = await analyzeGroundGrid(grid);
     const b = await analyzeGroundGrid(grid);
     expect(a.inputHash).toBe(b.inputHash);
+  });
+});
+
+describe("Corrente de malha de projeto (IEEE 80)", () => {
+  it("falta longa: Df ≈ 1,03 (offset CC desprezível)", async () => {
+    // Ta=10/(2π·60)=0,02653 s; tf=0,5 → Df=√(1+0,0531·1)=1,026
+    const r = await gridCurrentIEEE80({ symmetricalFaultKA: 10, xrRatio: 10, faultDurationS: 0.5, frequencyHz: 60 });
+    expect(r.decrementFactor).toBeCloseTo(1.026, 2);
+    expect(r.gridCurrentKA).toBeCloseTo(10.26, 1);
+  });
+
+  it("falta rápida com X/R alto: Df ≈ 1,23 (offset CC relevante)", async () => {
+    // Ta=20/(2π·60)=0,05305; tf=0,1 → Df=√(1+0,5305·0,9769)=1,232
+    const r = await gridCurrentIEEE80({ symmetricalFaultKA: 20, xrRatio: 20, faultDurationS: 0.1, frequencyHz: 60 });
+    expect(r.decrementFactor).toBeCloseTo(1.232, 2);
+    expect(r.gridCurrentKA).toBeCloseTo(24.6, 1);
+  });
+
+  it("fator de divisão Sf reduz proporcionalmente a corrente de malha", async () => {
+    const full = await gridCurrentIEEE80({ symmetricalFaultKA: 10, xrRatio: 10, faultDurationS: 0.5, splitFactor: 1 });
+    const half = await gridCurrentIEEE80({ symmetricalFaultKA: 10, xrRatio: 10, faultDurationS: 0.5, splitFactor: 0.5 });
+    expect(half.gridCurrentKA).toBeCloseTo(full.gridCurrentKA / 2, 2);
   });
 });
 

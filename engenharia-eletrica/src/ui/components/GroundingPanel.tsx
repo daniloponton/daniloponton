@@ -3,7 +3,10 @@ import {
   analyzeGrounding,
   analyzeGroundGrid,
   analyzeSpda,
+  gridCurrentIEEE80,
   type CircuitResults,
+  type GridCurrentInput,
+  type GridCurrentResult,
   type GroundGridInput,
   type GroundGridResult,
   type GroundingInput,
@@ -17,19 +20,92 @@ type ResultPatch = (patch: Partial<CircuitResults>) => void;
 interface Props {
   onError: (msg: string | null) => void;
   onResult: ResultPatch;
+  /** I"k [kA] e X/R do módulo de curto-circuito, se houver. */
+  linkedIkKA?: number | null;
+  linkedXR?: number | null;
 }
 
-export function GroundingPanel({ onError, onResult }: Props) {
+export function GroundingPanel({ onError, onResult, linkedIkKA, linkedXR }: Props) {
+  // Corrente de malha de projeto (IG) calculada, para alimentar a malha.
+  const [computedIgA, setComputedIgA] = useState<number | null>(null);
   return (
     <div className="pq">
       <GroundingCard onError={onError} onResult={onResult} />
-      <GridCard onError={onError} onResult={onResult} />
+      <GridCurrentCard onError={onError} linkedIkKA={linkedIkKA} linkedXR={linkedXR} onComputed={setComputedIgA} />
+      <GridCard onError={onError} onResult={onResult} linkedIgA={computedIgA} />
       <SpdaCard onError={onError} onResult={onResult} />
     </div>
   );
 }
 
-function GridCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
+function GridCurrentCard({
+  onError,
+  linkedIkKA,
+  linkedXR,
+  onComputed,
+}: {
+  onError: (m: string | null) => void;
+  linkedIkKA?: number | null;
+  linkedXR?: number | null;
+  onComputed: (igA: number) => void;
+}) {
+  const [form, setForm] = useState<GridCurrentInput>({
+    symmetricalFaultKA: 10,
+    xrRatio: 10,
+    faultDurationS: 0.5,
+    frequencyHz: 60,
+    splitFactor: 1,
+  });
+  const [useLinked, setUseLinked] = useState(false);
+  const [res, setRes] = useState<GridCurrentResult | null>(null);
+  const set = (patch: Partial<GridCurrentInput>) => setForm((f) => ({ ...f, ...patch }));
+
+  const ifKA = useLinked && linkedIkKA ? linkedIkKA : form.symmetricalFaultKA;
+  const xr = useLinked && linkedXR ? linkedXR : form.xrRatio;
+
+  async function calc() {
+    onError(null);
+    try {
+      const r = await gridCurrentIEEE80({ ...form, symmetricalFaultKA: ifKA, xrRatio: xr });
+      setRes(r);
+      onComputed(r.gridCurrentKA * 1000); // kA → A
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Corrente de malha de projeto (IEEE 80)</h3>
+      <div className="grid">
+        <label className="field"><span>If simétrica [kA]</span>
+          <input type="number" step="0.1" value={ifKA} disabled={useLinked && !!linkedIkKA} onChange={(e) => set({ symmetricalFaultKA: Number(e.target.value) })} /></label>
+        <label className="field"><span>X/R</span>
+          <input type="number" step="0.5" value={xr} disabled={useLinked && !!linkedXR} onChange={(e) => set({ xrRatio: Number(e.target.value) })} /></label>
+        <label className="field"><span>Duração falta [s]</span>
+          <input type="number" step="0.05" value={form.faultDurationS} onChange={(e) => set({ faultDurationS: Number(e.target.value) })} /></label>
+        <label className="field"><span>Fator de divisão Sf</span>
+          <input type="number" step="0.05" value={form.splitFactor} onChange={(e) => set({ splitFactor: Number(e.target.value) })} /></label>
+        {linkedIkKA != null && (
+          <label className="field check"><span>Usar do curto-circuito</span>
+            <input type="checkbox" checked={useLinked} onChange={(e) => setUseLinked(e.target.checked)} />
+            <small className="muted">I"k={linkedIkKA} kA{linkedXR != null ? ` · X/R=${linkedXR}` : ""}</small></label>
+        )}
+      </div>
+      <div className="project-actions"><button type="button" onClick={calc}>Calcular IG</button></div>
+      {res && (
+        <div className="result-mini">
+          <p>IG de projeto = <strong>{res.gridCurrentKA} kA</strong> · Df = {res.decrementFactor} · Ig simétrica = {res.symmetricalGridCurrentKA} kA</p>
+          <p className="muted">Ta = {res.dcTimeConstantS} s — use este IG no card da malha (marque "usar IG calculado").</p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function GridCard({ onError, onResult, linkedIgA }: { onError: (m: string | null) => void; onResult: ResultPatch; linkedIgA?: number | null }) {
+  const [useLinkedIg, setUseLinkedIg] = useState(false);
   const [form, setForm] = useState<GroundGridInput>({
     soilResistivity: 400,
     gridLengthXM: 70,
@@ -47,11 +123,12 @@ function GridCard({ onError, onResult }: { onError: (m: string | null) => void; 
   });
   const [res, setRes] = useState<GroundGridResult | null>(null);
   const set = (patch: Partial<GroundGridInput>) => setForm((f) => ({ ...f, ...patch }));
+  const effIg = useLinkedIg && linkedIgA != null ? linkedIgA : form.faultCurrentA;
 
   async function calc() {
     onError(null);
     try {
-      const r = await analyzeGroundGrid(form);
+      const r = await analyzeGroundGrid({ ...form, faultCurrentA: effIg });
       setRes(r);
       onResult({ groundGrid: r });
     } catch (e) {
@@ -72,8 +149,13 @@ function GridCard({ onError, onResult }: { onError: (m: string | null) => void; 
         <label className="field"><span>Profundidade h [m]</span><input type="number" step="0.1" value={form.gridDepthM} onChange={(e) => set({ gridDepthM: Number(e.target.value) })} /></label>
         <label className="field"><span>Nº hastes</span><input type="number" value={form.rodCount} onChange={(e) => set({ rodCount: Number(e.target.value) })} /></label>
         <label className="field"><span>Comp. haste [m]</span><input type="number" step="0.1" value={form.rodLengthM} onChange={(e) => set({ rodLengthM: Number(e.target.value) })} /></label>
-        <label className="field"><span>Corrente Ig [A]</span><input type="number" value={form.faultCurrentA} onChange={(e) => set({ faultCurrentA: Number(e.target.value) })} /></label>
+        <label className="field"><span>Corrente Ig [A]</span><input type="number" value={effIg} disabled={useLinkedIg && linkedIgA != null} onChange={(e) => set({ faultCurrentA: Number(e.target.value) })} /></label>
         <label className="field"><span>Tempo falta [s]</span><input type="number" step="0.1" value={form.faultClearingS} onChange={(e) => set({ faultClearingS: Number(e.target.value) })} /></label>
+        {linkedIgA != null && (
+          <label className="field check"><span>Usar IG calculado</span>
+            <input type="checkbox" checked={useLinkedIg} onChange={(e) => setUseLinkedIg(e.target.checked)} />
+            <small className="muted">{Math.round(linkedIgA)} A</small></label>
+        )}
         <label className="field"><span>ρ brita [Ω·m]</span><input type="number" value={form.surfaceLayerResistivity} onChange={(e) => set({ surfaceLayerResistivity: Number(e.target.value) })} /></label>
         <label className="field"><span>Esp. brita [m]</span><input type="number" step="0.05" value={form.surfaceLayerThicknessM} onChange={(e) => set({ surfaceLayerThicknessM: Number(e.target.value) })} /></label>
       </div>

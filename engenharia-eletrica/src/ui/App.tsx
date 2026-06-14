@@ -242,7 +242,14 @@ export function App() {
           <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} onResult={patchExtra} />
         )}
 
-        {tab === "grounding" && <GroundingPanel onError={setError} onResult={patchExtra} />}
+        {tab === "grounding" && (
+          <GroundingPanel
+            onError={setError}
+            onResult={patchExtra}
+            linkedIkKA={scResult?.ikSymKA ?? null}
+            linkedXR={scResult && scResult.rOverX > 0 ? Math.round((1 / scResult.rOverX) * 100) / 100 : null}
+          />
+        )}
 
         {tab === "pv" && <PvPanel onError={setError} onResult={patchExtra} />}
 
