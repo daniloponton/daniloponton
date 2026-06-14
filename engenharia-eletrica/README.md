@@ -104,6 +104,14 @@ O memorial inclui um **diagrama unifilar** em SVG (fonte → transformador →
 barramento → proteção → condutor → carga), montado a partir do circuito e
 anotado com os valores calculados (I"k, ajuste da proteção, seção do cabo, ΔU).
 
+## Validação
+
+A pasta [`docs/VALIDACAO.md`](docs/VALIDACAO.md) traz a matriz de validação
+(o que é validado, fonte normativa e tolerância) e as limitações conhecidas.
+A suíte `test/reference.test.ts` reúne casos de referência com fonte citada e
+cálculo manual documentado (erro relativo ≤ tolerância), executados no CI
+(GitHub Actions) a cada push junto com typecheck e build.
+
 ## Status
 
 Versão `0.1.0` — três módulos com rastreabilidade e integração. As tabelas
