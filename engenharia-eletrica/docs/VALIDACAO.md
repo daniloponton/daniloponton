@@ -29,9 +29,11 @@ e o que ainda exige conferência. A suíte de referência fica em
 
 1. **Tabelas de capacidade de condução (ampacidade)** — `src/core/norms/iec60364.ts`.
    A ampacidade de **cobre e alumínio**, para **PVC** (Tabela 36) e **EPR/XLPE**
-   (Tabela 37), métodos B1, B2, C, 2 e 3 condutores carregados, foi **conferida e
-   travada contra a ABNT NBR 5410:2004**. **Pendentes:** os métodos **A1/A2/D**
-   (D exige correção de solo).
+   (Tabela 37), métodos **A1, A2, B1, B2, C**, 2 e 3 condutores carregados, foi
+   **conferida e travada contra a ABNT NBR 5410:2004**. **Pendente:** o método
+   **D** (enterrado), que exige a correção de resistividade do solo (Tab. 41), o
+   agrupamento de linhas enterradas (Tab. 43) e a correção de temperatura do solo
+   (base 20 °C) — tabelas não disponíveis nas fontes fornecidas.
 
 2. **Fatores de correção** (temperatura — Tab. 40; agrupamento — Tab. 42,
    disposição 1) — conferidos contra a NBR 5410:2004.

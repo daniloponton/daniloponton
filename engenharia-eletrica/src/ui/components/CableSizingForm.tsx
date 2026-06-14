@@ -83,6 +83,8 @@ export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, init
       </Field>
       <Field label="Método de instalação">
         <select value={form.installMethod} onChange={sel("installMethod")}>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
           <option value="B1">B1</option>
           <option value="B2">B2</option>
           <option value="C">C</option>

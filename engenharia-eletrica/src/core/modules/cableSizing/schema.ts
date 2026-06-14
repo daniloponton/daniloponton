@@ -23,7 +23,7 @@ export const cableSizingInputSchema = z.object({
   /** Isolação. */
   insulation: z.enum(["PVC", "XLPE"]),
   /** Método de referência de instalação. */
-  installMethod: z.enum(["B1", "B2", "C"]),
+  installMethod: z.enum(["A1", "A2", "B1", "B2", "C"]),
   /** Temperatura ambiente [°C]. */
   ambientTempC: z.number().min(-5).max(80),
   /** Nº de circuitos agrupados (>= 1). */

@@ -90,6 +90,20 @@ describe("Ref. NBR 5410:2004 Tab. 37 — ampacidade EPR/XLPE/cobre", () => {
   });
 });
 
+describe("Ref. NBR 5410:2004 — métodos A1 e A2 (cobre)", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("A1 PVC/Cu e XLPE/Cu", () => {
+    expect(amp.Cu.A1.PVC[2][1.5]).toBe(14.5);
+    expect(amp.Cu.A1.PVC[2][240]).toBe(321);
+    expect(amp.Cu.A1.XLPE[3][240]).toBe(380);
+  });
+  it("A2 PVC/Cu e XLPE/Cu", () => {
+    expect(amp.Cu.A2.PVC[3][1.5]).toBe(13);
+    expect(amp.Cu.A2.PVC[2][240]).toBe(291);
+    expect(amp.Cu.A2.XLPE[2][1.5]).toBe(18.5);
+  });
+});
+
 describe("Ref. NBR 5410:2004 — ampacidade alumínio", () => {
   const amp = IEC_60364_5_52.ampacity;
   it("PVC/Al (Tab. 36) — métodos B1, B2, C", () => {

@@ -100,7 +100,7 @@ describe("CableSizing — propriedades", () => {
     await fc.assert(
       fc.asyncProperty(
         fc.double({ min: 5, max: 200, noNaN: true }),
-        fc.constantFrom("B1", "B2", "C"),
+        fc.constantFrom("A1", "A2", "B1", "B2", "C"),
         fc.constantFrom("PVC", "XLPE"),
         async (ib, method, ins) => {
           const r = await calculateCableSizing({
