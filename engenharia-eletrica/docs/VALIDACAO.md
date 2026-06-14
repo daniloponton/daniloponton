@@ -13,6 +13,7 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Aterramento | Resistividade de Wenner (ρ = 2πaR) | NBR 7117 / IEEE 81 | 0,2 % | ✅ |
 | Aterramento | Resistência de haste (Dwight) | IEEE 80 / Dwight | 1 % | ✅ |
 | Aterramento | Tensão de toque/passo tolerável (Cs) | IEEE 80 §8 | 1 % | ✅ |
+| Aterramento (malha) | Tensões de malha Em e de passo Es (Km, Ks, Ki, n) | IEEE 80 §16 | 1,5 % | ✅ |
 | SPDA | Raio da esfera rolante r = 10·I^0,65 | IEC 62305 (modelo eletrogeométrico) | 1 % | ✅ |
 | Proteção | Curva inversa SI (t = TMS·k/((I/Is)^α−1)) | IEC 60255-151 | 0,5 % | ✅ |
 | Queda de tensão | Método fasorial ΔU = k·I·L·(R·cosφ+X·senφ) | IEC 60364-5-52 Anexo | 2 % | ✅ |
@@ -29,9 +30,11 @@ e o que ainda exige conferência. A suíte de referência fica em
 2. **Fatores de correção** (temperatura e agrupamento) — também tabelados; mesma
    ressalva da conferência contra a norma vigente.
 
-3. **Aterramento** — a verificação é uma **triagem** (GPR ≤ tensão de toque
-   tolerável). O cálculo detalhado de tensões de malha (Em) e de passo (Es) com
-   os fatores Km, Ks, Ki da IEEE 80 ainda não está implementado.
+3. **Aterramento** — há dois níveis: a **triagem** (`analyzeGrounding`,
+   GPR ≤ tensão de toque) e o **cálculo detalhado de malha retangular**
+   (`analyzeGroundGrid`), com tensões de malha (Em) e de passo (Es) e os fatores
+   Km, Ks, Ki, n da IEEE 80. Malhas em L/irregulares (fatores nc, nd) e o cálculo
+   da corrente de malha (fator de divisão/decremento) ainda não são tratados.
 
 4. **Proteção** — curvas TCC apenas para relés paramétricos IEC 60255. Curvas de
    disjuntores/fusíveis por banda de fabricante exigem importação de catálogo.

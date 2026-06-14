@@ -7,7 +7,7 @@ import type {
   MotorStartingResult,
   VoltageDropResult,
 } from "../modules/powerQuality";
-import type { GroundingResult, SpdaResult } from "../modules/grounding";
+import type { GroundingResult, GroundGridResult, SpdaResult } from "../modules/grounding";
 import type { PvStringResult } from "../modules/pv";
 import { ENGINE_VERSION } from "../version";
 
@@ -52,6 +52,7 @@ export interface CircuitResults {
   readonly capacitorBank?: CapacitorBankResult | null;
   readonly motorStarting?: MotorStartingResult | null;
   readonly grounding?: GroundingResult | null;
+  readonly groundGrid?: GroundGridResult | null;
   readonly spda?: SpdaResult | null;
   readonly pvString?: PvStringResult | null;
 }
@@ -191,6 +192,26 @@ function sectionFromGrounding(r: GroundingResult): MemorialSection {
   };
 }
 
+function sectionFromGroundGrid(r: GroundGridResult): MemorialSection {
+  return {
+    id: "ground_grid",
+    title: "Malha de Aterramento (cálculo detalhado)",
+    norm: "IEEE Std 80",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Tensão de malha Em", value: `${r.meshVoltageV} V (toque tol. ${r.tolerableTouchV} V) ${r.touchSafe ? "✓" : "✗"}` },
+      { label: "Tensão de passo Es", value: `${r.stepVoltageV} V (passo tol. ${r.tolerableStepV} V) ${r.stepSafe ? "✓" : "✗"}` },
+      { label: "Resistência da malha", value: `${r.gridResistanceOhm} Ω` },
+      { label: "Elevação de potencial (GPR)", value: `${r.gprVolts} V` },
+      { label: "Fatores", value: `n=${r.nFactor} · Km=${r.kmFactor} · Ks=${r.ksFactor} · Ki=${r.kiFactor}` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
 function sectionFromSpda(r: SpdaResult): MemorialSection {
   return {
     id: "spda",
@@ -243,6 +264,7 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   if (results.capacitorBank) sections.push(sectionFromCapacitorBank(results.capacitorBank));
   if (results.motorStarting) sections.push(sectionFromMotorStarting(results.motorStarting));
   if (results.grounding) sections.push(sectionFromGrounding(results.grounding));
+  if (results.groundGrid) sections.push(sectionFromGroundGrid(results.groundGrid));
   if (results.spda) sections.push(sectionFromSpda(results.spda));
   if (results.pvString) sections.push(sectionFromPvString(results.pvString));
 

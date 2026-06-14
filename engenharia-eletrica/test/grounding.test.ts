@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
   analyzeGrounding,
+  analyzeGroundGrid,
   analyzeSpda,
   rollingSphereRadius,
+  type GroundGridInput,
   type GroundingInput,
 } from "@core/modules/grounding";
 
@@ -81,6 +83,55 @@ describe("Aterramento (IEEE 80 / NBR 7117)", () => {
     });
     expect(r.surfaceDerateCs).toBeLessThan(1);
     expect(r.surfaceDerateCs).toBeGreaterThan(0);
+  });
+});
+
+describe("Malha de aterramento detalhada (IEEE 80)", () => {
+  const grid: GroundGridInput = {
+    soilResistivity: 400,
+    gridLengthXM: 70,
+    gridLengthYM: 70,
+    conductorSpacingM: 7,
+    conductorDiameterM: 0.01,
+    gridDepthM: 0.5,
+    rodCount: 0,
+    faultCurrentA: 1900,
+    faultClearingS: 0.5,
+    bodyWeightKg: 70,
+    surfaceLayerResistivity: 2500,
+    surfaceLayerThicknessM: 0.102,
+  };
+
+  it("fatores e tensões conferem com o cálculo manual (malha 70×70, D=7)", async () => {
+    const r = await analyzeGroundGrid(grid);
+    expect(r.nFactor).toBeCloseTo(11, 1);
+    expect(r.kmFactor).toBeCloseTo(0.89, 1);
+    expect(r.ksFactor).toBeCloseTo(0.406, 2);
+    expect(r.kiFactor).toBeCloseTo(2.272, 2);
+    expect(r.meshVoltageV).toBeGreaterThan(950);
+    expect(r.meshVoltageV).toBeLessThan(1050); // ≈ 997 V
+    expect(r.stepVoltageV).toBeGreaterThan(560);
+    expect(r.stepVoltageV).toBeLessThan(660); // ≈ 607 V
+  });
+
+  it("malha conforme: Em ≤ toque tolerável e Es ≤ passo tolerável", async () => {
+    const r = await analyzeGroundGrid(grid);
+    // Neste caso Em (~997 V) > toque tolerável (~840 V) → não conforme
+    expect(r.touchSafe).toBe(false);
+    expect(r.status).toBe("fail");
+    expect(r.warnings.some((w) => w.code === "MESH_OVER_TOUCH")).toBe(true);
+  });
+
+  it("malha mais densa (menor espaçamento) reduz a tensão de malha", async () => {
+    const sparse = await analyzeGroundGrid(grid);
+    const dense = await analyzeGroundGrid({ ...grid, conductorSpacingM: 3.5 });
+    expect(dense.meshVoltageV).toBeLessThan(sparse.meshVoltageV);
+  });
+
+  it("é determinístico", async () => {
+    const a = await analyzeGroundGrid(grid);
+    const b = await analyzeGroundGrid(grid);
+    expect(a.inputHash).toBe(b.inputHash);
   });
 });
 

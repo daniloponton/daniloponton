@@ -1,8 +1,11 @@
 import { useState } from "react";
 import {
   analyzeGrounding,
+  analyzeGroundGrid,
   analyzeSpda,
   type CircuitResults,
+  type GroundGridInput,
+  type GroundGridResult,
   type GroundingInput,
   type GroundingResult,
   type SpdaInput,
@@ -20,8 +23,75 @@ export function GroundingPanel({ onError, onResult }: Props) {
   return (
     <div className="pq">
       <GroundingCard onError={onError} onResult={onResult} />
+      <GridCard onError={onError} onResult={onResult} />
       <SpdaCard onError={onError} onResult={onResult} />
     </div>
+  );
+}
+
+function GridCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
+  const [form, setForm] = useState<GroundGridInput>({
+    soilResistivity: 400,
+    gridLengthXM: 70,
+    gridLengthYM: 70,
+    conductorSpacingM: 7,
+    conductorDiameterM: 0.01,
+    gridDepthM: 0.5,
+    rodCount: 0,
+    rodLengthM: 2.4,
+    faultCurrentA: 1900,
+    faultClearingS: 0.5,
+    bodyWeightKg: 70,
+    surfaceLayerResistivity: 2500,
+    surfaceLayerThicknessM: 0.102,
+  });
+  const [res, setRes] = useState<GroundGridResult | null>(null);
+  const set = (patch: Partial<GroundGridInput>) => setForm((f) => ({ ...f, ...patch }));
+
+  async function calc() {
+    onError(null);
+    try {
+      const r = await analyzeGroundGrid(form);
+      setRes(r);
+      onResult({ groundGrid: r });
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Malha de aterramento — tensões de malha e passo (IEEE 80)</h3>
+      <div className="grid">
+        <label className="field"><span>ρ do solo [Ω·m]</span><input type="number" value={form.soilResistivity} onChange={(e) => set({ soilResistivity: Number(e.target.value) })} /></label>
+        <label className="field"><span>Lx [m]</span><input type="number" value={form.gridLengthXM} onChange={(e) => set({ gridLengthXM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Ly [m]</span><input type="number" value={form.gridLengthYM} onChange={(e) => set({ gridLengthYM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Espaçamento D [m]</span><input type="number" step="0.5" value={form.conductorSpacingM} onChange={(e) => set({ conductorSpacingM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Diâmetro cond. [m]</span><input type="number" step="0.001" value={form.conductorDiameterM} onChange={(e) => set({ conductorDiameterM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Profundidade h [m]</span><input type="number" step="0.1" value={form.gridDepthM} onChange={(e) => set({ gridDepthM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Nº hastes</span><input type="number" value={form.rodCount} onChange={(e) => set({ rodCount: Number(e.target.value) })} /></label>
+        <label className="field"><span>Comp. haste [m]</span><input type="number" step="0.1" value={form.rodLengthM} onChange={(e) => set({ rodLengthM: Number(e.target.value) })} /></label>
+        <label className="field"><span>Corrente Ig [A]</span><input type="number" value={form.faultCurrentA} onChange={(e) => set({ faultCurrentA: Number(e.target.value) })} /></label>
+        <label className="field"><span>Tempo falta [s]</span><input type="number" step="0.1" value={form.faultClearingS} onChange={(e) => set({ faultClearingS: Number(e.target.value) })} /></label>
+        <label className="field"><span>ρ brita [Ω·m]</span><input type="number" value={form.surfaceLayerResistivity} onChange={(e) => set({ surfaceLayerResistivity: Number(e.target.value) })} /></label>
+        <label className="field"><span>Esp. brita [m]</span><input type="number" step="0.05" value={form.surfaceLayerThicknessM} onChange={(e) => set({ surfaceLayerThicknessM: Number(e.target.value) })} /></label>
+      </div>
+      <div className="project-actions"><button type="button" onClick={calc}>Calcular malha</button></div>
+
+      {res && (
+        <div className="result-mini">
+          <p>
+            Em = <strong>{res.meshVoltageV} V</strong> (toque tol. {res.tolerableTouchV} V){" "}
+            <span className={`status status-${res.touchSafe ? "ok" : "fail"}`}>{res.touchSafe ? "✅" : "❌"}</span>
+            {" · "}Es = <strong>{res.stepVoltageV} V</strong> (passo tol. {res.tolerableStepV} V){" "}
+            <span className={`status status-${res.stepSafe ? "ok" : "fail"}`}>{res.stepSafe ? "✅" : "❌"}</span>
+          </p>
+          <p className="muted">Rg = {res.gridResistanceOhm} Ω · GPR = {res.gprVolts} V · n = {res.nFactor} · Km = {res.kmFactor} · Ks = {res.ksFactor} · Ki = {res.kiFactor}</p>
+          {res.warnings.map((w) => <p key={w.code} className="muted">⚠️ {w.message}</p>)}
+        </div>
+      )}
+    </section>
   );
 }
 

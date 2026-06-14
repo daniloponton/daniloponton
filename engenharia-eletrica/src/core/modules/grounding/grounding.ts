@@ -236,3 +236,212 @@ export async function analyzeGrounding(rawInput: GroundingInput): Promise<Ground
     warnings: trace.warnings,
   };
 }
+
+/* ───────────── Cálculo detalhado de malha retangular (IEEE 80) ───────────── */
+
+export const groundGridInputSchema = z.object({
+  /** Resistividade do solo [Ω·m]. */
+  soilResistivity: z.number().positive(),
+  /** Dimensão da malha na direção X [m]. */
+  gridLengthXM: z.number().positive(),
+  /** Dimensão da malha na direção Y [m]. */
+  gridLengthYM: z.number().positive(),
+  /** Espaçamento entre condutores paralelos D [m]. */
+  conductorSpacingM: z.number().positive(),
+  /** Diâmetro do condutor da malha d [m]. */
+  conductorDiameterM: z.number().positive().default(0.01),
+  /** Profundidade de enterramento h [m]. */
+  gridDepthM: z.number().positive().default(0.5),
+  /** Número de hastes verticais. */
+  rodCount: z.number().int().min(0).default(0),
+  /** Comprimento de cada haste [m]. */
+  rodLengthM: z.number().positive().default(2.4),
+  /** Corrente que escoa pela malha Ig [A]. */
+  faultCurrentA: z.number().positive(),
+  /** Tempo de eliminação da falta [s]. */
+  faultClearingS: z.number().positive().default(0.5),
+  /** Peso corporal de referência [kg]. */
+  bodyWeightKg: z.union([z.literal(50), z.literal(70)]).default(70),
+  /** Resistividade da camada superficial (brita) [Ω·m]. */
+  surfaceLayerResistivity: z.number().positive().optional(),
+  /** Espessura da camada superficial [m]. */
+  surfaceLayerThicknessM: z.number().positive().optional(),
+});
+
+export type GroundGridInput = z.input<typeof groundGridInputSchema>;
+
+export interface GroundGridResult {
+  readonly traceId: string;
+  readonly inputHash: string;
+  readonly engineVersion: string;
+  readonly timestamp: string;
+
+  readonly nFactor: number;
+  readonly kmFactor: number;
+  readonly ksFactor: number;
+  readonly kiFactor: number;
+  readonly totalConductorLengthM: number;
+  readonly gridResistanceOhm: number;
+  readonly gprVolts: number;
+  /** Tensão de malha (toque na pior posição) Em [V]. */
+  readonly meshVoltageV: number;
+  /** Tensão de passo Es [V]. */
+  readonly stepVoltageV: number;
+  readonly tolerableTouchV: number;
+  readonly tolerableStepV: number;
+  readonly touchSafe: boolean;
+  readonly stepSafe: boolean;
+  readonly status: ComplianceStatus;
+
+  readonly steps: readonly CalculationStep[];
+  readonly warnings: readonly EngineeringWarning[];
+}
+
+/**
+ * Cálculo detalhado de malha de aterramento retangular pela IEEE Std 80:
+ * tensões de malha (Em) e de passo (Es) com os fatores geométricos Km, Ks, Ki
+ * e o fator n, comparadas às tensões toleráveis de toque e passo.
+ */
+export async function analyzeGroundGrid(rawInput: GroundGridInput): Promise<GroundGridResult> {
+  const inp = groundGridInputSchema.parse(rawInput);
+  const trace = new CalculationTrace();
+
+  const { soilResistivity: rho, conductorSpacingM: D, conductorDiameterM: d, gridDepthM: h } = inp;
+  const Lx = inp.gridLengthXM;
+  const Ly = inp.gridLengthYM;
+  const A = Lx * Ly;
+  const Lp = 2 * (Lx + Ly);
+  const Ig = inp.faultCurrentA;
+
+  // Comprimento de condutores horizontais e hastes
+  const condX = Math.round(Lx / D) + 1; // condutores paralelos a Y (comprimento Ly)
+  const condY = Math.round(Ly / D) + 1; // condutores paralelos a X (comprimento Lx)
+  const LC = condX * Ly + condY * Lx;
+  const LR = inp.rodCount * inp.rodLengthM;
+
+  // Fator geométrico n (malha retangular: nc = nd = 1)
+  const na = (2 * LC) / Lp;
+  const nb = Math.sqrt(Lp / (4 * Math.sqrt(A)));
+  const n = na * nb;
+  trace.step({
+    label: "Fator geométrico n",
+    formula: "n = na·nb ; na = 2·LC/Lp ; nb = √(Lp/(4√A))",
+    inputs: { LC: round(LC, 1), Lp, A },
+    result: n,
+    unit: "-",
+    normRef: "IEEE Std 80 §16.5",
+  });
+
+  // Km — fator de espaçamento da tensão de malha
+  const Kii = inp.rodCount > 0 ? 1 : 1 / Math.pow(2 * n, 2 / n);
+  const Kh = Math.sqrt(1 + h / 1); // h0 = 1 m
+  const kmTerm1 = Math.log(
+    (D * D) / (16 * h * d) + (D + 2 * h) ** 2 / (8 * D * d) - h / (4 * d),
+  );
+  const kmTerm2 = (Kii / Kh) * Math.log(8 / (Math.PI * (2 * n - 1)));
+  const Km = (1 / (2 * Math.PI)) * (kmTerm1 + kmTerm2);
+  trace.step({
+    label: "Fator de malha Km",
+    formula: "Km = 1/2π·[ln(D²/16hd + (D+2h)²/8Dd − h/4d) + Kii/Kh·ln(8/π(2n−1))]",
+    inputs: { D, h, d, Kii: round(Kii, 4), Kh: round(Kh, 4) },
+    result: Km,
+    unit: "-",
+    normRef: "IEEE Std 80 Eq. 81-85",
+  });
+
+  // Ki — fator de irregularidade
+  const Ki = 0.644 + 0.148 * n;
+  trace.step({
+    label: "Fator de irregularidade Ki",
+    formula: "Ki = 0,644 + 0,148·n",
+    inputs: { n: round(n, 4) },
+    result: Ki,
+    unit: "-",
+    normRef: "IEEE Std 80 Eq. 89",
+  });
+
+  // Ks — fator de espaçamento da tensão de passo
+  const Ks = (1 / Math.PI) * (1 / (2 * h) + 1 / (D + h) + (1 / D) * (1 - Math.pow(0.5, n - 2)));
+  trace.step({
+    label: "Fator de passo Ks",
+    formula: "Ks = 1/π·[1/2h + 1/(D+h) + 1/D·(1 − 0,5^(n−2))]",
+    inputs: { D, h },
+    result: Ks,
+    unit: "-",
+    normRef: "IEEE Std 80 Eq. 90",
+  });
+
+  // Comprimentos efetivos
+  const diag = Math.sqrt(Lx * Lx + Ly * Ly);
+  const LM = inp.rodCount > 0 ? LC + (1.55 + 1.22 * (inp.rodLengthM / diag)) * LR : LC + LR;
+  const LS = 0.75 * LC + 0.85 * LR;
+
+  const Em = (rho * Km * Ki * Ig) / LM;
+  const Es = (rho * Ks * Ki * Ig) / LS;
+  trace.step({
+    label: "Tensão de malha Em",
+    formula: "Em = ρ·Km·Ki·Ig / LM",
+    inputs: { rho, Km: round(Km, 4), Ki: round(Ki, 4), Ig, LM: round(LM, 1) },
+    result: Em,
+    unit: "V",
+    normRef: "IEEE Std 80 Eq. 80",
+  });
+  trace.step({
+    label: "Tensão de passo Es",
+    formula: "Es = ρ·Ks·Ki·Ig / LS",
+    inputs: { rho, Ks: round(Ks, 4), Ki: round(Ki, 4), Ig, LS: round(LS, 1) },
+    result: Es,
+    unit: "V",
+    normRef: "IEEE Std 80 Eq. 92",
+  });
+
+  // Resistência da malha (Sverak) e GPR
+  const Lt = LC + LR;
+  const rg = rho * (1 / Lt + (1 / Math.sqrt(20 * A)) * (1 + 1 / (1 + h * Math.sqrt(20 / A))));
+  const gpr = Ig * rg;
+
+  // Tensões toleráveis (camada superficial)
+  const rhoS = inp.surfaceLayerResistivity ?? rho;
+  let cs = 1;
+  if (inp.surfaceLayerResistivity != null && inp.surfaceLayerThicknessM != null) {
+    cs = 1 - (0.09 * (1 - rho / rhoS)) / (2 * inp.surfaceLayerThicknessM + 0.09);
+  }
+  const kBody = inp.bodyWeightKg === 50 ? 0.116 : 0.157;
+  const t = inp.faultClearingS;
+  const tolerableTouch = (1000 + 1.5 * cs * rhoS) * (kBody / Math.sqrt(t));
+  const tolerableStep = (1000 + 6 * cs * rhoS) * (kBody / Math.sqrt(t));
+
+  const touchSafe = Em <= tolerableTouch;
+  const stepSafe = Es <= tolerableStep;
+  const status: ComplianceStatus = touchSafe && stepSafe ? "ok" : "fail";
+  if (!touchSafe)
+    trace.warn("MESH_OVER_TOUCH", `Tensão de malha Em (${round(Em, 0)} V) excede o toque tolerável (${round(tolerableTouch, 0)} V): adicione condutores/hastes ou camada de brita.`);
+  if (!stepSafe)
+    trace.warn("STEP_OVER", `Tensão de passo Es (${round(Es, 0)} V) excede o passo tolerável (${round(tolerableStep, 0)} V).`);
+
+  const canonical = canonicalJson({ input: inp, engineVersion: ENGINE_VERSION, norm: "IEEE Std 80" });
+  const inputHash = await sha256Hex(canonical);
+
+  return {
+    traceId: `GG-${inputHash.slice(0, 12)}`,
+    inputHash,
+    engineVersion: ENGINE_VERSION,
+    timestamp: new Date().toISOString(),
+    nFactor: round(n, 4),
+    kmFactor: round(Km, 4),
+    ksFactor: round(Ks, 4),
+    kiFactor: round(Ki, 4),
+    totalConductorLengthM: round(Lt, 1),
+    gridResistanceOhm: round(rg, 3),
+    gprVolts: round(gpr, 1),
+    meshVoltageV: round(Em, 1),
+    stepVoltageV: round(Es, 1),
+    tolerableTouchV: round(tolerableTouch, 1),
+    tolerableStepV: round(tolerableStep, 1),
+    touchSafe,
+    stepSafe,
+    status,
+    steps: trace.steps,
+    warnings: trace.warnings,
+  };
+}
