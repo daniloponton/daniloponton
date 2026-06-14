@@ -76,9 +76,12 @@ no GitHub Pages a cada push em `main` (e na branch de desenvolvimento). O Vite
 usa `base: "./"`, então os caminhos são relativos e funcionam tanto na raiz do
 site quanto em subpasta.
 
-Se for o primeiro deploy, confirme em **Settings → Pages → Source: GitHub
-Actions** (o workflow tenta habilitar automaticamente via `enablement: true`).
-O endereço publicado aparece no resumo da execução do workflow (job *deploy*).
+**Passo manual obrigatório (uma única vez):** habilite o Pages em
+**Settings → Pages → Build and deployment → Source: GitHub Actions**. O token do
+Actions não consegue criar o site do Pages sozinho na primeira ativação. Depois
+disso, cada push em `main` (ou na branch de desenvolvimento) publica
+automaticamente. O endereço publicado aparece no resumo da execução do workflow
+(job *deploy*).
 
 ## Comandos
 

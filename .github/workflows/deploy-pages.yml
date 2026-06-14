@@ -29,9 +29,8 @@ jobs:
           cache-dependency-path: engenharia-eletrica/package-lock.json
       - run: npm ci
       - run: npm run build
+      # Requer Pages habilitado em Settings → Pages → Source: GitHub Actions.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: engenharia-eletrica/dist
