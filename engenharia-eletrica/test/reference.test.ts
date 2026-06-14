@@ -69,6 +69,27 @@ describe("Ref. NBR 5410:2004 Tab. 36 — ampacidade PVC/cobre", () => {
   });
 });
 
+describe("Ref. NBR 5410:2004 Tab. 37 — ampacidade EPR/XLPE/cobre", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("método B1 (2 e 3 condutores carregados)", () => {
+    expect(amp.B1.XLPE[2][240]).toBe(546);
+    expect(amp.B1.XLPE[2][150]).toBe(407);
+    expect(amp.B1.XLPE[3][240]).toBe(481);
+    expect(amp.B1.XLPE[3][16]).toBe(88);
+  });
+  it("método B2 (2 e 3 condutores carregados)", () => {
+    expect(amp.B2.XLPE[2][150]).toBe(349);
+    expect(amp.B2.XLPE[2][240]).toBe(462);
+    expect(amp.B2.XLPE[3][1.5]).toBe(19.5);
+    expect(amp.B2.XLPE[3][240]).toBe(407);
+  });
+  it("método C (2 e 3 condutores carregados)", () => {
+    expect(amp.C.XLPE[2][240]).toBe(599);
+    expect(amp.C.XLPE[3][25]).toBe(119);
+    expect(amp.C.XLPE[3][240]).toBe(500);
+  });
+});
+
 describe("Ref. correção de fator de potência (trigonometria)", () => {
   it("100 kW, 0,80 → 0,95 → Qc ≈ 42,13 kvar", async () => {
     // Qc = 100·(tan(acos0,80) − tan(acos0,95)) = 100·(0,7500 − 0,3287) = 42,13

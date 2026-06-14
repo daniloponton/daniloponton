@@ -21,16 +21,18 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Queda de tensão | Método fasorial ΔU = k·I·L·(R·cosφ+X·senφ) | IEC 60364-5-52 Anexo | 2 % | ✅ |
 | Fotovoltaico | Correção térmica de Voc e nº de módulos/string | NBR 16690 / IEC 62548 | 0,5 % | ✅ |
 | Ampacidade (tabela) | Capacidade de condução PVC/cobre (B1, B2, C) | NBR 5410:2004 Tab. 36 | exato | ✅ |
+| Ampacidade (tabela) | Capacidade de condução EPR/XLPE/cobre (B1, B2, C) | NBR 5410:2004 Tab. 37 | exato | ✅ |
 | Correção (tabela) | Fatores de temperatura e agrupamento | NBR 5410:2004 Tab. 40 e 42 | exato | ✅ |
 
 ## Limitações conhecidas (a conferir antes de uso em projeto real)
 
 1. **Tabelas de capacidade de condução (ampacidade)** — `src/core/norms/iec60364.ts`.
-   A ampacidade **PVC/cobre** (métodos B1, B2, C, 2 e 3 condutores carregados) foi
-   **conferida e travada contra a ABNT NBR 5410:2004 Tabela 36** (correção de um
-   erro anterior em B2 nas seções 150/185/240 mm²). **Pendentes:** ampacidade
-   **EPR/XLPE** (Tabela 37, ainda com valores publicados comuns), **alumínio**, e
-   os métodos **A1/A2/D** (D exige correção de solo).
+   A ampacidade de **cobre** para **PVC** (Tabela 36) e **EPR/XLPE** (Tabela 37),
+   métodos B1, B2, C, 2 e 3 condutores carregados, foi **conferida e travada
+   contra a ABNT NBR 5410:2004** (correção de erros anteriores em B2/PVC e em
+   B1/B2/XLPE nas seções 150/185/240 mm²). **Pendentes:** **alumínio** (falta a
+   tabela de resistência do Al para a queda de tensão) e os métodos **A1/A2/D**
+   (D exige correção de solo).
 
 2. **Fatores de correção** (temperatura — Tab. 40; agrupamento — Tab. 42,
    disposição 1) — conferidos contra a NBR 5410:2004.
