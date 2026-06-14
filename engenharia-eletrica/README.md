@@ -13,7 +13,7 @@ normativas) e um hash SHA-256 das entradas + versão do motor + norma.
 | Camada | Tecnologia |
 |--------|-----------|
 | Núcleo de cálculo | TypeScript puro, sem dependência de UI (`src/core`) |
-| UI | React + Vite (PWA, offline) |
+| UI | React + Vite, PWA instalável (offline via service worker) |
 | Validação de entrada | Zod (equivalente ao Pydantic) |
 | Testes | Vitest + fast-check (property-based) |
 | Deploy | Site estático (GitHub Pages / Netlify) |
@@ -60,6 +60,14 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - **IEC 60364-5-54 / IEC 60909** — fator `k` para verificação térmica de curto.
 
 As tabelas normativas são tratadas como dado versionado em `src/core/norms`.
+
+## PWA (instalável e offline)
+
+O app é uma PWA: inclui `manifest.webmanifest`, ícone e um service worker
+(`public/sw.js`) que torna o uso **offline** e permite **instalar** o app
+(navegador → "Instalar"). Estratégia de cache: *network-first* para a navegação
+(pega novos assets quando online) e *cache-first* para os assets com hash
+imutável. O service worker é registrado apenas em build de produção.
 
 ## Comandos
 
