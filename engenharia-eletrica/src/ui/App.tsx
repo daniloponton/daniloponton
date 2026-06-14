@@ -249,6 +249,7 @@ export function App() {
         {tab === "memorial" && (
           <MemorialView
             projectName={projectName}
+            circuit={circuit}
             results={{
               shortCircuit: scResult,
               protection: selResult,

@@ -326,6 +326,9 @@ footer {
 .memorial .memorial-warnings { margin: 0.4rem 0; }
 .memorial .memorial-foot { margin-top: 2rem; font-size: 0.8rem; color: #333; }
 .memorial .memorial-sign { margin-top: 2.5rem; text-align: center; line-height: 1.6; }
+svg.single-line { max-width: 560px; width: 100%; height: auto; }
+svg.single-line .sld-label { fill: #111; font-size: 13px; font-weight: 600; }
+svg.single-line .sld-detail { fill: #444; font-size: 11px; }
 
 @media print {
   body { background: #fff; }

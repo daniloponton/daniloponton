@@ -1,18 +1,22 @@
 import { useState } from "react";
 import {
   buildMemorial,
+  buildSingleLine,
+  type Circuit,
   type CircuitResults,
   type ComplianceStatus,
 } from "@core/index";
+import { SingleLineDiagram } from "./SingleLineDiagram";
 
 interface Props {
   projectName: string;
+  circuit: Circuit;
   results: CircuitResults;
 }
 
 const badge: Record<ComplianceStatus, string> = { ok: "✅ Conforme", warning: "⚠️ Com ressalvas", fail: "❌ Não conforme" };
 
-export function MemorialView({ projectName, results }: Props) {
+export function MemorialView({ projectName, circuit, results }: Props) {
   const [engineer, setEngineer] = useState("");
   const [title, setTitle] = useState("");
   const [crea, setCrea] = useState("");
@@ -31,6 +35,7 @@ export function MemorialView({ projectName, results }: Props) {
   }
 
   const doc = buildMemorial(projectName, results);
+  const sld = buildSingleLine(circuit, results);
 
   return (
     <>
@@ -62,6 +67,13 @@ export function MemorialView({ projectName, results }: Props) {
             </tbody>
           </table>
         </header>
+
+        {sld.length > 0 && (
+          <section className="memorial-section">
+            <h2>Diagrama Unifilar</h2>
+            <SingleLineDiagram elements={sld} />
+          </section>
+        )}
 
         {doc.sections.map((s, i) => (
           <section className="memorial-section" key={s.id}>

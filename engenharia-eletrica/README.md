@@ -92,6 +92,10 @@ passo a passo e hash de auditoria por seção.
 A geração de PDF é feita pelo próprio navegador (Imprimir → Salvar como PDF),
 via `@media print` — sem dependências e mantendo o funcionamento offline.
 
+O memorial inclui um **diagrama unifilar** em SVG (fonte → transformador →
+barramento → proteção → condutor → carga), montado a partir do circuito e
+anotado com os valores calculados (I"k, ajuste da proteção, seção do cabo, ΔU).
+
 ## Status
 
 Versão `0.1.0` — três módulos com rastreabilidade e integração. As tabelas
