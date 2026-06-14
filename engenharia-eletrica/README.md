@@ -95,6 +95,14 @@ npm run typecheck  # checagem de tipos
 npm run build      # build estático em dist/
 ```
 
+## Editor visual (unifilar)
+
+A aba **Editor (Unifilar)** mostra o circuito como diagrama unifilar interativo:
+clique em um elemento (concessionária, transformador, barramento, proteção,
+condutor, carga) para editar seus parâmetros ali mesmo, com o diagrama colorido
+por conformidade. O botão **Avaliar circuito completo** roda a orquestração do
+núcleo (curto → proteção → cabo) e atualiza os resultados no diagrama.
+
 ## Integração entre módulos
 
 Os três módulos se encadeiam (fluxo **1 → 2 → 3**), fechando o ciclo de cálculo:

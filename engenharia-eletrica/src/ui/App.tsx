@@ -31,8 +31,9 @@ import { GroundingPanel } from "./components/GroundingPanel";
 import { PvPanel } from "./components/PvPanel";
 import { MemorialView } from "./components/MemorialView";
 import { ArcFlashPanel } from "./components/ArcFlashPanel";
+import { CircuitEditor } from "./components/CircuitEditor";
 
-type Tab = "cable" | "short_circuit" | "protection" | "arc_flash" | "power_quality" | "grounding" | "pv" | "memorial";
+type Tab = "editor" | "cable" | "short_circuit" | "protection" | "arc_flash" | "power_quality" | "grounding" | "pv" | "memorial";
 
 function seedCircuit(): Circuit {
   return {
@@ -46,7 +47,7 @@ function seedCircuit(): Circuit {
 export function App() {
   const store = useMemo(() => createDefaultStore(), []);
 
-  const [tab, setTab] = useState<Tab>("short_circuit");
+  const [tab, setTab] = useState<Tab>("editor");
   const [error, setError] = useState<string | null>(null);
 
   const [projectName, setProjectName] = useState("Projeto sem título");
@@ -64,6 +65,13 @@ export function App() {
   const [extraResults, setExtraResults] = useState<Partial<CircuitResults>>({});
   const patchExtra = (patch: Partial<CircuitResults>) =>
     setExtraResults((e) => ({ ...e, ...patch }));
+
+  // Ao trocar de aba, re-semeia os formulários a partir do circuito atual,
+  // mantendo o editor visual e as abas de módulo em sincronia.
+  const goTab = (t: Tab) => {
+    setLoadNonce((n) => n + 1);
+    setTab(t);
+  };
 
   const refreshList = () => store.list().then(setProjects);
   useEffect(() => {
@@ -186,34 +194,50 @@ export function App() {
       />
 
       <nav className="tabs no-print">
-        <button className={tab === "short_circuit" ? "tab active" : "tab"} onClick={() => setTab("short_circuit")}>
+        <button className={tab === "editor" ? "tab active" : "tab"} onClick={() => goTab("editor")}>
+          ◊ Editor (Unifilar)
+        </button>
+        <button className={tab === "short_circuit" ? "tab active" : "tab"} onClick={() => goTab("short_circuit")}>
           1 · Curto-Circuito (IEC 60909)
         </button>
-        <button className={tab === "protection" ? "tab active" : "tab"} onClick={() => setTab("protection")}>
+        <button className={tab === "protection" ? "tab active" : "tab"} onClick={() => goTab("protection")}>
           2 · Proteção & Seletividade
         </button>
-        <button className={tab === "arc_flash" ? "tab active" : "tab"} onClick={() => setTab("arc_flash")}>
+        <button className={tab === "arc_flash" ? "tab active" : "tab"} onClick={() => goTab("arc_flash")}>
           3 · Arco Elétrico
         </button>
-        <button className={tab === "cable" ? "tab active" : "tab"} onClick={() => setTab("cable")}>
+        <button className={tab === "cable" ? "tab active" : "tab"} onClick={() => goTab("cable")}>
           4 · Dimensionamento de Cabos
         </button>
-        <button className={tab === "power_quality" ? "tab active" : "tab"} onClick={() => setTab("power_quality")}>
+        <button className={tab === "power_quality" ? "tab active" : "tab"} onClick={() => goTab("power_quality")}>
           5 · Queda de Tensão & FP
         </button>
-        <button className={tab === "grounding" ? "tab active" : "tab"} onClick={() => setTab("grounding")}>
+        <button className={tab === "grounding" ? "tab active" : "tab"} onClick={() => goTab("grounding")}>
           6 · Aterramento & SPDA
         </button>
-        <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => setTab("pv")}>
+        <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => goTab("pv")}>
           7 · Fotovoltaico (GD)
         </button>
-        <button className={tab === "memorial" ? "tab active" : "tab"} onClick={() => setTab("memorial")}>
+        <button className={tab === "memorial" ? "tab active" : "tab"} onClick={() => goTab("memorial")}>
           8 · Memorial
         </button>
       </nav>
 
       <main>
         {error && <div className="error">⚠️ {error}</div>}
+
+        {tab === "editor" && (
+          <CircuitEditor
+            circuit={circuit}
+            results={{ shortCircuit: scResult, protection: selResult, cable: cableResult }}
+            evaluating={evaluating}
+            onChange={(updater) => {
+              setCircuit(updater);
+              setDirty(true);
+            }}
+            onEvaluate={onEvaluate}
+          />
+        )}
 
         {tab === "short_circuit" && (
           <>

@@ -2,6 +2,9 @@ import type { SingleLineElement, ComplianceStatus } from "@core/index";
 
 interface Props {
   elements: readonly SingleLineElement[];
+  /** Se fornecido, os elementos ficam clicáveis (modo editor). */
+  onSelect?: (kind: SingleLineElement["kind"]) => void;
+  selected?: SingleLineElement["kind"] | null;
 }
 
 const W = 560;
@@ -16,10 +19,11 @@ const statusColor: Record<ComplianceStatus, string> = {
 };
 
 /** Diagrama unifilar vertical (fonte → carga) renderizado em SVG puro. */
-export function SingleLineDiagram({ elements }: Props) {
+export function SingleLineDiagram({ elements, onSelect, selected }: Props) {
   if (elements.length === 0) return null;
   const height = TOP + elements.length * ROW;
   const cy = (i: number) => TOP + i * ROW + 20;
+  const interactive = !!onSelect;
 
   return (
     <svg viewBox={`0 0 ${W} ${height}`} className="single-line" role="img" aria-label="Diagrama unifilar">
@@ -29,8 +33,24 @@ export function SingleLineDiagram({ elements }: Props) {
       {elements.map((el, i) => {
         const y = cy(i);
         const color = el.status ? statusColor[el.status] : "#111";
+        const isSel = selected === el.kind;
         return (
-          <g key={i}>
+          <g
+            key={i}
+            className={interactive ? "sld-clickable" : undefined}
+            onClick={interactive ? () => onSelect!(el.kind) : undefined}
+          >
+            {interactive && (
+              <rect
+                x={4}
+                y={y - ROW / 2 + 8}
+                width={W - 8}
+                height={ROW - 8}
+                rx={8}
+                fill={isSel ? "rgba(47,129,247,0.12)" : "transparent"}
+                stroke={isSel ? "#2f81f7" : "transparent"}
+              />
+            )}
             <Symbol kind={el.kind} cx={CX} cy={y} color={color} />
             <text x={150} y={y - 4} className="sld-label">{el.label}</text>
             {el.details.map((d, k) => (
