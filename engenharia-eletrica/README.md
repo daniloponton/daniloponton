@@ -69,6 +69,17 @@ O app é uma PWA: inclui `manifest.webmanifest`, ícone e um service worker
 (pega novos assets quando online) e *cache-first* para os assets com hash
 imutável. O service worker é registrado apenas em build de produção.
 
+## Deploy (GitHub Pages)
+
+O workflow `.github/workflows/deploy-pages.yml` builda o app e publica o `dist/`
+no GitHub Pages a cada push em `main` (e na branch de desenvolvimento). O Vite
+usa `base: "./"`, então os caminhos são relativos e funcionam tanto na raiz do
+site quanto em subpasta.
+
+Se for o primeiro deploy, confirme em **Settings → Pages → Source: GitHub
+Actions** (o workflow tenta habilitar automaticamente via `enablement: true`).
+O endereço publicado aparece no resumo da execução do workflow (job *deploy*).
+
 ## Comandos
 
 ```bash
