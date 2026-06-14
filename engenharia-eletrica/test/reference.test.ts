@@ -44,23 +44,23 @@ describe("Ref. IEC 60909 — curto-circuito trifásico", () => {
 describe("Ref. NBR 5410:2004 Tab. 36 — ampacidade PVC/cobre", () => {
   const amp = IEC_60364_5_52.ampacity;
   it("método B1 (2 e 3 condutores carregados)", () => {
-    expect(amp.B1.PVC[2][1.5]).toBe(17.5);
-    expect(amp.B1.PVC[2][240]).toBe(415);
-    expect(amp.B1.PVC[3][25]).toBe(89);
-    expect(amp.B1.PVC[3][240]).toBe(369);
+    expect(amp.Cu.B1.PVC[2][1.5]).toBe(17.5);
+    expect(amp.Cu.B1.PVC[2][240]).toBe(415);
+    expect(amp.Cu.B1.PVC[3][25]).toBe(89);
+    expect(amp.Cu.B1.PVC[3][240]).toBe(369);
   });
   it("método C (2 e 3 condutores carregados)", () => {
-    expect(amp.C.PVC[2][240]).toBe(461);
-    expect(amp.C.PVC[3][25]).toBe(96);
-    expect(amp.C.PVC[3][240]).toBe(403);
+    expect(amp.Cu.C.PVC[2][240]).toBe(461);
+    expect(amp.Cu.C.PVC[3][25]).toBe(96);
+    expect(amp.Cu.C.PVC[3][240]).toBe(403);
   });
   it("método B2 — valores corrigidos em 150/185/240 mm²", () => {
-    expect(amp.B2.PVC[2][150]).toBe(265);
-    expect(amp.B2.PVC[2][185]).toBe(300);
-    expect(amp.B2.PVC[2][240]).toBe(351);
-    expect(amp.B2.PVC[3][150]).toBe(236);
-    expect(amp.B2.PVC[3][185]).toBe(268);
-    expect(amp.B2.PVC[3][240]).toBe(313);
+    expect(amp.Cu.B2.PVC[2][150]).toBe(265);
+    expect(amp.Cu.B2.PVC[2][185]).toBe(300);
+    expect(amp.Cu.B2.PVC[2][240]).toBe(351);
+    expect(amp.Cu.B2.PVC[3][150]).toBe(236);
+    expect(amp.Cu.B2.PVC[3][185]).toBe(268);
+    expect(amp.Cu.B2.PVC[3][240]).toBe(313);
   });
   it("fatores de temperatura (Tab. 40) e agrupamento (Tab. 42)", () => {
     expect(IEC_60364_5_52.tempCorrection.PVC[40]).toBe(0.87);
@@ -72,21 +72,38 @@ describe("Ref. NBR 5410:2004 Tab. 36 — ampacidade PVC/cobre", () => {
 describe("Ref. NBR 5410:2004 Tab. 37 — ampacidade EPR/XLPE/cobre", () => {
   const amp = IEC_60364_5_52.ampacity;
   it("método B1 (2 e 3 condutores carregados)", () => {
-    expect(amp.B1.XLPE[2][240]).toBe(546);
-    expect(amp.B1.XLPE[2][150]).toBe(407);
-    expect(amp.B1.XLPE[3][240]).toBe(481);
-    expect(amp.B1.XLPE[3][16]).toBe(88);
+    expect(amp.Cu.B1.XLPE[2][240]).toBe(546);
+    expect(amp.Cu.B1.XLPE[2][150]).toBe(407);
+    expect(amp.Cu.B1.XLPE[3][240]).toBe(481);
+    expect(amp.Cu.B1.XLPE[3][16]).toBe(88);
   });
   it("método B2 (2 e 3 condutores carregados)", () => {
-    expect(amp.B2.XLPE[2][150]).toBe(349);
-    expect(amp.B2.XLPE[2][240]).toBe(462);
-    expect(amp.B2.XLPE[3][1.5]).toBe(19.5);
-    expect(amp.B2.XLPE[3][240]).toBe(407);
+    expect(amp.Cu.B2.XLPE[2][150]).toBe(349);
+    expect(amp.Cu.B2.XLPE[2][240]).toBe(462);
+    expect(amp.Cu.B2.XLPE[3][1.5]).toBe(19.5);
+    expect(amp.Cu.B2.XLPE[3][240]).toBe(407);
   });
   it("método C (2 e 3 condutores carregados)", () => {
-    expect(amp.C.XLPE[2][240]).toBe(599);
-    expect(amp.C.XLPE[3][25]).toBe(119);
-    expect(amp.C.XLPE[3][240]).toBe(500);
+    expect(amp.Cu.C.XLPE[2][240]).toBe(599);
+    expect(amp.Cu.C.XLPE[3][25]).toBe(119);
+    expect(amp.Cu.C.XLPE[3][240]).toBe(500);
+  });
+});
+
+describe("Ref. NBR 5410:2004 — ampacidade alumínio", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("PVC/Al (Tab. 36) — métodos B1, B2, C", () => {
+    expect(amp.Al.B1.PVC[2][10]).toBe(44);
+    expect(amp.Al.B1.PVC[2][240]).toBe(324);
+    expect(amp.Al.B2.PVC[3][10]).toBe(36);
+    expect(amp.Al.C.PVC[2][240]).toBe(352);
+    expect(amp.Al.B1.PVC[2][1.5]).toBeUndefined(); // Al não tem < 10 mm² em PVC
+  });
+  it("EPR/XLPE/Al (Tab. 37) — métodos B1, B2, C", () => {
+    expect(amp.Al.B1.XLPE[2][16]).toBe(79);
+    expect(amp.Al.B1.XLPE[2][240]).toBe(433);
+    expect(amp.Al.C.XLPE[3][240]).toBe(382);
+    expect(amp.Al.B2.XLPE[2][10]).toBeUndefined(); // Al/XLPE começa em 16 mm²
   });
 });
 

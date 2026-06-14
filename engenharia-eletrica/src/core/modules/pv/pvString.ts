@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CalculationTrace, canonicalJson, sha256Hex } from "../../engine/trace";
 import { round } from "../../engine/units";
-import { getNorm, DEFAULT_NORM_ID } from "../../norms";
+import { getNorm, conductorResistance20C, DEFAULT_NORM_ID } from "../../norms";
 import { ENGINE_VERSION } from "../../version";
 import type { CalculationStep, ComplianceStatus, EngineeringWarning } from "../../engine/types";
 
@@ -226,7 +226,7 @@ export async function dcStringVoltageDrop(
   const inp = dcVoltageDropInputSchema.parse(rawInput);
   const norm = getNorm(inp.normId);
   const trace = new CalculationTrace();
-  const r20 = norm.resistanceOhmPerKm20C[inp.sectionMm2];
+  const r20 = conductorResistance20C(norm, inp.sectionMm2, inp.conductor);
   if (r20 === undefined) throw new Error(`Seção ${inp.sectionMm2} mm² não consta na tabela.`);
   // Em CC não há reatância; usa-se a resistência na temperatura de operação.
   const alpha = norm.tempCoeff[inp.conductor];

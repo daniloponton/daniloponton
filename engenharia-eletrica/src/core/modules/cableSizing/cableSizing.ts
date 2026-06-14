@@ -6,7 +6,7 @@ import {
   round,
   sinFromCosPhi,
 } from "../../engine/units";
-import { getNorm, type NormProfile } from "../../norms";
+import { getNorm, conductorResistance20C, type NormProfile } from "../../norms";
 import type { ComplianceStatus } from "../../engine/types";
 import { ENGINE_VERSION } from "../../version";
 import {
@@ -34,17 +34,11 @@ export async function calculateCableSizing(
   const inp = cableSizingInputSchema.parse(rawInput);
   const norm = getNorm(inp.normId);
 
-  if (inp.conductor !== "Cu") {
-    throw new Error(
-      "Condutor de alumínio ainda não suportado nesta versão (tabelas de cobre apenas).",
-    );
-  }
-
   const trace = new CalculationTrace();
   const loadedConductors = inp.system === "single" ? 2 : 3;
   const phaseFactor = inp.system === "single" ? 2 : Math.sqrt(3);
   const ampacityTable =
-    norm.ampacity[inp.installMethod][inp.insulation][loadedConductors];
+    norm.ampacity[inp.conductor][inp.installMethod][inp.insulation][loadedConductors];
 
   // ── Fatores de correção ────────────────────────────────────────────────
   const ca = trace.step({
@@ -191,6 +185,8 @@ export async function calculateCableSizing(
     trace.warn("HIGH_GROUPING", `Agrupamento elevado (${inp.groupingCircuits} circuitos): fator de redução significativo.`);
   if (!scEnabled)
     trace.warn("NO_SHORT_CIRCUIT", "Corrente de curto-circuito não informada: critério térmico de curto NÃO verificado.");
+  if (inp.conductor === "Al")
+    trace.warn("AL_RESISTANCE_APPROX", "Resistência do alumínio estimada por ρAl/ρCu≈1,65 (queda de tensão aproximada): conferir contra a tabela do fabricante.");
 
   // ── Avaliação de conformidade ──────────────────────────────────────────
   const ampacityCriterion: CriterionResult =
@@ -265,7 +261,7 @@ function voltageDropPct(
   norm: NormProfile,
   phaseFactor: number,
 ): number {
-  const r20 = norm.resistanceOhmPerKm20C[section];
+  const r20 = conductorResistance20C(norm, section, inp.conductor) ?? 0;
   const x = norm.reactanceOhmPerKm[section];
   const tMax = norm.insulationMaxTempC[inp.insulation];
   const alpha = norm.tempCoeff[inp.conductor];

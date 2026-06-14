@@ -27,12 +27,17 @@ export interface NormProfile {
   readonly kFactor: Readonly<Record<string, number>>; // chave: `${Conductor}_${Insulation}`
   /**
    * Capacidades de condução de corrente Iz [A] a 30 °C, indexadas por
-   * método -> isolante -> nº de condutores carregados -> seção.
+   * material -> método -> isolante -> nº de condutores carregados -> seção.
    */
   readonly ampacity: Readonly<
     Record<
-      InstallMethod,
-      Readonly<Record<Insulation, Readonly<Record<LoadedConductors, SectionTable>>>>
+      Conductor,
+      Readonly<
+        Record<
+          InstallMethod,
+          Readonly<Record<Insulation, Readonly<Record<LoadedConductors, SectionTable>>>>
+        >
+      >
     >
   >;
   /** Resistência CC/CA [Ω/km] a 20 °C por seção (condutor de cobre). */

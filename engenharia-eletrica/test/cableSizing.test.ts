@@ -69,10 +69,13 @@ describe("CableSizing — validação de entrada", () => {
     ).rejects.toThrow();
   });
 
-  it("rejeita alumínio (ainda não suportado)", async () => {
-    await expect(
-      calculateCableSizing({ ...baseCase, conductor: "Al" }),
-    ).rejects.toThrow(/alumínio/);
+  it("dimensiona em alumínio com aviso de resistência aproximada", async () => {
+    const cu = await calculateCableSizing({ ...baseCase, shortCircuitKA: 0 });
+    const al = await calculateCableSizing({ ...baseCase, conductor: "Al", shortCircuitKA: 0 });
+    expect(al.selectedSectionMm2).not.toBeNull();
+    // Alumínio conduz menos → seção igual ou maior que a de cobre.
+    expect(al.selectedSectionMm2!).toBeGreaterThanOrEqual(cu.selectedSectionMm2!);
+    expect(al.warnings.some((w) => w.code === "AL_RESISTANCE_APPROX")).toBe(true);
   });
 });
 

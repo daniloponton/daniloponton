@@ -57,8 +57,8 @@ no futuro, reaproveitado num backend, sem retrabalho.
 ## Normas (escopo inicial)
 
 - **ABNT NBR 5410:2004 / IEC 60364-5-52** — capacidade de condução (Tab. 36 PVC e
-  Tab. 37 EPR/XLPE, cobre, conferidas), fatores de correção (Tab. 40 e 42),
-  queda de tensão.
+  Tab. 37 EPR/XLPE, cobre e alumínio, conferidas), fatores de correção (Tab. 40 e
+  42), queda de tensão.
 - **IEC 60364-5-54 / IEC 60909** — fator `k` para verificação térmica de curto.
 
 As tabelas normativas são tratadas como dado versionado em `src/core/norms`.

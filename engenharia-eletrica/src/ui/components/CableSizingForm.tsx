@@ -75,6 +75,12 @@ export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, init
           <option value="XLPE">XLPE/EPR (90 °C)</option>
         </select>
       </Field>
+      <Field label="Condutor">
+        <select value={form.conductor} onChange={sel("conductor")}>
+          <option value="Cu">Cobre</option>
+          <option value="Al">Alumínio</option>
+        </select>
+      </Field>
       <Field label="Método de instalação">
         <select value={form.installMethod} onChange={sel("installMethod")}>
           <option value="B1">B1</option>

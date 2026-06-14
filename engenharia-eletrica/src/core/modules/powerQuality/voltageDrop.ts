@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { CalculationTrace, canonicalJson, sha256Hex } from "../../engine/trace";
 import { round, sinFromCosPhi } from "../../engine/units";
-import { getNorm, DEFAULT_NORM_ID } from "../../norms";
+import { getNorm, conductorResistance20C, DEFAULT_NORM_ID } from "../../norms";
 import { ENGINE_VERSION } from "../../version";
 import type { CalculationStep, ComplianceStatus, EngineeringWarning } from "../../engine/types";
 
@@ -72,7 +72,7 @@ export async function calculateVoltageDrop(
 
   for (let i = 0; i < inp.segments.length; i++) {
     const s = inp.segments[i];
-    const r20 = norm.resistanceOhmPerKm20C[s.sectionMm2];
+    const r20 = conductorResistance20C(norm, s.sectionMm2, s.conductor);
     const x = norm.reactanceOhmPerKm[s.sectionMm2];
     if (r20 === undefined || x === undefined) {
       throw new Error(`Seção ${s.sectionMm2} mm² não consta na tabela da norma.`);
