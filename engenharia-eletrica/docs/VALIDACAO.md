@@ -20,17 +20,20 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Arco elétrico | Energia incidente, Ia, fronteira de arco | IEEE 1584-2002 | 5 % | ✅ |
 | Queda de tensão | Método fasorial ΔU = k·I·L·(R·cosφ+X·senφ) | IEC 60364-5-52 Anexo | 2 % | ✅ |
 | Fotovoltaico | Correção térmica de Voc e nº de módulos/string | NBR 16690 / IEC 62548 | 0,5 % | ✅ |
+| Ampacidade (tabela) | Capacidade de condução PVC/cobre (B1, B2, C) | NBR 5410:2004 Tab. 36 | exato | ✅ |
+| Correção (tabela) | Fatores de temperatura e agrupamento | NBR 5410:2004 Tab. 40 e 42 | exato | ✅ |
 
 ## Limitações conhecidas (a conferir antes de uso em projeto real)
 
 1. **Tabelas de capacidade de condução (ampacidade)** — `src/core/norms/iec60364.ts`.
-   São dados tabelados (não fórmulas). Refletem os valores publicados mais comuns
-   da IEC 60364-5-52 (Cu, 2 e 3 condutores carregados, PVC/XLPE, métodos B1/B2/C,
-   30 °C). **Devem ser cruzados contra a edição vigente da NBR 5410 / IEC 60364-5-52**
-   antes do uso profissional. Hoje há apenas cobre; alumínio ainda não é suportado.
+   A ampacidade **PVC/cobre** (métodos B1, B2, C, 2 e 3 condutores carregados) foi
+   **conferida e travada contra a ABNT NBR 5410:2004 Tabela 36** (correção de um
+   erro anterior em B2 nas seções 150/185/240 mm²). **Pendentes:** ampacidade
+   **EPR/XLPE** (Tabela 37, ainda com valores publicados comuns), **alumínio**, e
+   os métodos **A1/A2/D** (D exige correção de solo).
 
-2. **Fatores de correção** (temperatura e agrupamento) — também tabelados; mesma
-   ressalva da conferência contra a norma vigente.
+2. **Fatores de correção** (temperatura — Tab. 40; agrupamento — Tab. 42,
+   disposição 1) — conferidos contra a NBR 5410:2004.
 
 3. **Aterramento** — há dois níveis: a **triagem** (`analyzeGrounding`,
    GPR ≤ tensão de toque) e o **cálculo detalhado de malha retangular**

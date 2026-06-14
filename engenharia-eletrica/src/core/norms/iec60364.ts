@@ -4,10 +4,14 @@ import type { NormProfile } from "./types";
  * Perfil normativo IEC 60364-5-52:2009 (adotado, em essência, pela ABNT NBR
  * 5410:2004 — as tabelas de capacidade de condução são equivalentes).
  *
- * ATENÇÃO: os valores tabelados abaixo refletem as tabelas publicadas mais
- * comuns (cobre, 2 e 3 condutores carregados, isolação PVC/XLPE, ambiente a
- * 30 °C). Devem ser cruzados contra a edição vigente da norma antes do uso em
- * projeto real — ver casos de validação em test/.
+ * PROVENIÊNCIA:
+ *  - Ampacidade PVC/cobre (métodos B1, B2, C, 2 e 3 condutores carregados):
+ *    conferida contra a ABNT NBR 5410:2004 Tabela 36 (ver test/reference.test.ts).
+ *  - Fatores de correção de temperatura: NBR 5410:2004 Tabela 40.
+ *  - Fatores de agrupamento: NBR 5410:2004 Tabela 42 (disposição 1).
+ *  - Ampacidade XLPE/EPR ainda NÃO conferida contra a Tabela 37 (valores
+ *    publicados comuns); alumínio e métodos A1/A2/D pendentes — ver
+ *    docs/VALIDACAO.md.
  */
 export const IEC_60364_5_52: NormProfile = {
   id: "IEC60364-5-52",
@@ -37,8 +41,8 @@ export const IEC_60364_5_52: NormProfile = {
     },
     B2: {
       PVC: {
-        2: { 1.5: 16.5, 2.5: 23, 4: 30, 6: 38, 10: 52, 16: 69, 25: 90, 35: 111, 50: 133, 70: 168, 95: 201, 120: 232, 150: 258, 185: 294, 240: 344 },
-        3: { 1.5: 15, 2.5: 20, 4: 27, 6: 34, 10: 46, 16: 62, 25: 80, 35: 99, 50: 118, 70: 149, 95: 179, 120: 206, 150: 225, 185: 255, 240: 297 },
+        2: { 1.5: 16.5, 2.5: 23, 4: 30, 6: 38, 10: 52, 16: 69, 25: 90, 35: 111, 50: 133, 70: 168, 95: 201, 120: 232, 150: 265, 185: 300, 240: 351 },
+        3: { 1.5: 15, 2.5: 20, 4: 27, 6: 34, 10: 46, 16: 62, 25: 80, 35: 99, 50: 118, 70: 149, 95: 179, 120: 206, 150: 236, 185: 268, 240: 313 },
       },
       XLPE: {
         2: { 1.5: 22, 2.5: 30, 4: 40, 6: 51, 10: 69, 16: 91, 25: 119, 35: 146, 50: 175, 70: 221, 95: 265, 120: 305, 150: 334, 185: 384, 240: 459 },
@@ -74,8 +78,9 @@ export const IEC_60364_5_52: NormProfile = {
     XLPE: { 10: 1.15, 15: 1.12, 20: 1.08, 25: 1.04, 30: 1.0, 35: 0.96, 40: 0.91, 45: 0.87, 50: 0.82, 55: 0.76, 60: 0.71, 65: 0.65, 70: 0.58, 75: 0.5, 80: 0.41 },
   },
 
-  // IEC 60364-5-52 Tab. B.52.17 — agrupamento de circuitos, em feixe, ar livre.
+  // NBR 5410:2004 Tab. 42 (disposição 1: feixe ao ar livre / condutos fechados).
   groupingCorrection: {
     1: 1.0, 2: 0.8, 3: 0.7, 4: 0.65, 5: 0.6, 6: 0.57, 7: 0.54, 8: 0.52, 9: 0.5,
+    12: 0.45, 16: 0.41, 20: 0.38,
   },
 };

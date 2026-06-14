@@ -16,6 +16,7 @@ import { analyzeGrounding } from "@core/modules/grounding";
 import { inverseTime } from "@core/modules/protection";
 import { rollingSphereRadius } from "@core/modules/grounding";
 import { sizePvString } from "@core/modules/pv";
+import { IEC_60364_5_52 } from "@core/norms";
 
 /** Exige erro relativo (%) ≤ tolerância. */
 function expectClose(actual: number, expected: number, relTolPct: number, label = "") {
@@ -37,6 +38,34 @@ describe("Ref. IEC 60909 — curto-circuito trifásico", () => {
       cables: [],
     });
     expectClose(r.ikSymKA, 25.26, 1.5, 'I"k');
+  });
+});
+
+describe("Ref. NBR 5410:2004 Tab. 36 — ampacidade PVC/cobre", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("método B1 (2 e 3 condutores carregados)", () => {
+    expect(amp.B1.PVC[2][1.5]).toBe(17.5);
+    expect(amp.B1.PVC[2][240]).toBe(415);
+    expect(amp.B1.PVC[3][25]).toBe(89);
+    expect(amp.B1.PVC[3][240]).toBe(369);
+  });
+  it("método C (2 e 3 condutores carregados)", () => {
+    expect(amp.C.PVC[2][240]).toBe(461);
+    expect(amp.C.PVC[3][25]).toBe(96);
+    expect(amp.C.PVC[3][240]).toBe(403);
+  });
+  it("método B2 — valores corrigidos em 150/185/240 mm²", () => {
+    expect(amp.B2.PVC[2][150]).toBe(265);
+    expect(amp.B2.PVC[2][185]).toBe(300);
+    expect(amp.B2.PVC[2][240]).toBe(351);
+    expect(amp.B2.PVC[3][150]).toBe(236);
+    expect(amp.B2.PVC[3][185]).toBe(268);
+    expect(amp.B2.PVC[3][240]).toBe(313);
+  });
+  it("fatores de temperatura (Tab. 40) e agrupamento (Tab. 42)", () => {
+    expect(IEC_60364_5_52.tempCorrection.PVC[40]).toBe(0.87);
+    expect(IEC_60364_5_52.tempCorrection.XLPE[80]).toBe(0.41);
+    expect(IEC_60364_5_52.groupingCorrection[20]).toBe(0.38);
   });
 });
 
