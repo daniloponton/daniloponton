@@ -90,6 +90,18 @@ describe("MemoryProjectStore — CRUD", () => {
     expect(await store.list()).toHaveLength(0);
   });
 
+  it("persiste um projeto com múltiplos circuitos", async () => {
+    const store = new MemoryProjectStore();
+    const p = createProject("Quadro QGBT");
+    p.circuits.push(createCircuit("Alimentador 1"), createCircuit("Alimentador 2"), createCircuit("Alimentador 3"));
+    await store.save(p);
+    const loaded = await store.get(p.id);
+    expect(loaded?.circuits).toHaveLength(3);
+    expect(loaded?.circuits.map((c) => c.name)).toEqual([
+      "Alimentador 1", "Alimentador 2", "Alimentador 3",
+    ]);
+  });
+
   it("createProject/createCircuit geram ids únicos", () => {
     const a = createProject("A");
     const b = createProject("B");

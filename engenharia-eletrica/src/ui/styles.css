@@ -326,6 +326,13 @@ footer {
 .memorial .memorial-warnings { margin: 0.4rem 0; }
 .memorial .memorial-foot { margin-top: 2rem; font-size: 0.8rem; color: #333; }
 .memorial .memorial-sign { margin-top: 2.5rem; text-align: center; line-height: 1.6; }
+.circuit-bar {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
 .editor-grid {
   display: grid;
   grid-template-columns: minmax(280px, 1.1fr) 1fr;

@@ -53,7 +53,8 @@ export function App() {
   const [projectName, setProjectName] = useState("Projeto sem título");
   const [currentId, setCurrentId] = useState<string | null>(null);
   const [projects, setProjects] = useState<ProjectMeta[]>([]);
-  const [circuit, setCircuit] = useState<Circuit>(seedCircuit);
+  const [circuits, setCircuits] = useState<Circuit[]>(() => [seedCircuit()]);
+  const [activeId, setActiveId] = useState<string>("");
   const [dirty, setDirty] = useState(false);
   const [loadNonce, setLoadNonce] = useState(0);
   const [evaluating, setEvaluating] = useState(false);
@@ -65,6 +66,47 @@ export function App() {
   const [extraResults, setExtraResults] = useState<Partial<CircuitResults>>({});
   const patchExtra = (patch: Partial<CircuitResults>) =>
     setExtraResults((e) => ({ ...e, ...patch }));
+
+  // Circuito ativo (fallback para o primeiro enquanto não há seleção explícita).
+  const circuit = circuits.find((c) => c.id === activeId) ?? circuits[0];
+
+  const resetResults = () => {
+    setScResult(null);
+    setSelResult(null);
+    setCableResult(null);
+    setExtraResults({});
+  };
+
+  const updateActive = (updater: (c: Circuit) => Circuit) => {
+    setCircuits((list) => list.map((c) => (c.id === circuit.id ? updater(c) : c)));
+    setDirty(true);
+  };
+
+  function selectCircuit(id: string) {
+    setActiveId(id);
+    resetResults();
+    setLoadNonce((n) => n + 1);
+  }
+  function addCircuit() {
+    const nc = { ...seedCircuit(), name: `Circuito ${circuits.length + 1}` };
+    setCircuits((list) => [...list, nc]);
+    setActiveId(nc.id);
+    resetResults();
+    setDirty(true);
+    setLoadNonce((n) => n + 1);
+  }
+  function removeActive() {
+    if (circuits.length <= 1) return;
+    const remaining = circuits.filter((c) => c.id !== circuit.id);
+    setCircuits(remaining);
+    setActiveId(remaining[0].id);
+    resetResults();
+    setDirty(true);
+    setLoadNonce((n) => n + 1);
+  }
+  function renameActive(name: string) {
+    updateActive((c) => ({ ...c, name }));
+  }
 
   // Ao trocar de aba, re-semeia os formulários a partir do circuito atual,
   // mantendo o editor visual e as abas de módulo em sincronia.
@@ -96,18 +138,15 @@ export function App() {
   }
 
   function onSc(input: ShortCircuitInput) {
-    setCircuit((c) => ({ ...c, shortCircuit: input }));
-    setDirty(true);
+    updateActive((c) => ({ ...c, shortCircuit: input }));
     run(() => calculateShortCircuit(input), setScResult);
   }
   function onProt(input: SelectivityInput) {
-    setCircuit((c) => ({ ...c, protection: input }));
-    setDirty(true);
+    updateActive((c) => ({ ...c, protection: input }));
     run(() => checkSelectivity(input), setSelResult);
   }
   function onCable(input: CableSizingInput) {
-    setCircuit((c) => ({ ...c, cable: input }));
-    setDirty(true);
+    updateActive((c) => ({ ...c, cable: input }));
     run(() => calculateCableSizing(input), setCableResult);
   }
 
@@ -129,11 +168,10 @@ export function App() {
   function onNew() {
     setCurrentId(null);
     setProjectName("Projeto sem título");
-    setCircuit(seedCircuit());
-    setScResult(null);
-    setSelResult(null);
-    setCableResult(null);
-    setExtraResults({});
+    const seed = seedCircuit();
+    setCircuits([seed]);
+    setActiveId(seed.id);
+    resetResults();
     setDirty(false);
     setLoadNonce((n) => n + 1);
   }
@@ -141,8 +179,8 @@ export function App() {
   async function onSave() {
     const existing = currentId ? await store.get(currentId) : null;
     const project: Project = existing
-      ? { ...existing, name: projectName, circuits: [circuit] }
-      : { ...createProject(projectName), circuits: [circuit] };
+      ? { ...existing, name: projectName, circuits }
+      : { ...createProject(projectName), circuits };
     await store.save(project);
     setCurrentId(project.id);
     setDirty(false);
@@ -152,13 +190,12 @@ export function App() {
   async function onLoad(id: string) {
     const p = await store.get(id);
     if (!p) return;
+    const cs = p.circuits.length ? p.circuits : [seedCircuit()];
     setCurrentId(p.id);
     setProjectName(p.name);
-    setCircuit(p.circuits[0] ?? seedCircuit());
-    setScResult(null);
-    setSelResult(null);
-    setCableResult(null);
-    setExtraResults({});
+    setCircuits(cs);
+    setActiveId(cs[0].id);
+    resetResults();
     setDirty(false);
     setLoadNonce((n) => n + 1);
   }
@@ -192,6 +229,27 @@ export function App() {
         onDelete={onDelete}
         onEvaluate={onEvaluate}
       />
+
+      <div className="card circuit-bar no-print">
+        <label className="field">
+          <span>Circuito ({circuits.length})</span>
+          <select value={circuit.id} onChange={(e) => selectCircuit(e.target.value)}>
+            {circuits.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+        </label>
+        <label className="field grow">
+          <span>Nome do circuito</span>
+          <input value={circuit.name} onChange={(e) => renameActive(e.target.value)} />
+        </label>
+        <div className="project-actions">
+          <button type="button" onClick={addCircuit}>+ Circuito</button>
+          <button type="button" className="ghost" onClick={removeActive} disabled={circuits.length <= 1}>
+            Remover
+          </button>
+        </div>
+      </div>
 
       <nav className="tabs no-print">
         <button className={tab === "editor" ? "tab active" : "tab"} onClick={() => goTab("editor")}>
@@ -231,10 +289,7 @@ export function App() {
             circuit={circuit}
             results={{ shortCircuit: scResult, protection: selResult, cable: cableResult }}
             evaluating={evaluating}
-            onChange={(updater) => {
-              setCircuit(updater);
-              setDirty(true);
-            }}
+            onChange={updateActive}
             onEvaluate={onEvaluate}
           />
         )}

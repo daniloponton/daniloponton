@@ -36,8 +36,10 @@ test/                     casos de referência, validação e propriedades
 
 A entidade **`Circuit`** (fonte → proteção → cabo → carga) guarda as entradas
 dos três módulos; **`evaluateCircuit`** os encadeia no núcleo, propagando I"k e
-tempo de atuação. Projetos são persistidos via `ProjectStore` — **IndexedDB** no
-navegador (offline) e **em memória** nos testes, selecionados automaticamente.
+tempo de atuação. Um projeto agrupa **vários circuitos** (alimentadores), com
+seletor para alternar o circuito ativo, adicionar e remover. Projetos são
+persistidos via `ProjectStore` — **IndexedDB** no navegador (offline) e **em
+memória** nos testes, selecionados automaticamente.
 
 A regra de ouro: **a UI depende apenas de `src/core` (via `@core`)**, nunca de
 arquivos internos. O motor pode ser executado em CI, validado por terceiros e,
