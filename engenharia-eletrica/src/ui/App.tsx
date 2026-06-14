@@ -30,8 +30,9 @@ import { PowerQualityPanel } from "./components/PowerQualityPanel";
 import { GroundingPanel } from "./components/GroundingPanel";
 import { PvPanel } from "./components/PvPanel";
 import { MemorialView } from "./components/MemorialView";
+import { ArcFlashPanel } from "./components/ArcFlashPanel";
 
-type Tab = "cable" | "short_circuit" | "protection" | "power_quality" | "grounding" | "pv" | "memorial";
+type Tab = "cable" | "short_circuit" | "protection" | "arc_flash" | "power_quality" | "grounding" | "pv" | "memorial";
 
 function seedCircuit(): Circuit {
   return {
@@ -191,20 +192,23 @@ export function App() {
         <button className={tab === "protection" ? "tab active" : "tab"} onClick={() => setTab("protection")}>
           2 · Proteção & Seletividade
         </button>
+        <button className={tab === "arc_flash" ? "tab active" : "tab"} onClick={() => setTab("arc_flash")}>
+          3 · Arco Elétrico
+        </button>
         <button className={tab === "cable" ? "tab active" : "tab"} onClick={() => setTab("cable")}>
-          3 · Dimensionamento de Cabos
+          4 · Dimensionamento de Cabos
         </button>
         <button className={tab === "power_quality" ? "tab active" : "tab"} onClick={() => setTab("power_quality")}>
-          4 · Queda de Tensão & FP
+          5 · Queda de Tensão & FP
         </button>
         <button className={tab === "grounding" ? "tab active" : "tab"} onClick={() => setTab("grounding")}>
-          5 · Aterramento & SPDA
+          6 · Aterramento & SPDA
         </button>
         <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => setTab("pv")}>
-          6 · Fotovoltaico (GD)
+          7 · Fotovoltaico (GD)
         </button>
         <button className={tab === "memorial" ? "tab active" : "tab"} onClick={() => setTab("memorial")}>
-          7 · Memorial
+          8 · Memorial
         </button>
       </nav>
 
@@ -236,6 +240,15 @@ export function App() {
             />
             {cableResult && <CalculationReport result={cableResult} />}
           </>
+        )}
+
+        {tab === "arc_flash" && (
+          <ArcFlashPanel
+            onError={setError}
+            onResult={patchExtra}
+            linkedIkKA={linkedIkKA}
+            linkedClearingS={linkedClearingS}
+          />
         )}
 
         {tab === "power_quality" && (

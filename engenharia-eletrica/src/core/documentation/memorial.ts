@@ -8,6 +8,7 @@ import type {
   VoltageDropResult,
 } from "../modules/powerQuality";
 import type { GroundingResult, GroundGridResult, SpdaResult } from "../modules/grounding";
+import type { ArcFlashResult } from "../modules/arcFlash";
 import type { PvStringResult } from "../modules/pv";
 import { ENGINE_VERSION } from "../version";
 
@@ -47,6 +48,7 @@ export interface MemorialDocument {
 export interface CircuitResults {
   readonly shortCircuit?: ShortCircuitResult | null;
   readonly protection?: SelectivityResult | null;
+  readonly arcFlash?: ArcFlashResult | null;
   readonly cable?: CableSizingResult | null;
   readonly voltageDrop?: VoltageDropResult | null;
   readonly capacitorBank?: CapacitorBankResult | null;
@@ -92,6 +94,25 @@ function sectionFromProtection(r: SelectivityResult): MemorialSection {
     ],
     steps: r.steps,
     warnings: r.warnings,
+  };
+}
+
+function sectionFromArcFlash(r: ArcFlashResult): MemorialSection {
+  return {
+    id: "arc_flash",
+    title: "Análise de Arco Elétrico",
+    norm: "IEEE Std 1584-2002 / NFPA 70E",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Energia incidente", value: `${r.incidentEnergyCalCm2} cal/cm²` },
+      { label: "Corrente de arco Ia", value: `${r.arcingCurrentKA} kA` },
+      { label: "Fronteira de arco", value: `${r.arcFlashBoundaryM} m` },
+      { label: "EPI recomendado", value: r.ppeCategory },
+    ],
+    steps: r.steps,
+    warnings: [],
   };
 }
 
@@ -259,6 +280,7 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   const sections: MemorialSection[] = [];
   if (results.shortCircuit) sections.push(sectionFromShortCircuit(results.shortCircuit));
   if (results.protection) sections.push(sectionFromProtection(results.protection));
+  if (results.arcFlash) sections.push(sectionFromArcFlash(results.arcFlash));
   if (results.cable) sections.push(sectionFromCable(results.cable));
   if (results.voltageDrop) sections.push(sectionFromVoltageDrop(results.voltageDrop));
   if (results.capacitorBank) sections.push(sectionFromCapacitorBank(results.capacitorBank));

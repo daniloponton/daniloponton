@@ -17,6 +17,7 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Aterramento (corrente) | Corrente de malha IG (fator de decremento Df, divisão Sf) | IEEE 80 §15-16 | 1 % | ✅ |
 | SPDA | Raio da esfera rolante r = 10·I^0,65 | IEC 62305 (modelo eletrogeométrico) | 1 % | ✅ |
 | Proteção | Curva inversa SI (t = TMS·k/((I/Is)^α−1)) | IEC 60255-151 | 0,5 % | ✅ |
+| Arco elétrico | Energia incidente, Ia, fronteira de arco | IEEE 1584-2002 | 5 % | ✅ |
 | Queda de tensão | Método fasorial ΔU = k·I·L·(R·cosφ+X·senφ) | IEC 60364-5-52 Anexo | 2 % | ✅ |
 | Fotovoltaico | Correção térmica de Voc e nº de módulos/string | NBR 16690 / IEC 62548 | 0,5 % | ✅ |
 
@@ -41,6 +42,11 @@ e o que ainda exige conferência. A suíte de referência fica em
 
 4. **Proteção** — curvas TCC apenas para relés paramétricos IEC 60255. Curvas de
    disjuntores/fusíveis por banda de fabricante exigem importação de catálogo.
+
+6. **Arco elétrico** — implementado pelo modelo empírico **IEEE 1584-2002**
+   (faixa 0,208–15 kV). A edição vigente **IEEE 1584-2018** (novos coeficientes
+   por configuração de eletrodos) fica como evolução futura. Não é feita a
+   iteração de 85% da corrente de arco para BT (corrente reduzida → tempo maior).
 
 5. **Reatâncias dos condutores** — valores típicos; para casos críticos, usar os
    dados do fabricante/arranjo real.
