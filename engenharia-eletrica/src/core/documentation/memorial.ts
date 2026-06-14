@@ -2,6 +2,13 @@ import type { CalculationStep, ComplianceStatus, EngineeringWarning } from "../e
 import type { CableSizingResult } from "../modules/cableSizing";
 import type { ShortCircuitResult } from "../modules/shortCircuit";
 import type { SelectivityResult } from "../modules/protection";
+import type {
+  CapacitorBankResult,
+  MotorStartingResult,
+  VoltageDropResult,
+} from "../modules/powerQuality";
+import type { GroundingResult, SpdaResult } from "../modules/grounding";
+import type { PvStringResult } from "../modules/pv";
 import { ENGINE_VERSION } from "../version";
 
 /**
@@ -41,6 +48,12 @@ export interface CircuitResults {
   readonly shortCircuit?: ShortCircuitResult | null;
   readonly protection?: SelectivityResult | null;
   readonly cable?: CableSizingResult | null;
+  readonly voltageDrop?: VoltageDropResult | null;
+  readonly capacitorBank?: CapacitorBankResult | null;
+  readonly motorStarting?: MotorStartingResult | null;
+  readonly grounding?: GroundingResult | null;
+  readonly spda?: SpdaResult | null;
+  readonly pvString?: PvStringResult | null;
 }
 
 function sectionFromShortCircuit(r: ShortCircuitResult): MemorialSection {
@@ -103,6 +116,121 @@ function sectionFromCable(r: CableSizingResult): MemorialSection {
   };
 }
 
+function sectionFromVoltageDrop(r: VoltageDropResult): MemorialSection {
+  return {
+    id: "voltage_drop",
+    title: "Queda de Tensão em Alimentador",
+    norm: "IEC 60364-5-52 / NBR 5410",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Queda de tensão total acumulada", value: `${r.totalDropPct} %` },
+      { label: "Tensão no nó final", value: `${r.nodes[r.nodes.length - 1]?.voltageAtNodeV ?? "—"} V` },
+      { label: "Nº de trechos", value: String(r.nodes.length) },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
+function sectionFromCapacitorBank(r: CapacitorBankResult): MemorialSection {
+  return {
+    id: "capacitor_bank",
+    title: "Correção de Fator de Potência",
+    norm: "IEC 60364 / IEEE 18",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    summary: [
+      { label: "Potência reativa necessária", value: `${r.requiredKvar} kvar` },
+      { label: "Banco comercial recomendado", value: `${r.recommendedKvar} kvar` },
+      { label: "Potência aparente (antes → depois)", value: `${r.apparentBeforeKVA} → ${r.apparentAfterKVA} kVA` },
+      { label: "Redução de corrente", value: `${r.currentReductionPct} %` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
+function sectionFromMotorStarting(r: MotorStartingResult): MemorialSection {
+  return {
+    id: "motor_starting",
+    title: "Partida de Motor",
+    norm: "NEMA MG-1 / IEC 60034 / IEEE 399",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Afundamento de tensão na partida", value: `${r.voltageDipPct} %` },
+      { label: "Tensão residual", value: `${r.residualVoltagePct} %` },
+      { label: "Corrente nominal / de partida", value: `${r.ratedCurrentA} A / ${r.startingCurrentA} A` },
+      { label: "Torque de partida (rel. DOL)", value: `${r.startingTorqueFactor}×` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
+function sectionFromGrounding(r: GroundingResult): MemorialSection {
+  return {
+    id: "grounding",
+    title: "Aterramento",
+    norm: "IEEE Std 80 / NBR 7117",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Resistividade do solo", value: `${r.soilResistivityOhmM} Ω·m` },
+      { label: "Resistência de aterramento", value: `${r.electrodeResistanceOhm} Ω` },
+      { label: "Elevação de potencial (GPR)", value: `${r.gprVolts} V` },
+      { label: "Tensão de toque tolerável", value: `${r.tolerableTouchV} V` },
+      { label: "Tensão de passo tolerável", value: `${r.tolerableStepV} V` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
+function sectionFromSpda(r: SpdaResult): MemorialSection {
+  return {
+    id: "spda",
+    title: "Proteção contra Descargas Atmosféricas (SPDA)",
+    norm: "IEC 62305-3 / NBR 5419",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    summary: [
+      { label: "Nível de proteção", value: `NP ${r.protectionLevel}` },
+      { label: "Raio da esfera rolante", value: `${r.rollingSphereRadiusM} m` },
+      { label: "Largura da malha de captação", value: `${r.meshSizeM} m` },
+      { label: "Espaçamento entre descidas", value: `${r.downConductorSpacingM} m` },
+      ...(r.rollingSphereFromCurrentM != null
+        ? [{ label: "Raio (modelo eletrogeométrico)", value: `${r.rollingSphereFromCurrentM} m` }]
+        : []),
+    ],
+    steps: r.steps,
+    warnings: [],
+  };
+}
+
+function sectionFromPvString(r: PvStringResult): MemorialSection {
+  return {
+    id: "pv_string",
+    title: "Dimensionamento de String Fotovoltaica",
+    norm: "ABNT NBR 16690 / IEC 62548",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Módulos por string (mín. – recomendado)", value: `${r.minModulesByMppt} – ${r.recommendedModulesPerString}` },
+      { label: "Strings em paralelo por MPPT", value: String(r.maxParallelStrings) },
+      { label: "Voc na temperatura mínima", value: `${r.vocAtMinTempV} V` },
+      { label: "Vmp (T máx / T mín)", value: `${r.vmpAtMaxTempV} V / ${r.vmpAtMinTempV} V` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
 const RANK: Record<ComplianceStatus, number> = { ok: 0, warning: 1, fail: 2 };
 
 /** Monta o documento de memorial a partir dos resultados disponíveis. */
@@ -111,6 +239,12 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   if (results.shortCircuit) sections.push(sectionFromShortCircuit(results.shortCircuit));
   if (results.protection) sections.push(sectionFromProtection(results.protection));
   if (results.cable) sections.push(sectionFromCable(results.cable));
+  if (results.voltageDrop) sections.push(sectionFromVoltageDrop(results.voltageDrop));
+  if (results.capacitorBank) sections.push(sectionFromCapacitorBank(results.capacitorBank));
+  if (results.motorStarting) sections.push(sectionFromMotorStarting(results.motorStarting));
+  if (results.grounding) sections.push(sectionFromGrounding(results.grounding));
+  if (results.spda) sections.push(sectionFromSpda(results.spda));
+  if (results.pvString) sections.push(sectionFromPvString(results.pvString));
 
   let overall: ComplianceStatus = "ok";
   for (const s of sections) {

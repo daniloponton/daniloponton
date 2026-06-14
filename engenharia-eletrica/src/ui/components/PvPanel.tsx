@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   sizePvString,
   dcStringVoltageDrop,
+  type CircuitResults,
   type PvStringInput,
   type PvStringResult,
   type DcVoltageDropResult,
@@ -9,19 +10,22 @@ import {
 
 const SECTIONS = [1.5, 2.5, 4, 6, 10, 16, 25, 35];
 
+type ResultPatch = (patch: Partial<CircuitResults>) => void;
+
 interface Props {
   onError: (msg: string | null) => void;
+  onResult: ResultPatch;
 }
 
-export function PvPanel({ onError }: Props) {
+export function PvPanel({ onError, onResult }: Props) {
   return (
     <div className="pq">
-      <StringCard onError={onError} />
+      <StringCard onError={onError} onResult={onResult} />
     </div>
   );
 }
 
-function StringCard({ onError }: { onError: (m: string | null) => void }) {
+function StringCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [form, setForm] = useState<PvStringInput>({
     module: { vocStcV: 49.5, vmpStcV: 41.5, iscStcA: 11.5, impStcA: 10.8, tempCoeffVocPctPerC: -0.27 },
     inverter: { maxDcVoltageV: 1100, mpptMinV: 200, mpptMaxV: 1000, maxInputCurrentA: 26 },
@@ -42,7 +46,9 @@ function StringCard({ onError }: { onError: (m: string | null) => void }) {
     onError(null);
     setDrop(null);
     try {
-      setRes(await sizePvString(form));
+      const r = await sizePvString(form);
+      setRes(r);
+      onResult({ pvString: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));

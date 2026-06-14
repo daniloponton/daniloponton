@@ -1,40 +1,36 @@
 import { useState } from "react";
 import {
   buildMemorial,
-  type CableSizingResult,
+  type CircuitResults,
   type ComplianceStatus,
-  type SelectivityResult,
-  type ShortCircuitResult,
 } from "@core/index";
 
 interface Props {
   projectName: string;
-  shortCircuit: ShortCircuitResult | null;
-  protection: SelectivityResult | null;
-  cable: CableSizingResult | null;
+  results: CircuitResults;
 }
 
 const badge: Record<ComplianceStatus, string> = { ok: "✅ Conforme", warning: "⚠️ Com ressalvas", fail: "❌ Não conforme" };
 
-export function MemorialView({ projectName, shortCircuit, protection, cable }: Props) {
+export function MemorialView({ projectName, results }: Props) {
   const [engineer, setEngineer] = useState("");
   const [title, setTitle] = useState("");
   const [crea, setCrea] = useState("");
   const [art, setArt] = useState("");
 
-  const hasAny = shortCircuit || protection || cable;
+  const hasAny = Object.values(results).some((r) => r != null);
   if (!hasAny) {
     return (
       <div className="card">
         <p className="muted">
-          Nenhum resultado para documentar ainda. Calcule os módulos 1–3 (ou use
+          Nenhum resultado para documentar ainda. Calcule os módulos (ou use
           <strong> Avaliar circuito completo</strong>) e volte a esta aba para gerar o memorial.
         </p>
       </div>
     );
   }
 
-  const doc = buildMemorial(projectName, { shortCircuit, protection, cable });
+  const doc = buildMemorial(projectName, results);
 
   return (
     <>

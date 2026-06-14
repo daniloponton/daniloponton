@@ -2,26 +2,30 @@ import { useState } from "react";
 import {
   analyzeGrounding,
   analyzeSpda,
+  type CircuitResults,
   type GroundingInput,
   type GroundingResult,
   type SpdaInput,
   type SpdaResult,
 } from "@core/index";
 
+type ResultPatch = (patch: Partial<CircuitResults>) => void;
+
 interface Props {
   onError: (msg: string | null) => void;
+  onResult: ResultPatch;
 }
 
-export function GroundingPanel({ onError }: Props) {
+export function GroundingPanel({ onError, onResult }: Props) {
   return (
     <div className="pq">
-      <GroundingCard onError={onError} />
-      <SpdaCard onError={onError} />
+      <GroundingCard onError={onError} onResult={onResult} />
+      <SpdaCard onError={onError} onResult={onResult} />
     </div>
   );
 }
 
-function GroundingCard({ onError }: { onError: (m: string | null) => void }) {
+function GroundingCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [form, setForm] = useState<GroundingInput>({
     soilMethod: "direct",
     soilResistivity: 300,
@@ -47,7 +51,9 @@ function GroundingCard({ onError }: { onError: (m: string | null) => void }) {
   async function calc() {
     onError(null);
     try {
-      setRes(await analyzeGrounding(form));
+      const r = await analyzeGrounding(form);
+      setRes(r);
+      onResult({ grounding: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));
@@ -141,14 +147,16 @@ function GroundingCard({ onError }: { onError: (m: string | null) => void }) {
   );
 }
 
-function SpdaCard({ onError }: { onError: (m: string | null) => void }) {
+function SpdaCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [form, setForm] = useState<SpdaInput>({ protectionLevel: "II", firstStrokeCurrentKA: 10 });
   const [res, setRes] = useState<SpdaResult | null>(null);
 
   async function calc() {
     onError(null);
     try {
-      setRes(await analyzeSpda(form));
+      const r = await analyzeSpda(form);
+      setRes(r);
+      onResult({ spda: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));

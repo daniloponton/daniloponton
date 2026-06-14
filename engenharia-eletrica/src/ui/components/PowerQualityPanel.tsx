@@ -4,10 +4,13 @@ import {
   calculateVoltageDrop,
   sizeCapacitorBank,
   type CapacitorBankResult,
+  type CircuitResults,
   type MotorStartingInput,
   type MotorStartingResult,
   type VoltageDropResult,
 } from "@core/index";
+
+type ResultPatch = (patch: Partial<CircuitResults>) => void;
 
 const SECTIONS = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240];
 
@@ -23,20 +26,21 @@ interface Props {
   /** Sk" [MVA] vindo do módulo de curto-circuito, se houver. */
   linkedSkMVA?: number | null;
   onError: (msg: string | null) => void;
+  onResult: ResultPatch;
 }
 
-export function PowerQualityPanel({ linkedSkMVA, onError }: Props) {
+export function PowerQualityPanel({ linkedSkMVA, onError, onResult }: Props) {
   return (
     <div className="pq">
-      <VoltageDropCard onError={onError} />
-      <CapacitorCard onError={onError} />
-      <MotorStartingCard linkedSkMVA={linkedSkMVA} onError={onError} />
+      <VoltageDropCard onError={onError} onResult={onResult} />
+      <CapacitorCard onError={onError} onResult={onResult} />
+      <MotorStartingCard linkedSkMVA={linkedSkMVA} onError={onError} onResult={onResult} />
     </div>
   );
 }
 
 /* ───────────────────────── Queda de tensão (alimentador) ───────────────── */
-function VoltageDropCard({ onError }: { onError: (m: string | null) => void }) {
+function VoltageDropCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [baseV, setBaseV] = useState(380);
   const [maxPct, setMaxPct] = useState(4);
   const [segs, setSegs] = useState<Segment[]>([
@@ -52,7 +56,9 @@ function VoltageDropCard({ onError }: { onError: (m: string | null) => void }) {
   async function calc() {
     onError(null);
     try {
-      setRes(await calculateVoltageDrop({ system: "three", baseVoltageV: baseV, maxVoltageDropPct: maxPct, segments: segs }));
+      const r = await calculateVoltageDrop({ system: "three", baseVoltageV: baseV, maxVoltageDropPct: maxPct, segments: segs });
+      setRes(r);
+      onResult({ voltageDrop: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));
@@ -114,7 +120,7 @@ function VoltageDropCard({ onError }: { onError: (m: string | null) => void }) {
 }
 
 /* ───────────────────────── Banco de capacitores ────────────────────────── */
-function CapacitorCard({ onError }: { onError: (m: string | null) => void }) {
+function CapacitorCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [p, setP] = useState(100);
   const [cos1, setCos1] = useState(0.8);
   const [cos2, setCos2] = useState(0.95);
@@ -124,7 +130,9 @@ function CapacitorCard({ onError }: { onError: (m: string | null) => void }) {
   async function calc() {
     onError(null);
     try {
-      setRes(await sizeCapacitorBank({ activePowerKW: p, currentCosPhi: cos1, targetCosPhi: cos2, voltageV: v }));
+      const r = await sizeCapacitorBank({ activePowerKW: p, currentCosPhi: cos1, targetCosPhi: cos2, voltageV: v });
+      setRes(r);
+      onResult({ capacitorBank: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));
@@ -153,7 +161,7 @@ function CapacitorCard({ onError }: { onError: (m: string | null) => void }) {
 }
 
 /* ───────────────────────── Partida de motores ──────────────────────────── */
-function MotorStartingCard({ linkedSkMVA, onError }: { linkedSkMVA?: number | null; onError: (m: string | null) => void }) {
+function MotorStartingCard({ linkedSkMVA, onError, onResult }: { linkedSkMVA?: number | null; onError: (m: string | null) => void; onResult: ResultPatch }) {
   const [form, setForm] = useState<MotorStartingInput>({
     motorPowerKW: 75, voltageV: 380, efficiency: 0.93, cosPhi: 0.86,
     lockedRotorRatio: 7, startingCosPhi: 0.3, startMethod: "DOL",
@@ -168,7 +176,9 @@ function MotorStartingCard({ linkedSkMVA, onError }: { linkedSkMVA?: number | nu
   async function calc() {
     onError(null);
     try {
-      setRes(await analyzeMotorStarting({ ...form, sourceShortCircuitMVA: skMVA }));
+      const r = await analyzeMotorStarting({ ...form, sourceShortCircuitMVA: skMVA });
+      setRes(r);
+      onResult({ motorStarting: r });
     } catch (e) {
       setRes(null);
       onError(e instanceof Error ? e.message : String(e));

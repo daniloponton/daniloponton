@@ -11,6 +11,7 @@ import {
   type CableSizingInput,
   type CableSizingResult,
   type Circuit,
+  type CircuitResults,
   type Project,
   type ProjectMeta,
   type SelectivityInput,
@@ -58,6 +59,10 @@ export function App() {
   const [cableResult, setCableResult] = useState<CableSizingResult | null>(null);
   const [scResult, setScResult] = useState<ShortCircuitResult | null>(null);
   const [selResult, setSelResult] = useState<SelectivityResult | null>(null);
+  // Resultados dos módulos 4–6 (painéis avulsos), para o memorial.
+  const [extraResults, setExtraResults] = useState<Partial<CircuitResults>>({});
+  const patchExtra = (patch: Partial<CircuitResults>) =>
+    setExtraResults((e) => ({ ...e, ...patch }));
 
   const refreshList = () => store.list().then(setProjects);
   useEffect(() => {
@@ -119,6 +124,7 @@ export function App() {
     setScResult(null);
     setSelResult(null);
     setCableResult(null);
+    setExtraResults({});
     setDirty(false);
     setLoadNonce((n) => n + 1);
   }
@@ -143,6 +149,7 @@ export function App() {
     setScResult(null);
     setSelResult(null);
     setCableResult(null);
+    setExtraResults({});
     setDirty(false);
     setLoadNonce((n) => n + 1);
   }
@@ -232,19 +239,22 @@ export function App() {
         )}
 
         {tab === "power_quality" && (
-          <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} />
+          <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} onResult={patchExtra} />
         )}
 
-        {tab === "grounding" && <GroundingPanel onError={setError} />}
+        {tab === "grounding" && <GroundingPanel onError={setError} onResult={patchExtra} />}
 
-        {tab === "pv" && <PvPanel onError={setError} />}
+        {tab === "pv" && <PvPanel onError={setError} onResult={patchExtra} />}
 
         {tab === "memorial" && (
           <MemorialView
             projectName={projectName}
-            shortCircuit={scResult}
-            protection={selResult}
-            cable={cableResult}
+            results={{
+              shortCircuit: scResult,
+              protection: selResult,
+              cable: cableResult,
+              ...extraResults,
+            }}
           />
         )}
       </main>
