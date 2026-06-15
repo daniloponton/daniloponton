@@ -52,7 +52,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **CableSizing** — dimensionamento de cabos BT (ampacidade + queda de tensão + curto-circuito)
 - [x] **Short-Circuit IEC 60909** — I"k trifásica, fator κ, pico ip, S"k
 - [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
-- [x] **Arc Flash** — energia incidente, fronteira de arco e EPI (IEEE 1584-2002 / NFPA 70E)
+- [x] **Arc Flash** — corrente de arco, energia incidente, fronteira de arco e EPI (IEEE Std 1584-2018 / NFPA 70E)
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador, banco de capacitores, banco dessintonizado, partida de motores, harmônicas (IEEE 519)
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis e malha detalhada Em/Es (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)

@@ -105,13 +105,13 @@ function sectionFromArcFlash(r: ArcFlashResult): MemorialSection {
   return {
     id: "arc_flash",
     title: "Análise de Arco Elétrico",
-    norm: "IEEE Std 1584-2002 / NFPA 70E",
+    norm: "IEEE Std 1584-2018 / NFPA 70E",
     traceId: r.traceId,
     inputHash: r.inputHash,
     compliance: r.status,
     summary: [
       { label: "Energia incidente", value: `${r.incidentEnergyCalCm2} cal/cm²` },
-      { label: "Corrente de arco Ia", value: `${r.arcingCurrentKA} kA` },
+      { label: "Corrente de arco I″arc", value: `${r.arcingCurrentKA} kA` },
       { label: "Fronteira de arco", value: `${r.arcFlashBoundaryM} m` },
       { label: "EPI recomendado", value: r.ppeCategory },
     ],
