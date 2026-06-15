@@ -4,6 +4,7 @@ import type { ShortCircuitResult } from "../modules/shortCircuit";
 import type { SelectivityResult } from "../modules/protection";
 import type {
   CapacitorBankResult,
+  DetunedFilterResult,
   HarmonicsResult,
   MotorStartingResult,
   VoltageDropResult,
@@ -55,6 +56,7 @@ export interface CircuitResults {
   readonly capacitorBank?: CapacitorBankResult | null;
   readonly motorStarting?: MotorStartingResult | null;
   readonly harmonics?: HarmonicsResult | null;
+  readonly detunedFilter?: DetunedFilterResult | null;
   readonly grounding?: GroundingResult | null;
   readonly groundGrid?: GroundGridResult | null;
   readonly spda?: SpdaResult | null;
@@ -216,6 +218,24 @@ function sectionFromHarmonics(r: HarmonicsResult): MemorialSection {
   };
 }
 
+function sectionFromDetunedFilter(r: DetunedFilterResult): MemorialSection {
+  return {
+    id: "detuned_filter",
+    title: "Banco Dessintonizado (anti-harmônico)",
+    norm: "IEC 61642 / IEEE 1531",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Ordem de sintonia", value: `${r.tuningOrder} (${r.tuningFrequencyHz} Hz)` },
+      { label: "Capacitor (tensão / potência nominais)", value: `${r.capacitorRatedVoltageV} V · ${r.capacitorReactiveKvar} kvar` },
+      { label: "Reator", value: `${r.reactorReactanceOhm} Ω · ${r.reactorInductanceMh} mH` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
 function sectionFromGrounding(r: GroundingResult): MemorialSection {
   return {
     id: "grounding",
@@ -309,6 +329,7 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   if (results.capacitorBank) sections.push(sectionFromCapacitorBank(results.capacitorBank));
   if (results.motorStarting) sections.push(sectionFromMotorStarting(results.motorStarting));
   if (results.harmonics) sections.push(sectionFromHarmonics(results.harmonics));
+  if (results.detunedFilter) sections.push(sectionFromDetunedFilter(results.detunedFilter));
   if (results.grounding) sections.push(sectionFromGrounding(results.grounding));
   if (results.groundGrid) sections.push(sectionFromGroundGrid(results.groundGrid));
   if (results.spda) sections.push(sectionFromSpda(results.spda));

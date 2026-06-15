@@ -53,7 +53,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **Short-Circuit IEC 60909** — I"k trifásica, fator κ, pico ip, S"k
 - [x] **Protection & Coordination** — curvas TCC IEC 60255, verificação de seletividade, gráfico log-log
 - [x] **Arc Flash** — energia incidente, fronteira de arco e EPI (IEEE 1584-2002 / NFPA 70E)
-- [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores, harmônicas (IEEE 519)
+- [x] **VoltageDrop & PowerFactor** — queda em alimentador, banco de capacitores, banco dessintonizado, partida de motores, harmônicas (IEEE 519)
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis e malha detalhada Em/Es (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)
 - [x] **Documentation & Compliance** — memorial imprimível (PDF via navegador) com matriz de conformidade

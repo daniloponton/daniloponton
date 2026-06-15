@@ -19,6 +19,7 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Proteção | Curva inversa SI (t = TMS·k/((I/Is)^α−1)) | IEC 60255-151 | 0,5 % | ✅ |
 | Arco elétrico | Energia incidente, Ia, fronteira de arco | IEEE 1584-2002 | 5 % | ✅ |
 | Harmônicas | Limites de TDD/individual (Isc/IL) e THD de tensão | IEEE 519-2014 Tab. 1 e 2 | exato | ✅ |
+| Filtro dessintonizado | Ordem de sintonia, sobretensão do capacitor, reator | IEC 61642 / IEEE 1531 | 1 % | ✅ |
 | Queda de tensão | Método fasorial ΔU = k·I·L·(R·cosφ+X·senφ) | IEC 60364-5-52 Anexo | 2 % | ✅ |
 | Fotovoltaico | Correção térmica de Voc e nº de módulos/string | NBR 16690 / IEC 62548 | 0,5 % | ✅ |
 | Ampacidade (tabela) | Capacidade de condução PVC/cobre (B1, B2, C) | NBR 5410:2004 Tab. 36 | exato | ✅ |

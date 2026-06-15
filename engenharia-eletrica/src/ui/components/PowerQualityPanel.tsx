@@ -4,8 +4,10 @@ import {
   calculateVoltageDrop,
   checkHarmonics,
   sizeCapacitorBank,
+  sizeDetunedFilter,
   type CapacitorBankResult,
   type CircuitResults,
+  type DetunedFilterResult,
   type HarmonicsInput,
   type HarmonicsResult,
   type MotorStartingInput,
@@ -39,9 +41,51 @@ export function PowerQualityPanel({ linkedSkMVA, linkedIkKA, onError, onResult }
     <div className="pq">
       <VoltageDropCard onError={onError} onResult={onResult} />
       <CapacitorCard onError={onError} onResult={onResult} />
+      <DetunedFilterCard onError={onError} onResult={onResult} />
       <MotorStartingCard linkedSkMVA={linkedSkMVA} onError={onError} onResult={onResult} />
       <HarmonicsCard linkedIkKA={linkedIkKA} onError={onError} onResult={onResult} />
     </div>
+  );
+}
+
+function DetunedFilterCard({ onError, onResult }: { onError: (m: string | null) => void; onResult: ResultPatch }) {
+  const [v, setV] = useState(380);
+  const [kvar, setKvar] = useState(50);
+  const [p, setP] = useState(7);
+  const [res, setRes] = useState<DetunedFilterResult | null>(null);
+
+  async function calc() {
+    onError(null);
+    try {
+      const r = await sizeDetunedFilter({ systemVoltageV: v, reactivePowerKvar: kvar, detuningFactorPercent: p });
+      setRes(r);
+      onResult({ detunedFilter: r });
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Banco dessintonizado (anti-harmônico)</h3>
+      <div className="grid">
+        <label className="field"><span>Tensão [V]</span><input type="number" value={v} onChange={(e) => setV(Number(e.target.value))} /></label>
+        <label className="field"><span>Qc a entregar [kvar]</span><input type="number" value={kvar} onChange={(e) => setKvar(Number(e.target.value))} /></label>
+        <label className="field"><span>Fator de dessintonia p [%]</span><input type="number" step="0.5" value={p} onChange={(e) => setP(Number(e.target.value))} /></label>
+      </div>
+      <div className="project-actions"><button type="button" onClick={calc}>Dimensionar filtro</button></div>
+      {res && (
+        <div className="result-mini">
+          <p>
+            Sintonia: <strong>{res.tuningOrder}ª ({res.tuningFrequencyHz} Hz)</strong>{" "}
+            <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : res.status === "warning" ? "⚠️" : "❌"}</span>
+          </p>
+          <p className="muted">Capacitor: {res.capacitorRatedVoltageV} V · {res.capacitorReactiveKvar} kvar · Reator: {res.reactorInductanceMh} mH</p>
+          {res.warnings.map((w) => <p key={w.code} className="muted">⚠️ {w.message}</p>)}
+        </div>
+      )}
+    </section>
   );
 }
 

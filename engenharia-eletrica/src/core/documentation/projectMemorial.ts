@@ -59,6 +59,7 @@ export function buildProjectMemorial(
     capacitorBank: projectExtras.capacitorBank,
     motorStarting: projectExtras.motorStarting,
     harmonics: projectExtras.harmonics,
+    detunedFilter: projectExtras.detunedFilter,
     grounding: projectExtras.grounding,
     groundGrid: projectExtras.groundGrid,
     spda: projectExtras.spda,
