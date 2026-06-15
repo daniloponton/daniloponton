@@ -27,6 +27,11 @@ export function CircuitEditor({ circuit, results, evaluating, onChange, onEvalua
   return (
     <div className="editor-grid">
       <div className="card">
+        <p className="editor-hint">
+          Monte o circuito clicando nos elementos do unifilar; depois clique em
+          “Avaliar circuito completo” para calcular curto → proteção → cabo e ver a
+          conformidade. O memorial e a matriz de conformidade saem na aba 8.
+        </p>
         <div className="project-actions" style={{ marginBottom: "0.5rem" }}>
           <button type="button" className="primary" onClick={onEvaluate} disabled={evaluating}>
             {evaluating ? "Avaliando…" : "▶ Avaliar circuito completo"}

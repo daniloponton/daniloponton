@@ -7,7 +7,7 @@
 export type Insulation = "PVC" | "XLPE";
 export type Conductor = "Cu" | "Al";
 /** Métodos de referência de instalação (NBR 5410 Tab. 33 / IEC 60364-5-52). */
-export type InstallMethod = "A1" | "A2" | "B1" | "B2" | "C" | "D";
+export type InstallMethod = "A1" | "A2" | "B1" | "B2" | "C" | "D" | "E" | "F";
 /** Nº de condutores carregados: 2 (monofásico) ou 3 (trifásico). */
 export type LoadedConductors = 2 | 3;
 

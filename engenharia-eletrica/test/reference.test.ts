@@ -104,6 +104,20 @@ describe("Ref. NBR 5410:2004 — métodos A1 e A2 (cobre)", () => {
   });
 });
 
+describe("Ref. NBR 5410:2004 — métodos E e F (ar livre, Tab. 38/39)", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("método E (cobre, PVC e XLPE)", () => {
+    expect(amp.Cu.E.PVC[2][240]).toBe(514);
+    expect(amp.Cu.E.PVC[3][1.5]).toBe(18.5);
+    expect(amp.Cu.E.XLPE[2][240]).toBe(641);
+  });
+  it("método F — trifólio em 3 condutores (cobre/alumínio)", () => {
+    expect(amp.Cu.F.PVC[3][1.5]).toBe(17);
+    expect(amp.Cu.F.XLPE[2][240]).toBe(679);
+    expect(amp.Al.F.XLPE[2][240]).toBe(530);
+  });
+});
+
 describe("Ref. NBR 5410:2004 — método D (enterrado) e correções de solo", () => {
   const amp = IEC_60364_5_52.ampacity;
   it("ampacidade D (cobre e alumínio, Tab. 36/37 coluna D)", () => {

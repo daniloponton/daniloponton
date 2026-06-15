@@ -33,11 +33,15 @@ e o que ainda exige conferência. A suíte de referência fica em
 1. **Tabelas de capacidade de condução (ampacidade)** — `src/core/norms/iec60364.ts`.
    A ampacidade de **cobre e alumínio**, para **PVC** (Tabela 36) e **EPR/XLPE**
    (Tabela 37), métodos **A1, A2, B1, B2, C e D**, 2 e 3 condutores carregados,
+   e **E, F** (ar livre, Tab. 38/39; F-3 = trifólio),
    foi **conferida e travada contra a ABNT NBR 5410:2004**. O método **D**
    (enterrado) usa as correções de solo: temperatura do solo (Tab. 40, base
    20 °C), resistividade térmica (Tab. 41, base 2,5 K·m/W) e agrupamento de
    cabos diretamente enterrados justapostos (Tab. 44, distância nula —
    conservador; distâncias maiores e duto enterrado ficam como refinamento).
+   Para os métodos E/F (bandejas/ar livre) usa-se o agrupamento de feixe
+   (Tab. 42, disposição 1) — conservador; bandejas (Tab. 42 disp. 4/5 e Tab. 43)
+   ficam como refinamento. O método **G** (espaçados) não está implementado.
 
 2. **Fatores de correção** (temperatura — Tab. 40; agrupamento — Tab. 42,
    disposição 1) — conferidos contra a NBR 5410:2004.

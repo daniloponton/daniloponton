@@ -96,6 +96,8 @@ export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, init
           <option value="B2">B2</option>
           <option value="C">C</option>
           <option value="D">D (enterrado)</option>
+          <option value="E">E (ar livre, multipolar)</option>
+          <option value="F">F (ar livre, unipolar)</option>
         </select>
       </Field>
       {form.installMethod === "D" && (
