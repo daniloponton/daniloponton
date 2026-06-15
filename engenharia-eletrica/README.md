@@ -56,6 +56,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador, banco de capacitores, banco dessintonizado, partida de motores, harmônicas (IEEE 519)
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis e malha detalhada Em/Es (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)
+- [x] **LoadSchedule** — quadro de cargas, fatores de demanda, equilíbrio de fases R/S/T, corrente de neutro e de demanda (NBR 5410 §4.2.1 / §6.3)
 - [x] **Documentation & Compliance** — memorial imprimível (PDF via navegador) com matriz de conformidade
 
 ## Normas (escopo inicial)

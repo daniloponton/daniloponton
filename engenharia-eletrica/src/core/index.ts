@@ -12,5 +12,6 @@ export * from "./modules/powerQuality";
 export * from "./modules/grounding";
 export * from "./modules/arcFlash";
 export * from "./modules/pv";
+export * from "./modules/loadSchedule";
 export * from "./project";
 export * from "./documentation";

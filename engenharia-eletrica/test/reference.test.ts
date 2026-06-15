@@ -16,6 +16,7 @@ import { analyzeGrounding } from "@core/modules/grounding";
 import { inverseTime } from "@core/modules/protection";
 import { rollingSphereRadius } from "@core/modules/grounding";
 import { sizePvString } from "@core/modules/pv";
+import { analyzeLoadSchedule } from "@core/modules/loadSchedule";
 import { IEC_60364_5_52 } from "@core/norms";
 
 /** Exige erro relativo (%) ≤ tolerância. */
@@ -220,5 +221,24 @@ describe("Ref. NBR 16690 — string fotovoltaica", () => {
     });
     expectClose(r.vocAtMinTempV, 54.18, 0.5, "Voc(min)");
     expect(r.maxModulesByVoltage).toBe(20);
+  });
+});
+
+describe("Ref. NBR 5410 — quadro de cargas (demanda/equilíbrio)", () => {
+  it("3×3 kW resistivos (L1/L2/L3) 380/220 V → I/fase=13,64 A, I_dem=13,67 A, equilíbrio", async () => {
+    // Por fase: I = 3000/220 = 13,636 A. Equilibrado → neutro ≈ 0.
+    // Demanda: S = 9 kVA → I = 9000/(√3·380) = 13,67 A.
+    const r = await analyzeLoadSchedule({
+      lineVoltageV: 380, phaseVoltageV: 220,
+      loads: [
+        { name: "L1", activePowerW: 3000, powerFactor: 1, connection: "L1" },
+        { name: "L2", activePowerW: 3000, powerFactor: 1, connection: "L2" },
+        { name: "L3", activePowerW: 3000, powerFactor: 1, connection: "L3" },
+      ],
+    });
+    expectClose(r.phaseLoads[0].currentA, 13.64, 1.0, "I/fase");
+    expectClose(r.demandCurrentA, 13.67, 1.0, "I_dem");
+    expect(r.phaseUnbalancePct).toBe(0);
+    expectClose(r.neutralCurrentA + 1, 1, 1.0, "neutro≈0");
   });
 });

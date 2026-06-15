@@ -28,6 +28,7 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Ampacidade (tabela) | Capacidade de condução alumínio (PVC e EPR/XLPE) | NBR 5410:2004 Tab. 36 e 37 | exato | ✅ |
 | Correção (tabela) | Fatores de temperatura e agrupamento | NBR 5410:2004 Tab. 40 e 42 | exato | ✅ |
 | Seção mínima (tabela) | Seção mínima por tipo de circuito | NBR 5410:2004 Tab. 47 | exato | ✅ |
+| Quadro de cargas | Demanda Σ(P·q·Fd), corrente I=S/(√3·V), equilíbrio de fases | NBR 5410:2004 §4.2.1 / §6.3 | 1 % | ✅ |
 
 ## Limitações conhecidas (a conferir antes de uso em projeto real)
 
@@ -78,6 +79,19 @@ e o que ainda exige conferência. A suíte de referência fica em
    resultado. A ampacidade do alumínio é exata (norma); a queda de tensão do
    alumínio é aproximada até dispor de uma tabela oficial de resistência.
    Reatâncias dos condutores: valores típicos.
+
+7. **Quadro de cargas (demanda/equilíbrio)** — `src/core/modules/loadSchedule`.
+   Usa o **balanço de potências por fase** (prática consagrada de quadro de
+   cargas): potência ativa/reativa acumulada por fase, corrente de linha
+   I = S_fase/V_LN, e corrente de demanda do alimentador S/(√3·V_LL). Os
+   **fatores de demanda** (NBR 5410 §4.2.1) são **entradas explícitas** (1,0 por
+   padrão) — as tabelas de demanda por tipo de carga (residências, motores) não
+   são embutidas para não fixar valores normativos sem a fonte. Cargas
+   fase-fase têm a potência dividida igualmente entre as duas fases (convenção).
+   A corrente de neutro usa a aproximação IN = √(ΣI² − ΣI_iI_j), válida para
+   cargas a 120° com mesmo fator de potência; correntes harmônicas (3ª no
+   neutro) não são consideradas. O alvo de desequilíbrio (15 % padrão) é **boa
+   prática**, configurável — não um limite normativo.
 
 ## Como adicionar um novo caso de referência
 

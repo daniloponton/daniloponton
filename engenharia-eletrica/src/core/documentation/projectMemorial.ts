@@ -64,6 +64,7 @@ export function buildProjectMemorial(
     groundGrid: projectExtras.groundGrid,
     spda: projectExtras.spda,
     pvString: projectExtras.pvString,
+    loadSchedule: projectExtras.loadSchedule,
   });
 
   let overall: ComplianceStatus = "ok";

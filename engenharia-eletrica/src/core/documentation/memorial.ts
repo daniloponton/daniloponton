@@ -12,6 +12,7 @@ import type {
 import type { GroundingResult, GroundGridResult, SpdaResult } from "../modules/grounding";
 import type { ArcFlashResult } from "../modules/arcFlash";
 import type { PvStringResult } from "../modules/pv";
+import type { LoadScheduleResult } from "../modules/loadSchedule";
 import { ENGINE_VERSION } from "../version";
 
 /**
@@ -61,6 +62,7 @@ export interface CircuitResults {
   readonly groundGrid?: GroundGridResult | null;
   readonly spda?: SpdaResult | null;
   readonly pvString?: PvStringResult | null;
+  readonly loadSchedule?: LoadScheduleResult | null;
 }
 
 function sectionFromShortCircuit(r: ShortCircuitResult): MemorialSection {
@@ -317,6 +319,28 @@ function sectionFromPvString(r: PvStringResult): MemorialSection {
   };
 }
 
+function sectionFromLoadSchedule(r: LoadScheduleResult): MemorialSection {
+  return {
+    id: "load_schedule",
+    title: "Quadro de Cargas e Demanda",
+    norm: "ABNT NBR 5410:2004 §4.2.1 / §6.3",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Potência instalada", value: `${r.installedActiveKW} kW` },
+      { label: "Potência de demanda", value: `${r.demandedApparentKVA} kVA (${r.demandedActiveKW} kW)` },
+      { label: "FP de demanda", value: String(r.demandPowerFactor) },
+      { label: "Corrente de demanda", value: `${r.demandCurrentA} A` },
+      { label: "Correntes por fase (L1/L2/L3)", value: r.phaseLoads.map((p) => `${p.currentA} A`).join(" / ") },
+      { label: "Desequilíbrio entre fases", value: `${r.phaseUnbalancePct} %` },
+      { label: "Corrente no neutro", value: `${r.neutralCurrentA} A` },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
 const RANK: Record<ComplianceStatus, number> = { ok: 0, warning: 1, fail: 2 };
 
 /** Monta o documento de memorial a partir dos resultados disponíveis. */
@@ -335,6 +359,7 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   if (results.groundGrid) sections.push(sectionFromGroundGrid(results.groundGrid));
   if (results.spda) sections.push(sectionFromSpda(results.spda));
   if (results.pvString) sections.push(sectionFromPvString(results.pvString));
+  if (results.loadSchedule) sections.push(sectionFromLoadSchedule(results.loadSchedule));
 
   let overall: ComplianceStatus = "ok";
   for (const s of sections) {

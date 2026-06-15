@@ -33,9 +33,10 @@ import { GroundingPanel } from "./components/GroundingPanel";
 import { PvPanel } from "./components/PvPanel";
 import { MemorialView } from "./components/MemorialView";
 import { ArcFlashPanel } from "./components/ArcFlashPanel";
+import { LoadSchedulePanel } from "./components/LoadSchedulePanel";
 import { CircuitEditor } from "./components/CircuitEditor";
 
-type Tab = "editor" | "cable" | "short_circuit" | "protection" | "arc_flash" | "power_quality" | "grounding" | "pv" | "memorial";
+type Tab = "editor" | "cable" | "short_circuit" | "protection" | "arc_flash" | "power_quality" | "grounding" | "pv" | "load_schedule" | "memorial";
 
 function seedCircuit(): Circuit {
   return {
@@ -309,8 +310,11 @@ export function App() {
         <button className={tab === "pv" ? "tab active" : "tab"} onClick={() => goTab("pv")}>
           7 · Fotovoltaico (GD)
         </button>
+        <button className={tab === "load_schedule" ? "tab active" : "tab"} onClick={() => goTab("load_schedule")}>
+          8 · Quadro de Cargas
+        </button>
         <button className={tab === "memorial" ? "tab active" : "tab"} onClick={() => goTab("memorial")}>
-          8 · Memorial
+          9 · Memorial
         </button>
       </nav>
 
@@ -377,6 +381,8 @@ export function App() {
         )}
 
         {tab === "pv" && <PvPanel onError={setError} onResult={patchExtra} />}
+
+        {tab === "load_schedule" && <LoadSchedulePanel onError={setError} onResult={patchExtra} />}
 
         {tab === "memorial" && (
           <MemorialView projectName={projectName} circuits={circuits} extras={extraResults} />
