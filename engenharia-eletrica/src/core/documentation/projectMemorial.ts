@@ -58,6 +58,7 @@ export function buildProjectMemorial(
     voltageDrop: projectExtras.voltageDrop,
     capacitorBank: projectExtras.capacitorBank,
     motorStarting: projectExtras.motorStarting,
+    harmonics: projectExtras.harmonics,
     grounding: projectExtras.grounding,
     groundGrid: projectExtras.groundGrid,
     spda: projectExtras.spda,

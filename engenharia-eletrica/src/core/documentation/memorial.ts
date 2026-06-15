@@ -4,6 +4,7 @@ import type { ShortCircuitResult } from "../modules/shortCircuit";
 import type { SelectivityResult } from "../modules/protection";
 import type {
   CapacitorBankResult,
+  HarmonicsResult,
   MotorStartingResult,
   VoltageDropResult,
 } from "../modules/powerQuality";
@@ -53,6 +54,7 @@ export interface CircuitResults {
   readonly voltageDrop?: VoltageDropResult | null;
   readonly capacitorBank?: CapacitorBankResult | null;
   readonly motorStarting?: MotorStartingResult | null;
+  readonly harmonics?: HarmonicsResult | null;
   readonly grounding?: GroundingResult | null;
   readonly groundGrid?: GroundGridResult | null;
   readonly spda?: SpdaResult | null;
@@ -193,6 +195,27 @@ function sectionFromMotorStarting(r: MotorStartingResult): MemorialSection {
   };
 }
 
+function sectionFromHarmonics(r: HarmonicsResult): MemorialSection {
+  return {
+    id: "harmonics",
+    title: "Distorção Harmônica",
+    norm: "IEEE Std 519-2014",
+    traceId: r.traceId,
+    inputHash: r.inputHash,
+    compliance: r.status,
+    summary: [
+      { label: "Relação Isc/IL", value: String(r.shortCircuitRatio) },
+      { label: "TDD", value: `${r.tddPercent}% (limite ${r.tddLimitPercent}%) ${r.tddOk ? "✓" : "✗"}` },
+      ...(r.voltageThdPercent != null
+        ? [{ label: "THD de tensão", value: `${r.voltageThdPercent}% (limite ${r.voltageThdLimitPercent}%) ${r.voltageThdOk ? "✓" : "✗"}` }]
+        : []),
+      { label: "Ordens fora do limite", value: r.perHarmonic.filter((h) => !h.ok).map((h) => h.order).join(", ") || "nenhuma" },
+    ],
+    steps: r.steps,
+    warnings: r.warnings,
+  };
+}
+
 function sectionFromGrounding(r: GroundingResult): MemorialSection {
   return {
     id: "grounding",
@@ -285,6 +308,7 @@ export function buildMemorial(projectName: string, results: CircuitResults): Mem
   if (results.voltageDrop) sections.push(sectionFromVoltageDrop(results.voltageDrop));
   if (results.capacitorBank) sections.push(sectionFromCapacitorBank(results.capacitorBank));
   if (results.motorStarting) sections.push(sectionFromMotorStarting(results.motorStarting));
+  if (results.harmonics) sections.push(sectionFromHarmonics(results.harmonics));
   if (results.grounding) sections.push(sectionFromGrounding(results.grounding));
   if (results.groundGrid) sections.push(sectionFromGroundGrid(results.groundGrid));
   if (results.spda) sections.push(sectionFromSpda(results.spda));

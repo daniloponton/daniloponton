@@ -2,9 +2,12 @@ import { useState } from "react";
 import {
   analyzeMotorStarting,
   calculateVoltageDrop,
+  checkHarmonics,
   sizeCapacitorBank,
   type CapacitorBankResult,
   type CircuitResults,
+  type HarmonicsInput,
+  type HarmonicsResult,
   type MotorStartingInput,
   type MotorStartingResult,
   type VoltageDropResult,
@@ -25,17 +28,105 @@ interface Segment {
 interface Props {
   /** Sk" [MVA] vindo do módulo de curto-circuito, se houver. */
   linkedSkMVA?: number | null;
+  /** I"k [kA] vinda do módulo de curto-circuito, se houver. */
+  linkedIkKA?: number | null;
   onError: (msg: string | null) => void;
   onResult: ResultPatch;
 }
 
-export function PowerQualityPanel({ linkedSkMVA, onError, onResult }: Props) {
+export function PowerQualityPanel({ linkedSkMVA, linkedIkKA, onError, onResult }: Props) {
   return (
     <div className="pq">
       <VoltageDropCard onError={onError} onResult={onResult} />
       <CapacitorCard onError={onError} onResult={onResult} />
       <MotorStartingCard linkedSkMVA={linkedSkMVA} onError={onError} onResult={onResult} />
+      <HarmonicsCard linkedIkKA={linkedIkKA} onError={onError} onResult={onResult} />
     </div>
+  );
+}
+
+function HarmonicsCard({ linkedIkKA, onError, onResult }: { linkedIkKA?: number | null; onError: (m: string | null) => void; onResult: ResultPatch }) {
+  const [voltageKV, setVoltageKV] = useState(0.38);
+  const [loadCurrentA, setLoadCurrentA] = useState(200);
+  const [iscA, setIscA] = useState(20000);
+  const [useLinked, setUseLinked] = useState(false);
+  const [vthd, setVthd] = useState(0);
+  const [rows, setRows] = useState<{ order: number; currentPercentIL: number }[]>([
+    { order: 5, currentPercentIL: 18 },
+    { order: 7, currentPercentIL: 12 },
+    { order: 11, currentPercentIL: 7 },
+    { order: 13, currentPercentIL: 5 },
+  ]);
+  const [res, setRes] = useState<HarmonicsResult | null>(null);
+
+  const effIscA = useLinked && linkedIkKA ? linkedIkKA * 1000 : iscA;
+
+  function setRow(i: number, patch: Partial<{ order: number; currentPercentIL: number }>) {
+    setRows((r) => r.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+  }
+
+  async function calc() {
+    onError(null);
+    try {
+      const input: HarmonicsInput = {
+        systemVoltageKV: voltageKV,
+        iscA: effIscA,
+        loadCurrentA,
+        harmonics: rows,
+        ...(vthd > 0 ? { voltageThdPercent: vthd } : {}),
+      };
+      const r = await checkHarmonics(input);
+      setRes(r);
+      onResult({ harmonics: r });
+    } catch (e) {
+      setRes(null);
+      onError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
+  return (
+    <section className="card">
+      <h3>Harmônicas — limites de distorção (IEEE 519)</h3>
+      <div className="grid">
+        <label className="field"><span>Tensão [kV]</span><input type="number" step="0.01" value={voltageKV} onChange={(e) => setVoltageKV(Number(e.target.value))} /></label>
+        <label className="field"><span>Isc [A]</span><input type="number" value={effIscA} disabled={useLinked && !!linkedIkKA} onChange={(e) => setIscA(Number(e.target.value))} /></label>
+        <label className="field"><span>IL (demanda) [A]</span><input type="number" value={loadCurrentA} onChange={(e) => setLoadCurrentA(Number(e.target.value))} /></label>
+        <label className="field"><span>THD tensão [%] (opc.)</span><input type="number" step="0.5" value={vthd} onChange={(e) => setVthd(Number(e.target.value))} /></label>
+        {linkedIkKA != null && (
+          <label className="field check"><span>Usar I"k do curto</span>
+            <input type="checkbox" checked={useLinked} onChange={(e) => setUseLinked(e.target.checked)} />
+            <small className="muted">{linkedIkKA} kA</small></label>
+        )}
+      </div>
+      <table className="steps">
+        <thead><tr><th>Ordem h</th><th>Ih [% de IL]</th><th></th></tr></thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i}>
+              <td><input type="number" value={row.order} onChange={(e) => setRow(i, { order: Number(e.target.value) })} /></td>
+              <td><input type="number" step="0.1" value={row.currentPercentIL} onChange={(e) => setRow(i, { currentPercentIL: Number(e.target.value) })} /></td>
+              <td><button type="button" className="ghost" onClick={() => setRows((r) => r.filter((_, idx) => idx !== i))}>×</button></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div className="project-actions">
+        <button type="button" className="ghost" onClick={() => setRows((r) => [...r, { order: 3, currentPercentIL: 0 }])}>+ ordem</button>
+        <button type="button" onClick={calc}>Verificar IEEE 519</button>
+      </div>
+      {res && (
+        <div className="result-mini">
+          <p>
+            TDD: <strong>{res.tddPercent}%</strong> (limite {res.tddLimitPercent}% · Isc/IL = {res.shortCircuitRatio}){" "}
+            <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : "❌"}</span>
+          </p>
+          <p className="muted">
+            Ordens fora do limite: {res.perHarmonic.filter((h) => !h.ok).map((h) => h.order).join(", ") || "nenhuma"}
+            {res.voltageThdPercent != null ? ` · THD tensão ${res.voltageThdPercent}% (lim. ${res.voltageThdLimitPercent}%)` : ""}
+          </p>
+        </div>
+      )}
+    </section>
   );
 }
 

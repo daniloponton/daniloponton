@@ -331,7 +331,7 @@ export function App() {
         )}
 
         {tab === "power_quality" && (
-          <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} onError={setError} onResult={patchExtra} />
+          <PowerQualityPanel linkedSkMVA={scResult?.skMVA ?? null} linkedIkKA={scResult?.ikSymKA ?? null} onError={setError} onResult={patchExtra} />
         )}
 
         {tab === "grounding" && (
