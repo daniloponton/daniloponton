@@ -36,6 +36,8 @@ export const cableSizingInputSchema = z.object({
   faultClearingS: z.number().positive().default(0.1),
   /** Resistividade térmica do solo [K·m/W] (método D; base 2,5). */
   soilThermalResistivityKmW: z.number().positive().default(2.5),
+  /** Tipo de circuito (define a seção mínima por razões mecânicas). */
+  circuitType: z.enum(["power", "lighting", "signaling"]).default("power"),
   /** Identificador do perfil normativo. */
   normId: z.string().default(DEFAULT_NORM_ID),
 });
@@ -66,12 +68,18 @@ export interface CableSizingResult {
   /** Seção mínima exigida pelo curto-circuito [mm²] (0 se critério desativado). */
   readonly minSectionByShortCircuitMm2: number;
   /** Critério que governou a escolha da seção. */
-  readonly governingCriterion: "ampacity" | "voltage_drop" | "short_circuit" | "none";
+  readonly governingCriterion:
+    | "ampacity"
+    | "voltage_drop"
+    | "short_circuit"
+    | "minimum_section"
+    | "none";
 
   readonly criteria: {
     readonly ampacity: CriterionResult;
     readonly voltageDrop: CriterionResult;
     readonly shortCircuit: CriterionResult;
+    readonly minimumSection: CriterionResult;
   };
   readonly overall: ComplianceStatus;
 

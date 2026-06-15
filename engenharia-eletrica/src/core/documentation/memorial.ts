@@ -136,6 +136,7 @@ function sectionFromCable(r: CableSizingResult): MemorialSection {
       { label: "Capacidade de condução", value: r.criteria.ampacity.detail },
       { label: "Queda de tensão (critério)", value: r.criteria.voltageDrop.detail },
       { label: "Curto-circuito (térmico)", value: r.criteria.shortCircuit.detail },
+      { label: "Seção mínima (Tab. 47)", value: r.criteria.minimumSection.detail },
     ],
     steps: r.steps,
     warnings: r.warnings,
@@ -357,6 +358,7 @@ function governing(c: CableSizingResult["governingCriterion"]): string {
     ampacity: "capacidade de condução",
     voltage_drop: "queda de tensão",
     short_circuit: "curto-circuito",
+    minimum_section: "seção mínima (mecânica)",
     none: "—",
   }[c];
 }

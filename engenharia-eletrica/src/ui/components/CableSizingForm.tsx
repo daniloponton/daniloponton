@@ -81,6 +81,13 @@ export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, init
           <option value="Al">Alumínio</option>
         </select>
       </Field>
+      <Field label="Tipo de circuito">
+        <select value={form.circuitType ?? "power"} onChange={sel("circuitType")}>
+          <option value="power">Força / tomadas</option>
+          <option value="lighting">Iluminação</option>
+          <option value="signaling">Sinalização / controle</option>
+        </select>
+      </Field>
       <Field label="Método de instalação">
         <select value={form.installMethod} onChange={sel("installMethod")}>
           <option value="A1">A1</option>

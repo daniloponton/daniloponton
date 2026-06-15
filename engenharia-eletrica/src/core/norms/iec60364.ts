@@ -189,4 +189,11 @@ export const IEC_60364_5_52: NormProfile = {
   soilThermalResistivityCorrection: { 1: 1.18, 1.5: 1.1, 2: 1.05, 2.5: 1.0, 3: 0.96 },
   // NBR 5410:2004 Tab. 44 — cabos diretamente enterrados, distância nula (justapostos).
   buriedGroupingCorrection: { 1: 1.0, 2: 0.75, 3: 0.65, 4: 0.6, 5: 0.55, 6: 0.5 },
+
+  // NBR 5410:2004 Tab. 47 — seção mínima por razões mecânicas (instalações fixas).
+  minimumSectionMm2: {
+    power: { Cu: 2.5, Al: 16 },
+    lighting: { Cu: 1.5, Al: 16 },
+    signaling: { Cu: 0.5, Al: 16 },
+  },
 };

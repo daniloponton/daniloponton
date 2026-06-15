@@ -54,4 +54,8 @@ export interface NormProfile {
   readonly soilThermalResistivityCorrection: SectionTable;
   /** Agrupamento de cabos diretamente enterrados (nº de circuitos -> fator). */
   readonly buriedGroupingCorrection: SectionTable;
+  /** Seção mínima [mm²] por tipo de circuito e material (NBR 5410 Tab. 47). */
+  readonly minimumSectionMm2: Readonly<
+    Record<"power" | "lighting" | "signaling", Readonly<Record<Conductor, number>>>
+  >;
 }

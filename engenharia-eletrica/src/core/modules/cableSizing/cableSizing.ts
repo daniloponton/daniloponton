@@ -139,7 +139,19 @@ export async function calculateCableSizing(
     });
   }
 
-  // ── Seleção final: a maior dentre as seções mínimas dos três critérios ──
+  // ── Critério 4: seção mínima por razões mecânicas (NBR 5410 Tab. 47) ────
+  const minMechSection = norm.minimumSectionMm2[inp.circuitType][inp.conductor];
+  const sMinMech = sectionsWithData.find((s) => s >= minMechSection) ?? null;
+  trace.step({
+    label: "Seção mínima por razões mecânicas",
+    formula: "S ≥ S_mín(tipo de circuito, material)",
+    inputs: { circuitType: inp.circuitType, conductor: inp.conductor, minMm2: minMechSection },
+    result: sMinMech ?? 0,
+    unit: "mm²",
+    normRef: `${norm.reference} — Tab. 47`,
+  });
+
+  // ── Seleção final: a maior dentre as seções mínimas dos critérios ──────
   const candidates: Array<{
     section: number | null;
     criterion: CableSizingResult["governingCriterion"];
@@ -147,6 +159,7 @@ export async function calculateCableSizing(
     { section: sAmp, criterion: "ampacity" },
     { section: sVD, criterion: "voltage_drop" },
     { section: sSC, criterion: "short_circuit" },
+    { section: sMinMech, criterion: "minimum_section" },
   ];
 
   const failed = candidates.some((c) => c.section === null);
@@ -228,13 +241,20 @@ export async function calculateCableSizing(
       ? { status: "ok", detail: `S = ${selected} mm² ≥ S_min = ${round(sMinShortCircuit, 2)} mm²` }
       : { status: "fail", detail: `S_min exigida = ${round(sMinShortCircuit, 2)} mm² não atendida.` };
 
-  const overall: ComplianceStatus = [
+  const minimumSectionCriterion: CriterionResult =
+    selected && selected >= minMechSection
+      ? { status: "ok", detail: `S = ${selected} mm² ≥ mínimo ${minMechSection} mm² (${inp.circuitType})` }
+      : { status: "fail", detail: `Seção mínima ${minMechSection} mm² (${inp.circuitType}) não atendida.` };
+
+  const allStatuses = [
     ampacityCriterion.status,
     voltageDropCriterion.status,
     shortCircuitCriterion.status,
-  ].includes("fail")
+    minimumSectionCriterion.status,
+  ];
+  const overall: ComplianceStatus = allStatuses.includes("fail")
     ? "fail"
-    : [ampacityCriterion.status, voltageDropCriterion.status, shortCircuitCriterion.status].includes("warning")
+    : allStatuses.includes("warning")
       ? "warning"
       : "ok";
 
@@ -263,6 +283,7 @@ export async function calculateCableSizing(
       ampacity: ampacityCriterion,
       voltageDrop: voltageDropCriterion,
       shortCircuit: shortCircuitCriterion,
+      minimumSection: minimumSectionCriterion,
     },
     overall,
     steps: trace.steps,

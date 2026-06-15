@@ -26,6 +26,7 @@ e o que ainda exige conferência. A suíte de referência fica em
 | Ampacidade (tabela) | Capacidade de condução EPR/XLPE/cobre (B1, B2, C) | NBR 5410:2004 Tab. 37 | exato | ✅ |
 | Ampacidade (tabela) | Capacidade de condução alumínio (PVC e EPR/XLPE) | NBR 5410:2004 Tab. 36 e 37 | exato | ✅ |
 | Correção (tabela) | Fatores de temperatura e agrupamento | NBR 5410:2004 Tab. 40 e 42 | exato | ✅ |
+| Seção mínima (tabela) | Seção mínima por tipo de circuito | NBR 5410:2004 Tab. 47 | exato | ✅ |
 
 ## Limitações conhecidas (a conferir antes de uso em projeto real)
 

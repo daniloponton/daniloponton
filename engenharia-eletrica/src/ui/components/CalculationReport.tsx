@@ -33,6 +33,7 @@ export function CalculationReport({ result: r }: { result: CableSizingResult }) 
         <Criterion name="Capacidade de condução" {...r.criteria.ampacity} />
         <Criterion name="Queda de tensão" {...r.criteria.voltageDrop} />
         <Criterion name="Curto-circuito (térmico)" {...r.criteria.shortCircuit} />
+        <Criterion name="Seção mínima (Tab. 47)" {...r.criteria.minimumSection} />
       </ul>
 
       {r.warnings.length > 0 && (
@@ -104,6 +105,7 @@ function governingLabel(c: CableSizingResult["governingCriterion"]): string {
     ampacity: "capacidade de condução",
     voltage_drop: "queda de tensão",
     short_circuit: "curto-circuito",
+    minimum_section: "seção mínima (mecânica)",
     none: "—",
   }[c];
 }

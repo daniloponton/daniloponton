@@ -69,6 +69,24 @@ describe("CableSizing — validação de entrada", () => {
     ).rejects.toThrow();
   });
 
+  it("carga pequena de força é governada pela seção mínima (2,5 mm² Cu)", async () => {
+    const r = await calculateCableSizing({
+      ...baseCase, ibAmps: 5, lengthM: 10, groupingCircuits: 1, ambientTempC: 30,
+      shortCircuitKA: 0, circuitType: "power",
+    });
+    expect(r.selectedSectionMm2).toBe(2.5);
+    expect(r.governingCriterion).toBe("minimum_section");
+    expect(r.criteria.minimumSection.status).toBe("ok");
+  });
+
+  it("iluminação admite seção mínima de 1,5 mm²", async () => {
+    const r = await calculateCableSizing({
+      ...baseCase, ibAmps: 5, lengthM: 10, groupingCircuits: 1, ambientTempC: 30,
+      shortCircuitKA: 0, circuitType: "lighting",
+    });
+    expect(r.selectedSectionMm2).toBe(1.5);
+  });
+
   it("dimensiona no método D (enterrado) usando correções de solo", async () => {
     const r = await calculateCableSizing({
       ...baseCase, installMethod: "D", ambientTempC: 25, groupingCircuits: 1, shortCircuitKA: 0,
