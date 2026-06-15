@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import {
+  buildComplianceMatrix,
   buildProjectMemorial,
   evaluateCircuit,
   type Circuit,
   type CircuitResults,
   type ComplianceStatus,
+  type MatrixStatus,
   type MemorialSection,
   type ProjectMemorialDocument,
 } from "@core/index";
@@ -21,6 +23,13 @@ const badge: Record<ComplianceStatus, string> = {
   ok: "✅ Conforme",
   warning: "⚠️ Com ressalvas",
   fail: "❌ Não conforme",
+};
+
+const matrixBadge: Record<MatrixStatus, string> = {
+  ok: "✅",
+  warning: "⚠️",
+  fail: "❌",
+  info: "—",
 };
 
 export function MemorialView({ projectName, circuits, extras }: Props) {
@@ -98,6 +107,34 @@ export function MemorialView({ projectName, circuits, extras }: Props) {
             </tbody>
           </table>
         </header>
+
+        <section className="memorial-section">
+          <h2>Matriz de Conformidade</h2>
+          {(() => {
+            const m = buildComplianceMatrix(doc);
+            return (
+              <>
+                <p className="muted">
+                  {m.counts.ok} conformes · {m.counts.warning} com ressalvas · {m.counts.fail} não conformes
+                  {m.counts.info ? ` · ${m.counts.info} informativos` : ""}
+                </p>
+                <table className="memorial-table">
+                  <thead><tr><th>Escopo</th><th>Item</th><th>Norma</th><th>Status</th></tr></thead>
+                  <tbody>
+                    {m.rows.map((r, i) => (
+                      <tr key={i}>
+                        <td>{r.scope}</td>
+                        <td>{r.item}</td>
+                        <td>{r.norm}</td>
+                        <td className={r.status === "info" ? "muted" : `status status-${r.status}`}>{matrixBadge[r.status]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
+            );
+          })()}
+        </section>
 
         {doc.circuits.map((group, gi) => (
           <section className="memorial-section" key={gi}>

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildProjectMemorial, evaluateCircuit, type Circuit, type CircuitResults } from "@core/index";
+import { buildProjectMemorial, buildComplianceMatrix, evaluateCircuit, type Circuit, type CircuitResults } from "@core/index";
 import { analyzeArcFlash } from "@core/modules/arcFlash";
 
 function feeder(name: string, ib: number): Circuit {
@@ -53,5 +53,25 @@ describe("buildProjectMemorial", () => {
     const data = await Promise.all([feeder("A", 45)].map(results));
     const doc = buildProjectMemorial("P", data, {});
     expect(["ok", "warning", "fail"]).toContain(doc.overallCompliance);
+  });
+});
+
+describe("buildComplianceMatrix", () => {
+  it("gera uma linha por item, com escopo, norma e status", async () => {
+    const data = await Promise.all([feeder("Alimentador A", 45)].map(results));
+    const doc = buildProjectMemorial("Quadro", data, {});
+    const m = buildComplianceMatrix(doc);
+    expect(m.rows.length).toBe(doc.circuits[0].sections.length);
+    expect(m.rows.every((r) => r.scope === "Alimentador A")).toBe(true);
+    const totals = m.counts.ok + m.counts.warning + m.counts.fail + m.counts.info;
+    expect(totals).toBe(m.rows.length);
+    expect(m.overall).toBe(doc.overallCompliance);
+  });
+
+  it("análises de projeto entram com escopo 'Projeto'", async () => {
+    const data = await Promise.all([feeder("A", 45)].map(results));
+    const arc = await analyzeArcFlash({ systemVoltageKV: 0.4, boltedFaultKA: 20, arcDurationS: 0.2 });
+    const m = buildComplianceMatrix(buildProjectMemorial("P", data, { arcFlash: arc }));
+    expect(m.rows.some((r) => r.scope === "Projeto" && r.item.includes("Arco"))).toBe(true);
   });
 });

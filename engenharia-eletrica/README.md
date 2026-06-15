@@ -56,7 +56,7 @@ no futuro, reaproveitado num backend, sem retrabalho.
 - [x] **VoltageDrop & PowerFactor** — queda em alimentador multi-trecho, banco de capacitores, partida de motores, harmônicas (IEEE 519)
 - [x] **Grounding & SPDA** — resistência/GPR/tensões toleráveis e malha detalhada Em/Es (IEEE 80), parâmetros de SPDA (IEC 62305 / NBR 5419)
 - [x] **PV & Geração Distribuída** — dimensionamento de string, faixa de MPPT, queda CC (NBR 16690 / IEC 62548)
-- [x] **Documentation** — memorial de cálculo imprimível (PDF via navegador, `@media print`)
+- [x] **Documentation & Compliance** — memorial imprimível (PDF via navegador) com matriz de conformidade
 
 ## Normas (escopo inicial)
 
@@ -125,8 +125,9 @@ A aba **Memorial** gera um documento **consolidado do projeto**: avalia todos os
 circuitos e emite uma seção por alimentador (com seu unifilar e os cálculos de
 curto, proteção e cabo), seguida das **análises do projeto** (arco elétrico, FP,
 partida de motor, aterramento, SPDA e fotovoltaico). Inclui dados do responsável
-técnico, semáforo de conformidade geral, memória de cálculo passo a passo e hash
-de auditoria por seção.
+técnico, uma **matriz de conformidade** (item × norma × status) como resumo
+executivo, semáforo de conformidade geral, memória de cálculo passo a passo e
+hash de auditoria por seção.
 A geração de PDF é feita pelo próprio navegador (Imprimir → Salvar como PDF),
 via `@media print` — sem dependências e mantendo o funcionamento offline.
 
