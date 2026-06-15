@@ -204,10 +204,19 @@ table.steps td {
 .project-actions .primary {
   margin-left: auto;
 }
-button.ghost {
+button.ghost,
+.import-btn {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text);
+}
+.import-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
 }
 button.primary {
   background: var(--ok);

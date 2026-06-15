@@ -3,6 +3,8 @@ import {
   createProject,
   createCircuit,
   evaluateCircuit,
+  serializeProject,
+  parseProject,
   MemoryProjectStore,
   type Circuit,
 } from "@core/project";
@@ -100,6 +102,21 @@ describe("MemoryProjectStore — CRUD", () => {
     expect(loaded?.circuits.map((c) => c.name)).toEqual([
       "Alimentador 1", "Alimentador 2", "Alimentador 3",
     ]);
+  });
+
+  it("exporta e importa um projeto (round-trip)", () => {
+    const p = createProject("Projeto Export");
+    p.circuits.push(createCircuit("C1"), createCircuit("C2"));
+    const text = serializeProject(p);
+    const back = parseProject(text);
+    expect(back.id).toBe(p.id);
+    expect(back.name).toBe("Projeto Export");
+    expect(back.circuits.map((c) => c.name)).toEqual(["C1", "C2"]);
+  });
+
+  it("rejeita arquivo que não é JSON ou não é projeto válido", () => {
+    expect(() => parseProject("isto não é json")).toThrow();
+    expect(() => parseProject(JSON.stringify({ foo: 1 }))).toThrow();
   });
 
   it("createProject/createCircuit geram ids únicos", () => {

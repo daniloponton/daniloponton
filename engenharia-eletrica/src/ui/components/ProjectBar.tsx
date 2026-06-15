@@ -12,6 +12,8 @@ interface Props {
   onLoad: (id: string) => void;
   onDelete: () => void;
   onEvaluate: () => void;
+  onExport: () => void;
+  onImport: (file: File) => void;
 }
 
 export function ProjectBar({
@@ -26,6 +28,8 @@ export function ProjectBar({
   onLoad,
   onDelete,
   onEvaluate,
+  onExport,
+  onImport,
 }: Props) {
   return (
     <div className="project-bar card">
@@ -52,6 +56,20 @@ export function ProjectBar({
         <button type="button" onClick={onNew}>Novo</button>
         <button type="button" onClick={onSave}>Salvar</button>
         <button type="button" className="ghost" onClick={onDelete} disabled={!currentId}>Excluir</button>
+        <button type="button" className="ghost" onClick={onExport}>Exportar</button>
+        <label className="ghost import-btn">
+          Importar
+          <input
+            type="file"
+            accept="application/json,.json"
+            style={{ display: "none" }}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) onImport(f);
+              e.target.value = "";
+            }}
+          />
+        </label>
         <button type="button" className="primary" onClick={onEvaluate} disabled={evaluating}>
           {evaluating ? "Avaliando…" : "▶ Avaliar circuito completo"}
         </button>

@@ -39,7 +39,9 @@ dos três módulos; **`evaluateCircuit`** os encadeia no núcleo, propagando I"k
 tempo de atuação. Um projeto agrupa **vários circuitos** (alimentadores), com
 seletor para alternar o circuito ativo, adicionar e remover. Projetos são
 persistidos via `ProjectStore` — **IndexedDB** no navegador (offline) e **em
-memória** nos testes, selecionados automaticamente.
+memória** nos testes, selecionados automaticamente. Projetos também podem ser
+**exportados/importados em arquivo JSON** (backup, transporte entre máquinas e
+compartilhamento), com validação na importação.
 
 A regra de ouro: **a UI depende apenas de `src/core` (via `@core`)**, nunca de
 arquivos internos. O motor pode ser executado em CI, validado por terceiros e,

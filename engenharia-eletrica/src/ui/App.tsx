@@ -7,6 +7,8 @@ import {
   createCircuit,
   createProject,
   evaluateCircuit,
+  serializeProject,
+  parseProject,
   ENGINE_VERSION,
   type CableSizingInput,
   type CableSizingResult,
@@ -207,6 +209,35 @@ export function App() {
     refreshList();
   }
 
+  async function onExport() {
+    const base = (currentId ? await store.get(currentId) : null) ?? createProject(projectName);
+    const project: Project = { ...base, name: projectName, circuits };
+    const blob = new Blob([serializeProject(project)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${(projectName || "projeto").replace(/[^\w-]+/g, "_")}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function onImport(file: File) {
+    setError(null);
+    try {
+      const project = parseProject(await file.text());
+      const cs = project.circuits.length ? project.circuits : [seedCircuit()];
+      setCurrentId(project.id);
+      setProjectName(project.name);
+      setCircuits(cs);
+      setActiveId(cs[0].id);
+      resetResults();
+      setDirty(true);
+      setLoadNonce((n) => n + 1);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
+  }
+
   return (
     <div className="app">
       <header className="no-print">
@@ -228,6 +259,8 @@ export function App() {
         onLoad={onLoad}
         onDelete={onDelete}
         onEvaluate={onEvaluate}
+        onExport={onExport}
+        onImport={onImport}
       />
 
       <div className="card circuit-bar no-print">
