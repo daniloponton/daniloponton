@@ -69,6 +69,20 @@ describe("CableSizing — validação de entrada", () => {
     ).rejects.toThrow();
   });
 
+  it("dimensiona no método D (enterrado) usando correções de solo", async () => {
+    const r = await calculateCableSizing({
+      ...baseCase, installMethod: "D", ambientTempC: 25, groupingCircuits: 1, shortCircuitKA: 0,
+    });
+    expect(r.selectedSectionMm2).not.toBeNull();
+    // Solo com resistividade pior reduz a capacidade → seção igual ou maior.
+    const worse = await calculateCableSizing({
+      ...baseCase, installMethod: "D", ambientTempC: 25, groupingCircuits: 1, shortCircuitKA: 0,
+      soilThermalResistivityKmW: 3,
+    });
+    expect(worse.selectedSectionMm2!).toBeGreaterThanOrEqual(r.selectedSectionMm2!);
+    expect(r.steps.some((s) => s.normRef.includes("Tab. 40 (do solo)"))).toBe(true);
+  });
+
   it("dimensiona em alumínio com aviso de resistência aproximada", async () => {
     const cu = await calculateCableSizing({ ...baseCase, shortCircuitKA: 0 });
     const al = await calculateCableSizing({ ...baseCase, conductor: "Al", shortCircuitKA: 0 });

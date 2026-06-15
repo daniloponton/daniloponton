@@ -7,7 +7,7 @@
 export type Insulation = "PVC" | "XLPE";
 export type Conductor = "Cu" | "Al";
 /** Métodos de referência de instalação (NBR 5410 Tab. 33 / IEC 60364-5-52). */
-export type InstallMethod = "A1" | "A2" | "B1" | "B2" | "C";
+export type InstallMethod = "A1" | "A2" | "B1" | "B2" | "C" | "D";
 /** Nº de condutores carregados: 2 (monofásico) ou 3 (trifásico). */
 export type LoadedConductors = 2 | 3;
 
@@ -48,4 +48,10 @@ export interface NormProfile {
   readonly tempCorrection: Readonly<Record<Insulation, SectionTable>>;
   /** Fatores de correção por agrupamento (nº de circuitos -> fator). */
   readonly groupingCorrection: SectionTable;
+  /** Correção de temperatura do solo (método D), base 20 °C, por isolante. */
+  readonly soilTempCorrection: Readonly<Record<Insulation, SectionTable>>;
+  /** Correção por resistividade térmica do solo [K·m/W] (base 2,5). */
+  readonly soilThermalResistivityCorrection: SectionTable;
+  /** Agrupamento de cabos diretamente enterrados (nº de circuitos -> fator). */
+  readonly buriedGroupingCorrection: SectionTable;
 }

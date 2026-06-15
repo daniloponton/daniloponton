@@ -23,8 +23,8 @@ export const cableSizingInputSchema = z.object({
   /** Isolação. */
   insulation: z.enum(["PVC", "XLPE"]),
   /** Método de referência de instalação. */
-  installMethod: z.enum(["A1", "A2", "B1", "B2", "C"]),
-  /** Temperatura ambiente [°C]. */
+  installMethod: z.enum(["A1", "A2", "B1", "B2", "C", "D"]),
+  /** Temperatura ambiente [°C] (ou do solo, no método D enterrado). */
   ambientTempC: z.number().min(-5).max(80),
   /** Nº de circuitos agrupados (>= 1). */
   groupingCircuits: z.number().int().min(1),
@@ -34,6 +34,8 @@ export const cableSizingInputSchema = z.object({
   shortCircuitKA: z.number().min(0).default(0),
   /** Tempo de atuação da proteção [s]. */
   faultClearingS: z.number().positive().default(0.1),
+  /** Resistividade térmica do solo [K·m/W] (método D; base 2,5). */
+  soilThermalResistivityKmW: z.number().positive().default(2.5),
   /** Identificador do perfil normativo. */
   normId: z.string().default(DEFAULT_NORM_ID),
 });

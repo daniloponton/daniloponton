@@ -40,30 +40,49 @@ export async function calculateCableSizing(
   const ampacityTable =
     norm.ampacity[inp.conductor][inp.installMethod][inp.insulation][loadedConductors];
 
-  // ── Fatores de correção ────────────────────────────────────────────────
+  // ── Fatores de correção (solo para o método D enterrado; ar para os demais) ─
+  const buried = inp.installMethod === "D";
   const ca = trace.step({
-    label: "Fator de correção de temperatura (Ca)",
-    formula: "Ca = f(θ_amb, isolação)",
-    inputs: { ambientTempC: inp.ambientTempC, insulation: inp.insulation },
-    result: interpolate(norm.tempCorrection[inp.insulation], inp.ambientTempC),
+    label: buried ? "Fator de correção de temperatura do solo (Ca)" : "Fator de correção de temperatura (Ca)",
+    formula: buried ? "Ca = f(θ_solo, isolação)" : "Ca = f(θ_amb, isolação)",
+    inputs: { tempC: inp.ambientTempC, insulation: inp.insulation },
+    result: interpolate(
+      buried ? norm.soilTempCorrection[inp.insulation] : norm.tempCorrection[inp.insulation],
+      inp.ambientTempC,
+    ),
     unit: "-",
-    normRef: `${norm.reference} — Tab. correção de temperatura`,
+    normRef: buried ? `${norm.reference} — Tab. 40 (do solo)` : `${norm.reference} — Tab. correção de temperatura`,
   });
 
   const cg = trace.step({
     label: "Fator de correção de agrupamento (Cg)",
     formula: "Cg = f(nº de circuitos)",
     inputs: { groupingCircuits: inp.groupingCircuits },
-    result: lookupConservative(norm.groupingCorrection, inp.groupingCircuits),
+    result: lookupConservative(
+      buried ? norm.buriedGroupingCorrection : norm.groupingCorrection,
+      inp.groupingCircuits,
+    ),
     unit: "-",
-    normRef: `${norm.reference} — Tab. agrupamento`,
+    normRef: buried ? `${norm.reference} — Tab. 44 (enterrado)` : `${norm.reference} — Tab. agrupamento`,
   });
 
-  const combined = ca * cg;
+  // Fator de resistividade térmica do solo (Cr) — só para o método D.
+  const cr = buried
+    ? trace.step({
+        label: "Fator de resistividade térmica do solo (Cr)",
+        formula: "Cr = f(ρ_térmica do solo)",
+        inputs: { soilThermalResistivityKmW: inp.soilThermalResistivityKmW },
+        result: interpolate(norm.soilThermalResistivityCorrection, inp.soilThermalResistivityKmW),
+        unit: "-",
+        normRef: `${norm.reference} — Tab. 41`,
+      })
+    : 1;
+
+  const combined = ca * cg * cr;
   const itRequired = trace.step({
     label: "Capacidade tabelada mínima exigida (It)",
-    formula: "It = Ib / (Ca · Cg)",
-    inputs: { ibAmps: inp.ibAmps, Ca: round(ca, 4), Cg: round(cg, 4) },
+    formula: buried ? "It = Ib / (Ca · Cg · Cr)" : "It = Ib / (Ca · Cg)",
+    inputs: { ibAmps: inp.ibAmps, Ca: round(ca, 4), Cg: round(cg, 4), Cr: round(cr, 4) },
     result: inp.ibAmps / combined,
     unit: "A",
     normRef: `${norm.reference}`,

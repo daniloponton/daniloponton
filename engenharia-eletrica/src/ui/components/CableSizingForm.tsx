@@ -88,8 +88,14 @@ export function CableSizingForm({ onCalculate, linkedIkKA, linkedClearingS, init
           <option value="B1">B1</option>
           <option value="B2">B2</option>
           <option value="C">C</option>
+          <option value="D">D (enterrado)</option>
         </select>
       </Field>
+      {form.installMethod === "D" && (
+        <Field label="ρ térmica solo [K·m/W]">
+          <input type="number" step="0.5" value={form.soilThermalResistivityKmW ?? 2.5} onChange={num("soilThermalResistivityKmW")} />
+        </Field>
+      )}
       <Field label="Temp. ambiente [°C]">
         <input type="number" step="1" value={form.ambientTempC} onChange={num("ambientTempC")} />
       </Field>

@@ -104,6 +104,22 @@ describe("Ref. NBR 5410:2004 — métodos A1 e A2 (cobre)", () => {
   });
 });
 
+describe("Ref. NBR 5410:2004 — método D (enterrado) e correções de solo", () => {
+  const amp = IEC_60364_5_52.ampacity;
+  it("ampacidade D (cobre e alumínio, Tab. 36/37 coluna D)", () => {
+    expect(amp.Cu.D.PVC[2][240]).toBe(361);
+    expect(amp.Cu.D.PVC[3][1.5]).toBe(18);
+    expect(amp.Cu.D.XLPE[2][240]).toBe(419);
+    expect(amp.Al.D.PVC[2][16]).toBe(62);
+    expect(amp.Al.D.XLPE[2][240]).toBe(322);
+  });
+  it("correções de solo: temperatura (Tab. 40), resistividade (Tab. 41), agrupamento (Tab. 44)", () => {
+    expect(IEC_60364_5_52.soilTempCorrection.PVC[40]).toBe(0.77);
+    expect(IEC_60364_5_52.soilThermalResistivityCorrection[1]).toBe(1.18);
+    expect(IEC_60364_5_52.buriedGroupingCorrection[3]).toBe(0.65);
+  });
+});
+
 describe("Ref. NBR 5410:2004 — ampacidade alumínio", () => {
   const amp = IEC_60364_5_52.ampacity;
   it("PVC/Al (Tab. 36) — métodos B1, B2, C", () => {
