@@ -119,10 +119,12 @@ Na UI, as caixas "Usar valores calculados" puxam automaticamente esses valores.
 
 ## Memorial de cálculo
 
-A aba **Memorial** consolida os resultados de todos os módulos (curto, proteção,
-cabo, queda/FP, partida de motor, aterramento, SPDA e fotovoltaico) num documento
-com dados do responsável técnico, semáforo de conformidade, memória de cálculo
-passo a passo e hash de auditoria por seção.
+A aba **Memorial** gera um documento **consolidado do projeto**: avalia todos os
+circuitos e emite uma seção por alimentador (com seu unifilar e os cálculos de
+curto, proteção e cabo), seguida das **análises do projeto** (arco elétrico, FP,
+partida de motor, aterramento, SPDA e fotovoltaico). Inclui dados do responsável
+técnico, semáforo de conformidade geral, memória de cálculo passo a passo e hash
+de auditoria por seção.
 A geração de PDF é feita pelo próprio navegador (Imprimir → Salvar como PDF),
 via `@media print` — sem dependências e mantendo o funcionamento offline.
 

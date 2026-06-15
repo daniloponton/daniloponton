@@ -326,6 +326,8 @@ footer {
 .memorial .memorial-warnings { margin: 0.4rem 0; }
 .memorial .memorial-foot { margin-top: 2rem; font-size: 0.8rem; color: #333; }
 .memorial .memorial-sign { margin-top: 2.5rem; text-align: center; line-height: 1.6; }
+.memorial .memorial-subsection { margin: 0.8rem 0 1.4rem; }
+.memorial .memorial-section > h2 { margin-top: 1.8rem; }
 .circuit-bar {
   display: flex;
   gap: 1rem;
@@ -358,6 +360,6 @@ svg.single-line .sld-detail { fill: #444; font-size: 11px; }
   .no-print, .app > header.no-print, nav.tabs, .project-bar, .app > footer, .error { display: none !important; }
   .app { max-width: none; padding: 0; }
   .memorial { padding: 0; border-radius: 0; }
-  .memorial-section { break-inside: avoid; }
+  .memorial-subsection { break-inside: avoid; }
   @page { size: A4; margin: 16mm; }
 }

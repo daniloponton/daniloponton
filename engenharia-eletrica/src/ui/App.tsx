@@ -346,16 +346,7 @@ export function App() {
         {tab === "pv" && <PvPanel onError={setError} onResult={patchExtra} />}
 
         {tab === "memorial" && (
-          <MemorialView
-            projectName={projectName}
-            circuit={circuit}
-            results={{
-              shortCircuit: scResult,
-              protection: selResult,
-              cable: cableResult,
-              ...extraResults,
-            }}
-          />
+          <MemorialView projectName={projectName} circuits={circuits} extras={extraResults} />
         )}
       </main>
 

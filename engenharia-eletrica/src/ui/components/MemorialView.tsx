@@ -1,41 +1,70 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  buildMemorial,
-  buildSingleLine,
+  buildProjectMemorial,
+  evaluateCircuit,
   type Circuit,
   type CircuitResults,
   type ComplianceStatus,
+  type MemorialSection,
+  type ProjectMemorialDocument,
 } from "@core/index";
 import { SingleLineDiagram } from "./SingleLineDiagram";
 
 interface Props {
   projectName: string;
-  circuit: Circuit;
-  results: CircuitResults;
+  circuits: readonly Circuit[];
+  /** Resultados de análises do projeto (arco, FP, aterramento, SPDA, FV). */
+  extras: CircuitResults;
 }
 
-const badge: Record<ComplianceStatus, string> = { ok: "✅ Conforme", warning: "⚠️ Com ressalvas", fail: "❌ Não conforme" };
+const badge: Record<ComplianceStatus, string> = {
+  ok: "✅ Conforme",
+  warning: "⚠️ Com ressalvas",
+  fail: "❌ Não conforme",
+};
 
-export function MemorialView({ projectName, circuit, results }: Props) {
+export function MemorialView({ projectName, circuits, extras }: Props) {
   const [engineer, setEngineer] = useState("");
   const [title, setTitle] = useState("");
   const [crea, setCrea] = useState("");
   const [art, setArt] = useState("");
+  const [doc, setDoc] = useState<ProjectMemorialDocument | null>(null);
 
-  const hasAny = Object.values(results).some((r) => r != null);
-  if (!hasAny) {
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const data = await Promise.all(
+        circuits.map(async (circuit) => {
+          const e = await evaluateCircuit(circuit);
+          const results: CircuitResults = {
+            shortCircuit: e.shortCircuit,
+            protection: e.protection,
+            cable: e.cable,
+          };
+          return { circuit, results };
+        }),
+      );
+      if (!cancelled) setDoc(buildProjectMemorial(projectName, data, extras));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [projectName, circuits, extras]);
+
+  if (!doc) return <div className="card"><p className="muted">Preparando memorial…</p></div>;
+
+  const hasContent =
+    doc.circuits.some((c) => c.sections.length > 0) || doc.projectSections.length > 0;
+  if (!hasContent) {
     return (
       <div className="card">
         <p className="muted">
-          Nenhum resultado para documentar ainda. Calcule os módulos (ou use
-          <strong> Avaliar circuito completo</strong>) e volte a esta aba para gerar o memorial.
+          Nenhum resultado para documentar ainda. Preencha os módulos dos circuitos (ou use
+          <strong> Avaliar circuito completo</strong>) e volte aqui.
         </p>
       </div>
     );
   }
-
-  const doc = buildMemorial(projectName, results);
-  const sld = buildSingleLine(circuit, results);
 
   return (
     <>
@@ -64,53 +93,27 @@ export function MemorialView({ projectName, circuit, results }: Props) {
                   <th>Emitido em</th><td>{new Date(doc.generatedAt).toLocaleString("pt-BR")}</td></tr>
               <tr><th>Motor de cálculo</th><td>v{doc.engineVersion}</td>
                   <th>Conformidade geral</th><td>{badge[doc.overallCompliance]}</td></tr>
+              <tr><th>Circuitos</th><td>{doc.circuits.length}</td>
+                  <th>Análises de projeto</th><td>{doc.projectSections.length}</td></tr>
             </tbody>
           </table>
         </header>
 
-        {sld.length > 0 && (
-          <section className="memorial-section">
-            <h2>Diagrama Unifilar</h2>
-            <SingleLineDiagram elements={sld} />
-          </section>
-        )}
-
-        {doc.sections.map((s, i) => (
-          <section className="memorial-section" key={s.id}>
-            <h2>{i + 1}. {s.title}</h2>
-            <p className="memorial-norm">Norma de referência: <strong>{s.norm}</strong>{s.compliance ? ` · ${badge[s.compliance]}` : ""}</p>
-
-            <table className="memorial-table">
-              <tbody>
-                {s.summary.map((kv, k) => (
-                  <tr key={k}><th>{kv.label}</th><td>{kv.value}</td></tr>
-                ))}
-              </tbody>
-            </table>
-
-            <h3>Memória de cálculo</h3>
-            <table className="memorial-table steps">
-              <thead><tr><th>#</th><th>Passo</th><th>Fórmula</th><th>Resultado</th><th>Referência</th></tr></thead>
-              <tbody>
-                {s.steps.map((st) => (
-                  <tr key={st.id}>
-                    <td>{st.id}</td><td>{st.label}</td><td className="mono">{st.formula}</td>
-                    <td className="mono">{Number.isFinite(st.result) ? round3(st.result) : "—"} {st.unit}</td>
-                    <td>{st.normRef}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {s.warnings.length > 0 && (
-              <ul className="memorial-warnings">
-                {s.warnings.map((w) => <li key={w.code}>⚠️ {w.message}</li>)}
-              </ul>
-            )}
-
-            <p className="memorial-trace">ID: {s.traceId} · hash SHA-256: {s.inputHash}</p>
+        {doc.circuits.map((group, gi) => (
+          <section className="memorial-section" key={gi}>
+            <h2>Circuito {gi + 1} — {group.name} · {badge[group.overall]}</h2>
+            {group.singleLine.length > 0 && <SingleLineDiagram elements={group.singleLine} />}
+            {group.sections.length === 0 && <p className="muted">Sem cálculos para este circuito.</p>}
+            {group.sections.map((s) => <SectionBlock key={s.id + s.title} s={s} />)}
           </section>
         ))}
+
+        {doc.projectSections.length > 0 && (
+          <section className="memorial-section">
+            <h2>Análises do projeto</h2>
+            {doc.projectSections.map((s) => <SectionBlock key={s.id + s.title} s={s} />)}
+          </section>
+        )}
 
         <footer className="memorial-foot">
           <p>
@@ -127,6 +130,43 @@ export function MemorialView({ projectName, circuit, results }: Props) {
         </footer>
       </article>
     </>
+  );
+}
+
+function SectionBlock({ s }: { s: MemorialSection }) {
+  return (
+    <div className="memorial-subsection">
+      <h3>{s.title}</h3>
+      <p className="memorial-norm">Norma de referência: <strong>{s.norm}</strong>{s.compliance ? ` · ${badge[s.compliance]}` : ""}</p>
+
+      <table className="memorial-table">
+        <tbody>
+          {s.summary.map((kv, k) => (
+            <tr key={k}><th>{kv.label}</th><td>{kv.value}</td></tr>
+          ))}
+        </tbody>
+      </table>
+
+      <table className="memorial-table steps">
+        <thead><tr><th>#</th><th>Passo</th><th>Fórmula</th><th>Resultado</th><th>Referência</th></tr></thead>
+        <tbody>
+          {s.steps.map((st) => (
+            <tr key={st.id}>
+              <td>{st.id}</td><td>{st.label}</td><td className="mono">{st.formula}</td>
+              <td className="mono">{Number.isFinite(st.result) ? round3(st.result) : "—"} {st.unit}</td>
+              <td>{st.normRef}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {s.warnings.length > 0 && (
+        <ul className="memorial-warnings">
+          {s.warnings.map((w) => <li key={w.code}>⚠️ {w.message}</li>)}
+        </ul>
+      )}
+      <p className="memorial-trace">ID: {s.traceId} · hash SHA-256: {s.inputHash}</p>
+    </div>
   );
 }
 
