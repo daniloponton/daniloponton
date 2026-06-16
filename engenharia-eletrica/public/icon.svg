@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Engenharia Elétrica">
+  <rect width="512" height="512" rx="96" fill="#0f1419"/>
+  <rect x="44" y="44" width="424" height="424" rx="72" fill="#162029"/>
+  <path d="M296 56 L150 288 H248 L216 456 L372 214 H268 Z"
+        fill="#2f81f7" stroke="#79b8ff" stroke-width="10" stroke-linejoin="round"/>
+</svg>
