@@ -6,26 +6,44 @@ const badge: Record<ComplianceStatus, string> = {
   fail: "❌",
 };
 
+const pillLabel: Record<ComplianceStatus, string> = {
+  ok: "Conforme",
+  warning: "Com ressalvas",
+  fail: "Não conforme",
+};
+
+function Pill({ status }: { status: ComplianceStatus }) {
+  return <span className={`pill pill-${status}`}>{badge[status]} {pillLabel[status]}</span>;
+}
+
 export function CalculationReport({ result: r }: { result: CableSizingResult }) {
   return (
     <section className="card report">
       <div className="result-header">
         <div>
-          <h2>
-            {r.selectedSectionMm2 ? `${r.selectedSectionMm2} mm²` : "Sem solução"}{" "}
-            <span className={`status status-${r.overall}`}>{badge[r.overall]}</span>
-          </h2>
+          <h2>{r.selectedSectionMm2 ? `${r.selectedSectionMm2} mm²` : "Sem solução"}</h2>
           <p className="muted">
             Critério determinante: <strong>{governingLabel(r.governingCriterion)}</strong>
           </p>
         </div>
-        <ul className="summary">
-          <li>I'z = {r.correctedAmpacityA} A</li>
-          <li>ΔU = {r.voltageDropPct}%</li>
-          {r.minSectionByShortCircuitMm2 > 0 && (
-            <li>S_min curto = {r.minSectionByShortCircuitMm2} mm²</li>
-          )}
-        </ul>
+        <Pill status={r.overall} />
+      </div>
+
+      <div className="stat-grid">
+        <div className="stat">
+          <span className="stat-label">Capacidade corrigida I′z</span>
+          <span className="stat-value">{r.correctedAmpacityA} A</span>
+        </div>
+        <div className="stat">
+          <span className="stat-label">Queda de tensão ΔU</span>
+          <span className="stat-value">{r.voltageDropPct}%</span>
+        </div>
+        {r.minSectionByShortCircuitMm2 > 0 && (
+          <div className="stat">
+            <span className="stat-label">Seção mín. (curto)</span>
+            <span className="stat-value">{r.minSectionByShortCircuitMm2} mm²</span>
+          </div>
+        )}
       </div>
 
       <h3>Conformidade</h3>

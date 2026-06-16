@@ -30,9 +30,20 @@ export function CircuitEditor({ circuit, results, evaluating, onChange, onEvalua
         <p className="editor-hint">
           Monte o circuito clicando nos elementos do unifilar; depois clique em
           “Avaliar circuito completo” para calcular curto → proteção → cabo e ver a
-          conformidade. O memorial e a matriz de conformidade saem na aba 8.
+          conformidade. O memorial e a matriz de conformidade saem na aba Memorial.
         </p>
-        <div className="project-actions" style={{ marginBottom: "0.5rem" }}>
+        <div className="flow" aria-label="Fluxo sugerido de cálculo">
+          <span className="flow-step">Concessionária / Trafo</span>
+          <span className="flow-sep">→</span>
+          <span className="flow-step">Curto-circuito (I″k)</span>
+          <span className="flow-sep">→</span>
+          <span className="flow-step">Proteção</span>
+          <span className="flow-sep">→</span>
+          <span className="flow-step">Cabo</span>
+          <span className="flow-sep">→</span>
+          <span className="flow-step">Memorial</span>
+        </div>
+        <div className="project-actions" style={{ margin: "0.8rem 0 0.5rem" }}>
           <button type="button" className="primary" onClick={onEvaluate} disabled={evaluating}>
             {evaluating ? "Avaliando…" : "▶ Avaliar circuito completo"}
           </button>
@@ -41,6 +52,12 @@ export function CircuitEditor({ circuit, results, evaluating, onChange, onEvalua
           <SingleLineDiagram elements={elements} onSelect={setSelected} selected={selected} />
         </div>
         <p className="muted" style={{ fontSize: "0.8rem" }}>Clique em um elemento para editar seus parâmetros.</p>
+        <div className="sld-legend">
+          <span><span className="dot" style={{ background: "#2e7d32" }} />Conforme</span>
+          <span><span className="dot" style={{ background: "#b26a00" }} />Com ressalvas</span>
+          <span><span className="dot" style={{ background: "#c62828" }} />Não conforme</span>
+          <span><span className="dot" style={{ background: "#111", border: "1px solid #555" }} />Sem avaliação</span>
+        </div>
       </div>
 
       <div className="card">
