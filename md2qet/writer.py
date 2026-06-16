@@ -2,16 +2,16 @@
 
 A estratégia é montar um *esqueleto* navegável e já conectado:
 
-* cada componente vira um símbolo retangular genérico, embutido na coleção do
-  projeto, com um terminal por pino citado na wire list;
+* cada componente vira um símbolo estilo IEC (ver ``symbols.py``) classificado
+  pela TAG/descrição (motor, sinaleiro, disjuntor, contator...), embutido na
+  coleção do projeto, com um terminal por pino citado na wire list;
 * barramentos/nós (``+24V``, ``Barra PE`` ...) viram blocos com um terminal por
   fio que neles chega;
 * os componentes são distribuídos em grade dentro do seu fólio;
-* cada fio cuja origem e destino caem no mesmo fólio é desenhado como um
-  condutor ligando os dois terminais.
-
-Fios entre fólios diferentes não viram condutor automático (vira referência
-cruzada que o projetista resolve no QET) — eles são listados no relatório final.
+* cada fio cuja origem e destino caem no mesmo fólio vira um condutor ligando os
+  dois terminais;
+* cada fio entre fólios diferentes ganha um *símbolo de referência cruzada* em
+  cada lado, ligado ao terminal do componente e rotulado com o fólio de destino.
 """
 
 from __future__ import annotations
@@ -21,6 +21,7 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from xml.dom import minidom
 
+from . import symbols
 from .model import Schematic
 
 # QElectroTech: orientações de terminal (instância usa número, definição usa letra)
@@ -37,6 +38,7 @@ class _Node:
     label: str
     sublabel: str
     is_net: bool
+    cls: str = "generic"       # classe do símbolo (motor, disjuntor, ...)
     pins: list[str] = field(default_factory=list)
     defname: str = ""          # nome do arquivo .elmt embutido
     term_local: dict = field(default_factory=dict)  # pin -> (x, y, orient_letter)
@@ -68,33 +70,54 @@ def _build_nodes(schem: Schematic):
     folio_nodes: dict[str, dict[tuple, _Node]] = {}
     folio_conductors: dict[str, list] = {}
 
-    def get_node(folio: str, key: tuple, label: str, sub: str, is_net: bool) -> _Node:
+    def get_node(folio, key, label, sub, is_net, cls="generic") -> _Node:
         nodes = folio_nodes.setdefault(folio, {})
         if key not in nodes:
-            nodes[key] = _Node(key=key, label=label, sublabel=sub, is_net=is_net)
+            nodes[key] = _Node(key=key, label=label, sublabel=sub,
+                               is_net=is_net, cls=cls)
         return nodes[key]
+
+    def comp_node(folio, ep) -> _Node:
+        comp = schem.components[ep.comp]
+        return get_node(folio, ("C", ep.comp), ep.comp, comp.description,
+                        False, symbols.classify(ep.comp, comp.description))
 
     # garante que todo componente atribuído apareça no seu fólio
     for comp in schem.components.values():
         if comp.folio:
-            get_node(comp.folio, ("C", comp.tag), comp.tag, comp.description, False)
+            get_node(comp.folio, ("C", comp.tag), comp.tag, comp.description,
+                     False, symbols.classify(comp.tag, comp.description))
 
     for wire in schem.wires:
         f_src = _real_folio(schem, wire.src)
         f_dst = _real_folio(schem, wire.dst)
         reals = [f for f in (f_src, f_dst) if f]
-        if not reals or len(set(reals)) > 1:
-            # ambos são nós, ou o fio cruza fólios: não desenha condutor
+        if not reals:
+            continue  # ambos são nós: sem fólio para ancorar
+        if len(set(reals)) > 1:
+            # fio entre fólios -> cria uma referência cruzada em cada lado
+            for ep, this_f, other_ep, other_f in (
+                (wire.src, f_src, wire.dst, f_dst),
+                (wire.dst, f_dst, wire.src, f_src),
+            ):
+                node = comp_node(this_f, ep)
+                pin = ep.pin or wire.label
+                node.pin_index(pin)
+                ref = get_node(this_f, ("R", wire.label, this_f), wire.label,
+                               f"→ {other_f}", False, "referencia")
+                ref.pin_index(wire.label)
+                folio_conductors.setdefault(this_f, []).append(
+                    (wire, node.key, pin, ref.key, wire.label))
             continue
         folio = reals[0]
 
         def resolve(ep):
             if ep.is_net:
-                node = get_node(folio, ("N", ep.comp), ep.comp, "", True)
+                node = get_node(folio, ("N", ep.comp), ep.comp, "", True,
+                                "barramento")
                 pin = wire.label or ep.comp        # um terminal por fio no barramento
             else:
-                node = get_node(folio, ("C", ep.comp), ep.comp,
-                                schem.components[ep.comp].description, False)
+                node = comp_node(folio, ep)
                 pin = ep.pin or wire.label
             node.pin_index(pin)
             return node.key, pin
@@ -110,7 +133,7 @@ def _build_nodes(schem: Schematic):
         )
         for strip in schem.strips:
             node = get_node(bornes_folio, ("T", strip.name),
-                            strip.name, strip.title, False)
+                            strip.name, strip.title, False, "borne")
             for term in strip.terminals:
                 # usa só o identificador do borne (parte após ":")
                 node.pin_index(term.name.split(":")[-1])
@@ -128,7 +151,7 @@ def _layout_definition(node: _Node) -> None:
 
     label_len = max(len(node.label), len(node.sublabel or ""))
     width = max(60, ((label_len * 7 + 20) // 10) * 10)
-    height = max(40, rows * 20 + 20)
+    height = max(symbols.min_height(node.cls), rows * 20 + 20)
 
     for i, pin in enumerate(left):
         node.term_local[pin] = (-10, 20 + i * 20, "w")
@@ -160,10 +183,13 @@ def _definition_xml(node: _Node) -> ET.Element:
     ET.SubElement(definition, "informations").text = "Gerado por md2qet"
     desc = ET.SubElement(definition, "description")
 
-    # corpo
-    ET.SubElement(desc, "rect", {
-        "x": "0", "y": "0", "width": str(w), "height": str(h), "style": _STYLE,
-    })
+    # corpo: retângulo (quando a classe usa caixa) + glifo da classe
+    if symbols.draws_box(node.cls):
+        ET.SubElement(desc, "rect", {
+            "x": "0", "y": "0", "width": str(w), "height": str(h), "style": _STYLE,
+        })
+    for prim in symbols.body_primitives(node.cls, w, h):
+        desc.append(prim)
     # rótulo principal (TAG) e descrição curta
     ET.SubElement(desc, "text", {
         "x": "4", "y": "12", "text": node.label, "size": "9", "rotation": "0",

@@ -118,20 +118,28 @@ não existir, é criado um único fólio com tudo.
 * **1 projeto `.qet`** com a coleção de símbolos embutida (abre sem depender de
   bibliotecas externas).
 * **1 fólio por grupo** da seção 7, com os componentes distribuídos em grade.
-* **1 símbolo retangular genérico por componente**, com um terminal nomeado para
-  cada pino citado na lista de fios.
+* **Símbolos estilo IEC por classe de componente** — o componente é classificado
+  pela TAG/descrição e recebe um glifo reconhecível (motor com `M`, sinaleiro
+  com `X`, aterramento, contato de contator/relé, disjuntor, botão, cogumelo
+  E‑stop, conversor/drive, resistor...). Cada símbolo tem um terminal nomeado
+  para cada pino citado na lista de fios. Classes desconhecidas caem numa caixa
+  rotulada. Ver [`symbols.py`](symbols.py).
 * **Condutores** ligando automaticamente os fios cuja origem **e** destino estão
   no mesmo fólio.
+* **Referências cruzadas**: fios entre fólios diferentes ganham um símbolo de
+  seta de referência em **cada** fólio, ligado ao terminal do componente e
+  rotulado com o fólio de destino.
 * **Réguas de bornes** (X1, X2, ...) como blocos multi-terminal.
 
 ## Limitações conscientes (v0.1)
 
-* Os símbolos são **caixas genéricas rotuladas**, não os símbolos normalizados
-  do contator/disjuntor/etc. Troque-os pela biblioteca do QET se quiser o
-  desenho normativo — os terminais e ligações são preservados.
-* **Fios entre fólios diferentes** não viram condutor automático (no QET isso é
-  uma *referência cruzada*). Eles são listados no relatório para você ligar à
-  mão com os elementos de "report de fólio".
+* Os símbolos são **desenhados pelo md2qet** seguindo a simbologia IEC — não são
+  cópias dos arquivos da biblioteca oficial do QET. Se quiser o símbolo
+  normativo exato, troque o elemento dentro do QET: os terminais e ligações são
+  preservados.
+* As referências cruzadas usam um símbolo de seta simples (não o elemento nativo
+  de *report de fólio* do QET, que exige vínculo por UUID). O destino fica claro
+  no rótulo; basta substituir pelo report nativo se desejar a navegação clicável.
 * O layout é uma grade simples; reposicione no QET como preferir.
 
 ## Testes

@@ -14,6 +14,9 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="180" height="60" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="40.0" x2="98.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="40.0" x2="80.0" y2="44.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="98.0" y1="20.0" x2="98.0" y2="16.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="Q0" size="9" rotation="0"/>
             <text x="4" y="56" text="Seccionador geral 3P 25A" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -36,6 +39,7 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="160" height="80" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="68.0" y="32.0" width="24" height="16" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="KM0" size="9" rotation="0"/>
             <text x="4" y="76" text="Contator geral 3P 9A" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -67,6 +71,10 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="270" height="80" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="125.0" y1="50.0" x2="143.0" y2="30.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="125.0" y1="50.0" x2="125.0" y2="54.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="143.0" y1="30.0" x2="143.0" y2="26.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="141.0" y="46.0" text="x" size="9" rotation="0"/>
             <text x="4" y="12" text="QF1" size="9" rotation="0"/>
             <text x="4" y="76" text="Disjuntor motor servo 3…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -98,33 +106,46 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="180" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="30.0" x2="98.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="30.0" x2="80.0" y2="34.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="98.0" y1="10.0" x2="98.0" y2="6.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="96.0" y="26.0" text="x" size="9" rotation="0"/>
             <text x="4" y="12" text="QF3" size="9" rotation="0"/>
             <text x="4" y="36" text="Disjuntor freio EM 1P 2A" size="5" rotation="0"/>
           </description>
         </definition>
       </element>
       <element name="el_5_F1.elmt">
-        <definition type="element" width="240" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+        <definition type="element" width="240" height="100" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">F1</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="220" height="60" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="0" y="0" width="220" height="100" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="F1" size="9" rotation="0"/>
-            <text x="4" y="56" text="Filtro de linha EMC tri…" size="5" rotation="0"/>
+            <text x="4" y="96" text="Filtro de linha EMC tri…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="L1" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
             <line x1="0" y1="40" x2="-10" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="43" text="L2" size="5" rotation="0"/>
             <terminal x="-10" y="40" orientation="w"/>
+            <line x1="0" y1="60" x2="-10" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="63" text="L3" size="5" rotation="0"/>
+            <terminal x="-10" y="60" orientation="w"/>
+            <line x1="0" y1="80" x2="-10" y2="80" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="83" text="L1'" size="5" rotation="0"/>
+            <terminal x="-10" y="80" orientation="w"/>
             <line x1="220" y1="20" x2="230" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="209" y="23" text="L3" size="5" rotation="0"/>
+            <text x="205" y="23" text="L2'" size="5" rotation="0"/>
             <terminal x="230" y="20" orientation="e"/>
             <line x1="220" y1="40" x2="230" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="209" y="43" text="PE" size="5" rotation="0"/>
+            <text x="205" y="43" text="L3'" size="5" rotation="0"/>
             <terminal x="230" y="40" orientation="e"/>
+            <line x1="220" y1="60" x2="230" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="209" y="63" text="PE" size="5" rotation="0"/>
+            <terminal x="230" y="60" orientation="e"/>
           </description>
         </definition>
       </element>
@@ -136,12 +157,76 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="230" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="99.0" y="13.0" width="32" height="14" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="RR" size="9" rotation="0"/>
             <text x="4" y="36" text="Resistor de frenagem 80…" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+            <line x1="230" y1="20" x2="240" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="223" y="23" text="−" size="5" rotation="0"/>
+            <terminal x="240" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_7_Barra_PE.elmt">
+      <element name="el_7_3L1.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L1</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L1" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L1" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_8_3L2.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L2</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L2" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L2" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_9_3L3.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L3</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L3" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L3" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_10_Barra_PE.elmt">
         <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">Barra PE</name>
@@ -156,7 +241,45 @@
           </description>
         </definition>
       </element>
-      <element name="el_8_QF2.elmt">
+      <element name="el_11_BR.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_12_BR.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_13_QF2.elmt">
         <definition type="element" width="260" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">QF2</name>
@@ -164,6 +287,10 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="240" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="110.0" y1="30.0" x2="128.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="110.0" y1="30.0" x2="110.0" y2="34.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="128.0" y1="10.0" x2="128.0" y2="6.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="126.0" y="26.0" text="x" size="9" rotation="0"/>
             <text x="4" y="12" text="QF2" size="9" rotation="0"/>
             <text x="4" y="36" text="Disjuntor circuito coma…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -175,7 +302,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_9_G1.elmt">
+      <element name="el_14_G1.elmt">
         <definition type="element" width="130" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">G1</name>
@@ -183,6 +310,7 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="110" height="60" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="41.0" y="34.0" text="~/=" size="9" rotation="0"/>
             <text x="4" y="12" text="G1" size="9" rotation="0"/>
             <text x="4" y="56" text="Fonte 24Vcc 5A" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -200,7 +328,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_10_K1.elmt">
+      <element name="el_15_K1.elmt">
         <definition type="element" width="200" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">K1</name>
@@ -208,12 +336,20 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="180" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="78.0" y="12.0" width="24" height="16" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="78.0" y1="28.0" x2="102.0" y2="12.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="K1" size="9" rotation="0"/>
             <text x="4" y="36" text="Relé interface freio EM" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="14" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+            <line x1="180" y1="20" x2="190" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="169" y="23" text="A1" size="5" rotation="0"/>
+            <terminal x="190" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_11_K2.elmt">
+      <element name="el_16_K2.elmt">
         <definition type="element" width="240" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">K2</name>
@@ -221,15 +357,20 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="220" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="98.0" y="12.0" width="24" height="16" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="98.0" y1="28.0" x2="122.0" y2="12.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="K2" size="9" rotation="0"/>
             <text x="4" y="36" text="Relé interface habilita…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="23" text="A1" size="5" rotation="0"/>
+            <text x="3" y="23" text="14" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
+            <line x1="220" y1="20" x2="230" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="209" y="23" text="A1" size="5" rotation="0"/>
+            <terminal x="230" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_12_S0.elmt">
+      <element name="el_17_S0.elmt">
         <definition type="element" width="280" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">S0</name>
@@ -237,6 +378,9 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="260" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="120.0" y1="20.0" x2="140.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="130.0" y1="20.0" x2="130.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <ellipse x="123.0" y="3.0" width="14" height="10" antialias="true" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="S0" size="9" rotation="0"/>
             <text x="4" y="36" text="Botão E-stop cogumelo t…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -248,7 +392,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_13_S1.elmt">
+      <element name="el_18_S1.elmt">
         <definition type="element" width="200" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">S1</name>
@@ -256,15 +400,20 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="180" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="20.0" x2="100.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90.0" y1="20.0" x2="90.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="S1" size="9" rotation="0"/>
             <text x="4" y="36" text="Botão partida verde 1NA" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="13" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
+            <line x1="180" y1="20" x2="190" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="169" y="23" text="14" size="5" rotation="0"/>
+            <terminal x="190" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_14_S2.elmt">
+      <element name="el_19_S2.elmt">
         <definition type="element" width="210" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">S2</name>
@@ -272,15 +421,20 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="190" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="85.0" y1="20.0" x2="105.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="95.0" y1="20.0" x2="95.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="S2" size="9" rotation="0"/>
             <text x="4" y="36" text="Botão parada vermelha 1…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="11" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
+            <line x1="190" y1="20" x2="200" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="179" y="23" text="12" size="5" rotation="0"/>
+            <terminal x="200" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_15_S3.elmt">
+      <element name="el_20_S3.elmt">
         <definition type="element" width="200" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">S3</name>
@@ -288,15 +442,20 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="180" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80.0" y1="20.0" x2="100.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90.0" y1="20.0" x2="90.0" y2="10.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="S3" size="9" rotation="0"/>
             <text x="4" y="36" text="Botão reset amarelo 1NA" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="13" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
+            <line x1="180" y1="20" x2="190" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="169" y="23" text="14" size="5" rotation="0"/>
+            <terminal x="190" y="20" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_16_KSR.elmt">
+      <element name="el_21_KSR.elmt">
         <definition type="element" width="240" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">KSR</name>
@@ -304,6 +463,8 @@
           <informations>Gerado por md2qet</informations>
           <description>
             <rect x="0" y="0" width="220" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="98.0" y="12.0" width="24" height="16" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="98.0" y1="28.0" x2="122.0" y2="12.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="KSR" size="9" rotation="0"/>
             <text x="4" y="36" text="Relé de segurança categ…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -315,7 +476,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_17_Barra_24V.elmt">
+      <element name="el_22_Barra_24V.elmt">
         <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">Barra +24V</name>
@@ -330,7 +491,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_18_Barra_0V.elmt">
+      <element name="el_23_Barra_0V.elmt">
         <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">Barra 0V</name>
@@ -345,7 +506,45 @@
           </description>
         </definition>
       </element>
-      <element name="el_19_24V.elmt">
+      <element name="el_24_SON.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">SON</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="SON" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="SON" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_25_BR.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_26_24V.elmt">
         <definition type="element" width="80" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">+24V</name>
@@ -369,49 +568,187 @@
           </description>
         </definition>
       </element>
-      <element name="el_20_PE.elmt">
+      <element name="el_27_104.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">104</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="104" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="104" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_28_106.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">106</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="106" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="106" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_29_108.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">108</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="108" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="108" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_30_203.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">203</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="203" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="203" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_31_204.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">204</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="204" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="204" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_32_PE.elmt">
         <definition type="element" width="270" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">PE</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="250" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="125.0" y1="8.0" x2="125.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="116.0" y1="20.0" x2="134.0" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="119.0" y1="24.0" x2="131.0" y2="24.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="122.0" y1="28.0" x2="128.0" y2="28.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="PE" size="9" rotation="0"/>
             <text x="4" y="36" text="Barra de aterramento 4×…" size="5" rotation="0"/>
           </description>
         </definition>
       </element>
-      <element name="el_21_U1.elmt">
-        <definition type="element" width="250" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+      <element name="el_33_U1.elmt">
+        <definition type="element" width="250" height="180" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">U1</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="230" height="60" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="0" y="0" width="230" height="180" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="103.0" y1="102.0" x2="127.0" y2="78.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="101.0" y="104.0" text="~" size="9" rotation="0"/>
+            <text x="119.0" y="86.0" text="=" size="9" rotation="0"/>
             <text x="4" y="12" text="U1" size="9" rotation="0"/>
-            <text x="4" y="56" text="Drive servo 4Q + choppe…" size="5" rotation="0"/>
+            <text x="4" y="176" text="Drive servo 4Q + choppe…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="23" text="U" size="5" rotation="0"/>
+            <text x="3" y="23" text="R" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
             <line x1="0" y1="40" x2="-10" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="43" text="V" size="5" rotation="0"/>
+            <text x="3" y="43" text="S" size="5" rotation="0"/>
             <terminal x="-10" y="40" orientation="w"/>
+            <line x1="0" y1="60" x2="-10" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="63" text="T" size="5" rotation="0"/>
+            <terminal x="-10" y="60" orientation="w"/>
+            <line x1="0" y1="80" x2="-10" y2="80" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="83" text="U" size="5" rotation="0"/>
+            <terminal x="-10" y="80" orientation="w"/>
+            <line x1="0" y1="100" x2="-10" y2="100" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="103" text="V" size="5" rotation="0"/>
+            <terminal x="-10" y="100" orientation="w"/>
+            <line x1="0" y1="120" x2="-10" y2="120" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="123" text="W" size="5" rotation="0"/>
+            <terminal x="-10" y="120" orientation="w"/>
+            <line x1="0" y1="140" x2="-10" y2="140" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="143" text="B+" size="5" rotation="0"/>
+            <terminal x="-10" y="140" orientation="w"/>
+            <line x1="0" y1="160" x2="-10" y2="160" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="163" text="B−" size="5" rotation="0"/>
+            <terminal x="-10" y="160" orientation="w"/>
             <line x1="230" y1="20" x2="240" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="223" y="23" text="W" size="5" rotation="0"/>
+            <text x="203" y="23" text="T-REF+" size="5" rotation="0"/>
             <terminal x="240" y="20" orientation="e"/>
+            <line x1="230" y1="40" x2="240" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="203" y="43" text="T-REF−" size="5" rotation="0"/>
+            <terminal x="240" y="40" orientation="e"/>
+            <line x1="230" y1="60" x2="240" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="203" y="63" text="V-OUT+" size="5" rotation="0"/>
+            <terminal x="240" y="60" orientation="e"/>
+            <line x1="230" y1="80" x2="240" y2="80" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="203" y="83" text="V-OUT−" size="5" rotation="0"/>
+            <terminal x="240" y="80" orientation="e"/>
+            <line x1="230" y1="100" x2="240" y2="100" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="103" text="SON" size="5" rotation="0"/>
+            <terminal x="240" y="100" orientation="e"/>
+            <line x1="230" y1="120" x2="240" y2="120" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="123" text="RDY" size="5" rotation="0"/>
+            <terminal x="240" y="120" orientation="e"/>
+            <line x1="230" y1="140" x2="240" y2="140" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="143" text="ALM" size="5" rotation="0"/>
+            <terminal x="240" y="140" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_22_M1.elmt">
+      <element name="el_34_M1.elmt">
         <definition type="element" width="230" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">M1</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="210" height="60" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <ellipse x="83.0" y="8.0" width="44.0" height="44.0" antialias="true" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="100.0" y="35.0" text="M" size="11" rotation="0"/>
             <text x="4" y="12" text="M1" size="9" rotation="0"/>
             <text x="4" y="56" text="Servomotor 200W com fre…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
@@ -423,10 +760,13 @@
             <line x1="210" y1="20" x2="220" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="203" y="23" text="W" size="5" rotation="0"/>
             <terminal x="220" y="20" orientation="e"/>
+            <line x1="210" y1="40" x2="220" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="195" y="43" text="Y1+" size="5" rotation="0"/>
+            <terminal x="220" y="40" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_23_Y1.elmt">
+      <element name="el_35_Y1.elmt">
         <definition type="element" width="180" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">Y1</name>
@@ -439,35 +779,315 @@
           </description>
         </definition>
       </element>
-      <element name="el_24_A1.elmt">
-        <definition type="element" width="250" height="80" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+      <element name="el_36_3L1.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L1</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L1" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 01_FORCA" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L1" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_37_3L2.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L2</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L2" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 01_FORCA" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L2" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_38_3L3.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">3L3</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="3L3" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 01_FORCA" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="3L3" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_39_BR.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 01_FORCA" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_40_BR.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 01_FORCA" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_41_AO.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AO+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AO+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AO+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_42_AO.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AO−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AO−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AO−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_43_AI_S.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AI_S+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AI_S+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AI_S+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_44_AI_S.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AI_S−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AI_S−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AI_S−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_45_SON.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">SON</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="SON" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="SON" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_46_RDY.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">RDY</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="RDY" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="RDY" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_47_FLT.elmt">
+        <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">FLT</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="70" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="15.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="60" y1="25.0" x2="66" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="FLT" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 03_PLC" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="FLT" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_48_BR.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">BR</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="BR" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="BR" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_49_A1.elmt">
+        <definition type="element" width="250" height="180" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">A1</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="230" height="80" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <rect x="0" y="0" width="230" height="180" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="A1" size="9" rotation="0"/>
-            <text x="4" y="76" text="PLC com FPU e AI/AO ana…" size="5" rotation="0"/>
+            <text x="4" y="176" text="PLC com FPU e AI/AO ana…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="23" text="AI2+" size="5" rotation="0"/>
+            <text x="3" y="23" text="AO1+" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
             <line x1="0" y1="40" x2="-10" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="43" text="AI2−" size="5" rotation="0"/>
+            <text x="3" y="43" text="AO1−" size="5" rotation="0"/>
             <terminal x="-10" y="40" orientation="w"/>
             <line x1="0" y1="60" x2="-10" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="3" y="63" text="DO1" size="5" rotation="0"/>
+            <text x="3" y="63" text="AI1+" size="5" rotation="0"/>
             <terminal x="-10" y="60" orientation="w"/>
+            <line x1="0" y1="80" x2="-10" y2="80" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="83" text="AI1−" size="5" rotation="0"/>
+            <terminal x="-10" y="80" orientation="w"/>
+            <line x1="0" y1="100" x2="-10" y2="100" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="103" text="AI2+" size="5" rotation="0"/>
+            <terminal x="-10" y="100" orientation="w"/>
+            <line x1="0" y1="120" x2="-10" y2="120" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="123" text="AI2−" size="5" rotation="0"/>
+            <terminal x="-10" y="120" orientation="w"/>
+            <line x1="0" y1="140" x2="-10" y2="140" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="143" text="DI3" size="5" rotation="0"/>
+            <terminal x="-10" y="140" orientation="w"/>
+            <line x1="0" y1="160" x2="-10" y2="160" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="163" text="DI4" size="5" rotation="0"/>
+            <terminal x="-10" y="160" orientation="w"/>
             <line x1="230" y1="20" x2="240" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="215" y="23" text="DO2" size="5" rotation="0"/>
+            <text x="215" y="23" text="DI1" size="5" rotation="0"/>
             <terminal x="240" y="20" orientation="e"/>
             <line x1="230" y1="40" x2="240" y2="40" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
-            <text x="215" y="43" text="DO3" size="5" rotation="0"/>
+            <text x="215" y="43" text="DI2" size="5" rotation="0"/>
             <terminal x="240" y="40" orientation="e"/>
+            <line x1="230" y1="60" x2="240" y2="60" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="63" text="DI5" size="5" rotation="0"/>
+            <terminal x="240" y="60" orientation="e"/>
+            <line x1="230" y1="80" x2="240" y2="80" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="83" text="DO1" size="5" rotation="0"/>
+            <terminal x="240" y="80" orientation="e"/>
+            <line x1="230" y1="100" x2="240" y2="100" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="103" text="DO2" size="5" rotation="0"/>
+            <terminal x="240" y="100" orientation="e"/>
+            <line x1="230" y1="120" x2="240" y2="120" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="123" text="DO3" size="5" rotation="0"/>
+            <terminal x="240" y="120" orientation="e"/>
+            <line x1="230" y1="140" x2="240" y2="140" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="143" text="DO4" size="5" rotation="0"/>
+            <terminal x="240" y="140" orientation="e"/>
+            <line x1="230" y1="160" x2="240" y2="160" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="215" y="163" text="DO5" size="5" rotation="0"/>
+            <terminal x="240" y="160" orientation="e"/>
           </description>
         </definition>
       </element>
-      <element name="el_25_A1_1.elmt">
+      <element name="el_50_A1_1.elmt">
         <definition type="element" width="200" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">A1.1</name>
@@ -480,7 +1100,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_26_HMI.elmt">
+      <element name="el_51_HMI.elmt">
         <definition type="element" width="190" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">HMI</name>
@@ -493,55 +1113,137 @@
           </description>
         </definition>
       </element>
-      <element name="el_27_H1.elmt">
-        <definition type="element" width="280" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+      <element name="el_52_H1.elmt">
+        <definition type="element" width="280" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">H1</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="260" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <ellipse x="108.0" y="8.0" width="44.0" height="44.0" antialias="true" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="114.6" y1="14.600000000000001" x2="145.4" y2="45.4" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="114.6" y1="45.4" x2="145.4" y2="14.600000000000001" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="H1" size="9" rotation="0"/>
-            <text x="4" y="36" text="Sinaleiro verde &quot;ciclo …" size="5" rotation="0"/>
+            <text x="4" y="56" text="Sinaleiro verde &quot;ciclo …" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="200" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
           </description>
         </definition>
       </element>
-      <element name="el_28_H2.elmt">
-        <definition type="element" width="260" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+      <element name="el_53_H2.elmt">
+        <definition type="element" width="260" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">H2</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="240" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <ellipse x="98.0" y="8.0" width="44.0" height="44.0" antialias="true" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="104.6" y1="14.600000000000001" x2="135.4" y2="45.4" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="104.6" y1="45.4" x2="135.4" y2="14.600000000000001" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="H2" size="9" rotation="0"/>
-            <text x="4" y="36" text="Sinaleiro vermelho &quot;fal…" size="5" rotation="0"/>
+            <text x="4" y="56" text="Sinaleiro vermelho &quot;fal…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="201" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
           </description>
         </definition>
       </element>
-      <element name="el_29_H3.elmt">
-        <definition type="element" width="260" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+      <element name="el_54_H3.elmt">
+        <definition type="element" width="260" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">H3</name>
           </names>
           <informations>Gerado por md2qet</informations>
           <description>
-            <rect x="0" y="0" width="240" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <ellipse x="98.0" y="8.0" width="44.0" height="44.0" antialias="true" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="104.6" y1="14.600000000000001" x2="135.4" y2="45.4" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="104.6" y1="45.4" x2="135.4" y2="14.600000000000001" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="4" y="12" text="H3" size="9" rotation="0"/>
-            <text x="4" y="36" text="Sinaleiro amarelo &quot;pron…" size="5" rotation="0"/>
+            <text x="4" y="56" text="Sinaleiro amarelo &quot;pron…" size="5" rotation="0"/>
             <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
             <text x="3" y="23" text="202" size="5" rotation="0"/>
             <terminal x="-10" y="20" orientation="w"/>
           </description>
         </definition>
       </element>
-      <element name="el_30_INVERSOR.elmt">
+      <element name="el_55_AO.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AO+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AO+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AO+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_56_AO.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AO−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AO−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AO−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_57_AI_S.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AI_S+</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AI_S+" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AI_S+" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_58_AI_S.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">AI_S−</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="AI_S−" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="AI_S−" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_59_INVERSOR.elmt">
         <definition type="element" width="90" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">INVERSOR</name>
@@ -559,7 +1261,140 @@
           </description>
         </definition>
       </element>
-      <element name="el_31_X1.elmt">
+      <element name="el_60_RDY.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">RDY</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="RDY" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="RDY" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_61_FLT.elmt">
+        <definition type="element" width="110" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">FLT</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="90" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="15.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="80" y1="25.0" x2="86" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="FLT" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 04_SERVO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="FLT" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_62_104.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">104</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="104" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="104" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_63_106.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">106</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="106" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="106" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_64_108.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">108</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="108" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="108" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_65_203.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">203</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="203" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="203" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_66_204.elmt">
+        <definition type="element" width="120" height="40" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
+          <names>
+            <name lang="pt">204</name>
+          </names>
+          <informations>Gerado por md2qet</informations>
+          <description>
+            <rect x="0" y="0" width="100" height="40" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="2" y1="20.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="15.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <line x1="90" y1="25.0" x2="96" y2="20.0" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="4" y="12" text="204" size="9" rotation="0"/>
+            <text x="4" y="36" text="→ 02_COMANDO" size="5" rotation="0"/>
+            <line x1="0" y1="20" x2="-10" y2="20" end1="none" end2="none" style="line-style:normal;line-weight:normal;filling:none;color:black"/>
+            <text x="3" y="23" text="204" size="5" rotation="0"/>
+            <terminal x="-10" y="20" orientation="w"/>
+          </description>
+        </definition>
+      </element>
+      <element name="el_67_X1.elmt">
         <definition type="element" width="80" height="120" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">X1</name>
@@ -602,7 +1437,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_32_X2.elmt">
+      <element name="el_68_X2.elmt">
         <definition type="element" width="190" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">X2</name>
@@ -627,7 +1462,7 @@
           </description>
         </definition>
       </element>
-      <element name="el_33_X3.elmt">
+      <element name="el_69_X3.elmt">
         <definition type="element" width="110" height="60" hotspot_x="10" hotspot_y="0" version="0.8" orientation="dnny" link_type="thumbnail">
           <names>
             <name lang="pt">X3</name>
@@ -691,16 +1526,47 @@
         <terminals>
           <terminal x="-10" y="20" id="15" orientation="3"/>
           <terminal x="-10" y="40" id="16" orientation="3"/>
-          <terminal x="230" y="20" id="17" orientation="1"/>
-          <terminal x="230" y="40" id="18" orientation="1"/>
+          <terminal x="-10" y="60" id="17" orientation="3"/>
+          <terminal x="-10" y="80" id="18" orientation="3"/>
+          <terminal x="230" y="20" id="19" orientation="1"/>
+          <terminal x="230" y="40" id="20" orientation="1"/>
+          <terminal x="230" y="60" id="21" orientation="1"/>
         </terminals>
       </element>
       <element x="320" y="340" type="embed://import/el_6_RR.elmt" orientation="0">
-        <terminals/>
-      </element>
-      <element x="560" y="340" type="embed://import/el_7_Barra_PE.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="19" orientation="3"/>
+          <terminal x="-10" y="20" id="22" orientation="3"/>
+          <terminal x="240" y="20" id="23" orientation="1"/>
+        </terminals>
+      </element>
+      <element x="560" y="340" type="embed://import/el_7_3L1.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="24" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="340" type="embed://import/el_8_3L2.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="25" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="600" type="embed://import/el_9_3L3.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="26" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="600" type="embed://import/el_10_Barra_PE.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="27" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="600" type="embed://import/el_11_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="28" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="600" type="embed://import/el_12_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="29" orientation="3"/>
         </terminals>
       </element>
     </elements>
@@ -714,19 +1580,24 @@
       <conductor terminal1="12" terminal2="15" type="simple" num="2L1"/>
       <conductor terminal1="13" terminal2="16" type="simple" num="2L2"/>
       <conductor terminal1="14" terminal2="17" type="simple" num="2L3"/>
-      <conductor terminal1="18" terminal2="19" type="simple" num="PE"/>
+      <conductor terminal1="18" terminal2="24" type="simple" num="3L1"/>
+      <conductor terminal1="19" terminal2="25" type="simple" num="3L2"/>
+      <conductor terminal1="20" terminal2="26" type="simple" num="3L3"/>
+      <conductor terminal1="21" terminal2="27" type="simple" num="PE"/>
+      <conductor terminal1="22" terminal2="28" type="simple" num="BR+"/>
+      <conductor terminal1="23" terminal2="29" type="simple" num="BR−"/>
     </conductors>
   </diagram>
   <diagram order="2" title="02_COMANDO — 02 Comando" author="" date="2026-06-16" folio="%id/%total" cols="17" rows="8" colsize="60" rowsize="80" displaycols="true" displayrows="true" version="0.8">
     <defaultconductor type="simple"/>
     <elements>
-      <element x="80" y="80" type="embed://import/el_8_QF2.elmt" orientation="0">
+      <element x="80" y="80" type="embed://import/el_13_QF2.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="0" orientation="3"/>
           <terminal x="250" y="20" id="1" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="80" type="embed://import/el_9_G1.elmt" orientation="0">
+      <element x="320" y="80" type="embed://import/el_14_G1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="2" orientation="3"/>
           <terminal x="-10" y="40" id="3" orientation="3"/>
@@ -734,152 +1605,369 @@
           <terminal x="120" y="40" id="5" orientation="1"/>
         </terminals>
       </element>
-      <element x="560" y="80" type="embed://import/el_10_K1.elmt" orientation="0">
-        <terminals/>
-      </element>
-      <element x="800" y="80" type="embed://import/el_11_K2.elmt" orientation="0">
+      <element x="560" y="80" type="embed://import/el_15_K1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="6" orientation="3"/>
+          <terminal x="190" y="20" id="7" orientation="1"/>
         </terminals>
       </element>
-      <element x="80" y="340" type="embed://import/el_12_S0.elmt" orientation="0">
+      <element x="800" y="80" type="embed://import/el_16_K2.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="7" orientation="3"/>
-          <terminal x="270" y="20" id="8" orientation="1"/>
+          <terminal x="-10" y="20" id="8" orientation="3"/>
+          <terminal x="230" y="20" id="9" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="340" type="embed://import/el_13_S1.elmt" orientation="0">
-        <terminals>
-          <terminal x="-10" y="20" id="9" orientation="3"/>
-        </terminals>
-      </element>
-      <element x="560" y="340" type="embed://import/el_14_S2.elmt" orientation="0">
+      <element x="80" y="340" type="embed://import/el_17_S0.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="10" orientation="3"/>
+          <terminal x="270" y="20" id="11" orientation="1"/>
         </terminals>
       </element>
-      <element x="800" y="340" type="embed://import/el_15_S3.elmt" orientation="0">
-        <terminals>
-          <terminal x="-10" y="20" id="11" orientation="3"/>
-        </terminals>
-      </element>
-      <element x="80" y="600" type="embed://import/el_16_KSR.elmt" orientation="0">
+      <element x="320" y="340" type="embed://import/el_18_S1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="12" orientation="3"/>
-          <terminal x="230" y="20" id="13" orientation="1"/>
+          <terminal x="190" y="20" id="13" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="600" type="embed://import/el_17_Barra_24V.elmt" orientation="0">
+      <element x="560" y="340" type="embed://import/el_19_S2.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="14" orientation="3"/>
+          <terminal x="200" y="20" id="15" orientation="1"/>
         </terminals>
       </element>
-      <element x="560" y="600" type="embed://import/el_18_Barra_0V.elmt" orientation="0">
-        <terminals>
-          <terminal x="-10" y="20" id="15" orientation="3"/>
-        </terminals>
-      </element>
-      <element x="800" y="600" type="embed://import/el_19_24V.elmt" orientation="0">
+      <element x="800" y="340" type="embed://import/el_20_S3.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="16" orientation="3"/>
-          <terminal x="-10" y="40" id="17" orientation="3"/>
-          <terminal x="70" y="20" id="18" orientation="1"/>
-          <terminal x="70" y="40" id="19" orientation="1"/>
+          <terminal x="190" y="20" id="17" orientation="1"/>
+        </terminals>
+      </element>
+      <element x="80" y="600" type="embed://import/el_21_KSR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="18" orientation="3"/>
+          <terminal x="230" y="20" id="19" orientation="1"/>
+        </terminals>
+      </element>
+      <element x="320" y="600" type="embed://import/el_22_Barra_24V.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="20" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="600" type="embed://import/el_23_Barra_0V.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="21" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="600" type="embed://import/el_24_SON.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="22" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="860" type="embed://import/el_25_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="23" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="860" type="embed://import/el_26_24V.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="24" orientation="3"/>
+          <terminal x="-10" y="40" id="25" orientation="3"/>
+          <terminal x="70" y="20" id="26" orientation="1"/>
+          <terminal x="70" y="40" id="27" orientation="1"/>
+        </terminals>
+      </element>
+      <element x="560" y="860" type="embed://import/el_27_104.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="28" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="860" type="embed://import/el_28_106.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="29" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="1120" type="embed://import/el_29_108.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="30" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="1120" type="embed://import/el_30_203.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="31" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="1120" type="embed://import/el_31_204.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="32" orientation="3"/>
         </terminals>
       </element>
     </elements>
     <conductors>
       <conductor terminal1="0" terminal2="2" type="simple" num="1N"/>
       <conductor terminal1="1" terminal2="3" type="simple" num="1L"/>
-      <conductor terminal1="4" terminal2="14" type="simple" num="+24V"/>
-      <conductor terminal1="5" terminal2="15" type="simple" num="0V"/>
-      <conductor terminal1="16" terminal2="7" type="simple" num="100"/>
-      <conductor terminal1="8" terminal2="12" type="simple" num="101"/>
-      <conductor terminal1="13" terminal2="6" type="simple" num="102"/>
-      <conductor terminal1="17" terminal2="9" type="simple" num="103"/>
-      <conductor terminal1="18" terminal2="10" type="simple" num="105"/>
-      <conductor terminal1="19" terminal2="11" type="simple" num="107"/>
+      <conductor terminal1="4" terminal2="20" type="simple" num="+24V"/>
+      <conductor terminal1="5" terminal2="21" type="simple" num="0V"/>
+      <conductor terminal1="8" terminal2="22" type="simple" num="SON"/>
+      <conductor terminal1="6" terminal2="23" type="simple" num="BR"/>
+      <conductor terminal1="24" terminal2="10" type="simple" num="100"/>
+      <conductor terminal1="11" terminal2="18" type="simple" num="101"/>
+      <conductor terminal1="19" terminal2="9" type="simple" num="102"/>
+      <conductor terminal1="25" terminal2="12" type="simple" num="103"/>
+      <conductor terminal1="13" terminal2="28" type="simple" num="104"/>
+      <conductor terminal1="26" terminal2="14" type="simple" num="105"/>
+      <conductor terminal1="15" terminal2="29" type="simple" num="106"/>
+      <conductor terminal1="27" terminal2="16" type="simple" num="107"/>
+      <conductor terminal1="17" terminal2="30" type="simple" num="108"/>
+      <conductor terminal1="7" terminal2="31" type="simple" num="203"/>
+      <conductor terminal1="9" terminal2="32" type="simple" num="204"/>
     </conductors>
   </diagram>
   <diagram order="3" title="03_PLC — 03 Plc" author="" date="2026-06-16" folio="%id/%total" cols="17" rows="8" colsize="60" rowsize="80" displaycols="true" displayrows="true" version="0.8">
     <defaultconductor type="simple"/>
     <elements>
-      <element x="80" y="80" type="embed://import/el_24_A1.elmt" orientation="0">
+      <element x="80" y="80" type="embed://import/el_49_A1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="0" orientation="3"/>
           <terminal x="-10" y="40" id="1" orientation="3"/>
           <terminal x="-10" y="60" id="2" orientation="3"/>
-          <terminal x="240" y="20" id="3" orientation="1"/>
-          <terminal x="240" y="40" id="4" orientation="1"/>
+          <terminal x="-10" y="80" id="3" orientation="3"/>
+          <terminal x="-10" y="100" id="4" orientation="3"/>
+          <terminal x="-10" y="120" id="5" orientation="3"/>
+          <terminal x="-10" y="140" id="6" orientation="3"/>
+          <terminal x="-10" y="160" id="7" orientation="3"/>
+          <terminal x="240" y="20" id="8" orientation="1"/>
+          <terminal x="240" y="40" id="9" orientation="1"/>
+          <terminal x="240" y="60" id="10" orientation="1"/>
+          <terminal x="240" y="80" id="11" orientation="1"/>
+          <terminal x="240" y="100" id="12" orientation="1"/>
+          <terminal x="240" y="120" id="13" orientation="1"/>
+          <terminal x="240" y="140" id="14" orientation="1"/>
+          <terminal x="240" y="160" id="15" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="80" type="embed://import/el_25_A1_1.elmt" orientation="0">
+      <element x="320" y="80" type="embed://import/el_50_A1_1.elmt" orientation="0">
         <terminals/>
       </element>
-      <element x="560" y="80" type="embed://import/el_26_HMI.elmt" orientation="0">
+      <element x="560" y="80" type="embed://import/el_51_HMI.elmt" orientation="0">
         <terminals/>
       </element>
-      <element x="800" y="80" type="embed://import/el_27_H1.elmt" orientation="0">
+      <element x="800" y="80" type="embed://import/el_52_H1.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="5" orientation="3"/>
+          <terminal x="-10" y="20" id="16" orientation="3"/>
         </terminals>
       </element>
-      <element x="80" y="340" type="embed://import/el_28_H2.elmt" orientation="0">
+      <element x="80" y="340" type="embed://import/el_53_H2.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="6" orientation="3"/>
+          <terminal x="-10" y="20" id="17" orientation="3"/>
         </terminals>
       </element>
-      <element x="320" y="340" type="embed://import/el_29_H3.elmt" orientation="0">
+      <element x="320" y="340" type="embed://import/el_54_H3.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="7" orientation="3"/>
+          <terminal x="-10" y="20" id="18" orientation="3"/>
         </terminals>
       </element>
-      <element x="560" y="340" type="embed://import/el_30_INVERSOR.elmt" orientation="0">
+      <element x="560" y="340" type="embed://import/el_55_AO.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="8" orientation="3"/>
-          <terminal x="80" y="20" id="9" orientation="1"/>
+          <terminal x="-10" y="20" id="19" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="340" type="embed://import/el_56_AO.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="20" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="600" type="embed://import/el_57_AI_S.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="21" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="600" type="embed://import/el_58_AI_S.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="22" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="600" type="embed://import/el_59_INVERSOR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="23" orientation="3"/>
+          <terminal x="80" y="20" id="24" orientation="1"/>
+        </terminals>
+      </element>
+      <element x="800" y="600" type="embed://import/el_60_RDY.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="25" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="860" type="embed://import/el_61_FLT.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="26" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="860" type="embed://import/el_62_104.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="27" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="860" type="embed://import/el_63_106.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="28" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="860" type="embed://import/el_64_108.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="29" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="1120" type="embed://import/el_65_203.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="30" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="1120" type="embed://import/el_66_204.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="31" orientation="3"/>
         </terminals>
       </element>
     </elements>
     <conductors>
-      <conductor terminal1="8" terminal2="0" type="simple" num="AI_D+"/>
-      <conductor terminal1="9" terminal2="1" type="simple" num="AI_D−"/>
-      <conductor terminal1="2" terminal2="5" type="simple" num="200"/>
-      <conductor terminal1="3" terminal2="6" type="simple" num="201"/>
-      <conductor terminal1="4" terminal2="7" type="simple" num="202"/>
+      <conductor terminal1="0" terminal2="19" type="simple" num="AO+"/>
+      <conductor terminal1="1" terminal2="20" type="simple" num="AO−"/>
+      <conductor terminal1="2" terminal2="21" type="simple" num="AI_S+"/>
+      <conductor terminal1="3" terminal2="22" type="simple" num="AI_S−"/>
+      <conductor terminal1="23" terminal2="4" type="simple" num="AI_D+"/>
+      <conductor terminal1="24" terminal2="5" type="simple" num="AI_D−"/>
+      <conductor terminal1="6" terminal2="25" type="simple" num="RDY"/>
+      <conductor terminal1="7" terminal2="26" type="simple" num="FLT"/>
+      <conductor terminal1="8" terminal2="27" type="simple" num="104"/>
+      <conductor terminal1="9" terminal2="28" type="simple" num="106"/>
+      <conductor terminal1="10" terminal2="29" type="simple" num="108"/>
+      <conductor terminal1="11" terminal2="16" type="simple" num="200"/>
+      <conductor terminal1="12" terminal2="17" type="simple" num="201"/>
+      <conductor terminal1="13" terminal2="18" type="simple" num="202"/>
+      <conductor terminal1="14" terminal2="30" type="simple" num="203"/>
+      <conductor terminal1="15" terminal2="31" type="simple" num="204"/>
     </conductors>
   </diagram>
   <diagram order="4" title="04_SERVO — 04 Servo" author="" date="2026-06-16" folio="%id/%total" cols="17" rows="8" colsize="60" rowsize="80" displaycols="true" displayrows="true" version="0.8">
     <defaultconductor type="simple"/>
     <elements>
-      <element x="80" y="80" type="embed://import/el_21_U1.elmt" orientation="0">
+      <element x="80" y="80" type="embed://import/el_33_U1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="0" orientation="3"/>
           <terminal x="-10" y="40" id="1" orientation="3"/>
-          <terminal x="240" y="20" id="2" orientation="1"/>
+          <terminal x="-10" y="60" id="2" orientation="3"/>
+          <terminal x="-10" y="80" id="3" orientation="3"/>
+          <terminal x="-10" y="100" id="4" orientation="3"/>
+          <terminal x="-10" y="120" id="5" orientation="3"/>
+          <terminal x="-10" y="140" id="6" orientation="3"/>
+          <terminal x="-10" y="160" id="7" orientation="3"/>
+          <terminal x="240" y="20" id="8" orientation="1"/>
+          <terminal x="240" y="40" id="9" orientation="1"/>
+          <terminal x="240" y="60" id="10" orientation="1"/>
+          <terminal x="240" y="80" id="11" orientation="1"/>
+          <terminal x="240" y="100" id="12" orientation="1"/>
+          <terminal x="240" y="120" id="13" orientation="1"/>
+          <terminal x="240" y="140" id="14" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="80" type="embed://import/el_22_M1.elmt" orientation="0">
+      <element x="320" y="80" type="embed://import/el_34_M1.elmt" orientation="0">
         <terminals>
-          <terminal x="-10" y="20" id="3" orientation="3"/>
-          <terminal x="-10" y="40" id="4" orientation="3"/>
-          <terminal x="220" y="20" id="5" orientation="1"/>
+          <terminal x="-10" y="20" id="15" orientation="3"/>
+          <terminal x="-10" y="40" id="16" orientation="3"/>
+          <terminal x="220" y="20" id="17" orientation="1"/>
+          <terminal x="220" y="40" id="18" orientation="1"/>
         </terminals>
       </element>
-      <element x="560" y="80" type="embed://import/el_23_Y1.elmt" orientation="0">
+      <element x="560" y="80" type="embed://import/el_35_Y1.elmt" orientation="0">
         <terminals/>
+      </element>
+      <element x="800" y="80" type="embed://import/el_36_3L1.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="19" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="340" type="embed://import/el_37_3L2.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="20" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="340" type="embed://import/el_38_3L3.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="21" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="340" type="embed://import/el_39_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="22" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="340" type="embed://import/el_40_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="23" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="600" type="embed://import/el_41_AO.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="24" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="600" type="embed://import/el_42_AO.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="25" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="600" type="embed://import/el_43_AI_S.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="26" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="600" type="embed://import/el_44_AI_S.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="27" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="80" y="860" type="embed://import/el_45_SON.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="28" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="320" y="860" type="embed://import/el_46_RDY.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="29" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="560" y="860" type="embed://import/el_47_FLT.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="30" orientation="3"/>
+        </terminals>
+      </element>
+      <element x="800" y="860" type="embed://import/el_48_BR.elmt" orientation="0">
+        <terminals>
+          <terminal x="-10" y="20" id="31" orientation="3"/>
+        </terminals>
       </element>
     </elements>
     <conductors>
-      <conductor terminal1="0" terminal2="3" type="simple" num="U"/>
-      <conductor terminal1="1" terminal2="4" type="simple" num="V"/>
-      <conductor terminal1="2" terminal2="5" type="simple" num="W"/>
+      <conductor terminal1="0" terminal2="19" type="simple" num="3L1"/>
+      <conductor terminal1="1" terminal2="20" type="simple" num="3L2"/>
+      <conductor terminal1="2" terminal2="21" type="simple" num="3L3"/>
+      <conductor terminal1="3" terminal2="15" type="simple" num="U"/>
+      <conductor terminal1="4" terminal2="16" type="simple" num="V"/>
+      <conductor terminal1="5" terminal2="17" type="simple" num="W"/>
+      <conductor terminal1="6" terminal2="22" type="simple" num="BR+"/>
+      <conductor terminal1="7" terminal2="23" type="simple" num="BR−"/>
+      <conductor terminal1="8" terminal2="24" type="simple" num="AO+"/>
+      <conductor terminal1="9" terminal2="25" type="simple" num="AO−"/>
+      <conductor terminal1="10" terminal2="26" type="simple" num="AI_S+"/>
+      <conductor terminal1="11" terminal2="27" type="simple" num="AI_S−"/>
+      <conductor terminal1="12" terminal2="28" type="simple" num="SON"/>
+      <conductor terminal1="13" terminal2="29" type="simple" num="RDY"/>
+      <conductor terminal1="14" terminal2="30" type="simple" num="FLT"/>
+      <conductor terminal1="18" terminal2="31" type="simple" num="BR"/>
     </conductors>
   </diagram>
   <diagram order="5" title="05_BORNES — 05 Bornes" author="" date="2026-06-16" folio="%id/%total" cols="17" rows="8" colsize="60" rowsize="80" displaycols="true" displayrows="true" version="0.8">
     <defaultconductor type="simple"/>
     <elements>
-      <element x="80" y="80" type="embed://import/el_31_X1.elmt" orientation="0">
+      <element x="80" y="80" type="embed://import/el_67_X1.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="0" orientation="3"/>
           <terminal x="-10" y="40" id="1" orientation="3"/>
@@ -893,7 +1981,7 @@
           <terminal x="70" y="100" id="9" orientation="1"/>
         </terminals>
       </element>
-      <element x="320" y="80" type="embed://import/el_32_X2.elmt" orientation="0">
+      <element x="320" y="80" type="embed://import/el_68_X2.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="10" orientation="3"/>
           <terminal x="-10" y="40" id="11" orientation="3"/>
@@ -901,7 +1989,7 @@
           <terminal x="180" y="40" id="13" orientation="1"/>
         </terminals>
       </element>
-      <element x="560" y="80" type="embed://import/el_33_X3.elmt" orientation="0">
+      <element x="560" y="80" type="embed://import/el_69_X3.elmt" orientation="0">
         <terminals>
           <terminal x="-10" y="20" id="14" orientation="3"/>
           <terminal x="-10" y="40" id="15" orientation="3"/>
@@ -915,7 +2003,7 @@
   <diagram order="6" title="99_DIVERSOS — Diversos" author="" date="2026-06-16" folio="%id/%total" cols="17" rows="8" colsize="60" rowsize="80" displaycols="true" displayrows="true" version="0.8">
     <defaultconductor type="simple"/>
     <elements>
-      <element x="80" y="80" type="embed://import/el_20_PE.elmt" orientation="0">
+      <element x="80" y="80" type="embed://import/el_32_PE.elmt" orientation="0">
         <terminals/>
       </element>
     </elements>

@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from md2qet import symbols  # noqa: E402
 from md2qet.parser import parse_endpoint, parse_markdown  # noqa: E402
 from md2qet.writer import build_project, to_xml_string  # noqa: E402
 
@@ -124,6 +125,56 @@ class TestWriter(unittest.TestCase):
             for c in d.findall("conductors/conductor"):
                 self.assertIn(c.attrib["terminal1"], ids)
                 self.assertIn(c.attrib["terminal2"], ids)
+
+
+class TestSymbols(unittest.TestCase):
+    def test_classify(self):
+        self.assertEqual(symbols.classify("M1", "Servomotor 200W"), "motor")
+        self.assertEqual(symbols.classify("H1", "Sinaleiro verde"), "sinaleiro")
+        self.assertEqual(symbols.classify("QF1", "Disjuntor motor"), "disjuntor")
+        self.assertEqual(symbols.classify("KM0", "Contator geral"), "contator")
+        self.assertEqual(symbols.classify("PE", "Barra de aterramento"), "aterramento")
+        self.assertEqual(symbols.classify("U1", "Drive servo"), "drive")
+
+    def test_body_primitives_motor_has_circle(self):
+        prims = symbols.body_primitives("motor", 60, 60)
+        self.assertTrue(any(p.tag == "ellipse" for p in prims))
+
+
+CROSS = """\
+**Projeto:** Cruzado
+
+## 2. Lista de componentes
+
+| TAG | Descrição |
+|---|---|
+| A1 | PLC |
+| U1 | Drive |
+
+## 3. Lista de fios
+
+| Fio | Origem | Destino |
+|---|---|---|
+| AO+ | A1:AO1 | U1:TREF |
+
+## 7. Importação no QElectroTech
+
+   - **03_PLC** — A1
+   - **04_SERVO** — U1
+"""
+
+
+class TestCrossFolio(unittest.TestCase):
+    def setUp(self):
+        self.root = ET.fromstring(to_xml_string(build_project(parse_markdown(CROSS))))
+
+    def test_reference_on_both_folios(self):
+        # cada fólio do fio cruzado deve ter 1 componente + 1 referência = 2 elementos
+        for title in ("03_PLC", "04_SERVO"):
+            d = next(x for x in self.root.findall("diagram")
+                     if x.attrib["title"].startswith(title))
+            self.assertEqual(len(d.findall("elements/element")), 2)
+            self.assertEqual(len(d.findall("conductors/conductor")), 1)
 
 
 if __name__ == "__main__":

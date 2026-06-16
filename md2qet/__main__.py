@@ -48,10 +48,10 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  Fios        : {report['wires']}")
         print(f"  Fólios      : {report['folios']}")
         if report["cross_folio"]:
-            print(f"  Referências cruzadas (fio entre fólios, não conectado "
-                  f"automaticamente): {len(report['cross_folio'])}")
+            print(f"  Referências cruzadas (fio entre fólios, símbolo de "
+                  f"referência em cada lado): {len(report['cross_folio'])}")
             for label, f1, f2 in report["cross_folio"]:
-                print(f"    - {label}: {f1} ↔ {f2}")
+                print(f"    - {label}: {f1} → {f2}")
     return 0
 
 
