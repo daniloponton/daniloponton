@@ -14,6 +14,7 @@ import {
   type MotorStartingResult,
   type VoltageDropResult,
 } from "@core/index";
+import { LinkChips } from "./common";
 
 type ResultPatch = (patch: Partial<CircuitResults>) => void;
 
@@ -39,6 +40,10 @@ interface Props {
 export function PowerQualityPanel({ linkedSkMVA, linkedIkKA, onError, onResult }: Props) {
   return (
     <div className="pq">
+      <LinkChips chips={[
+        { label: "S″k do curto", value: linkedSkMVA != null ? `${linkedSkMVA} MVA` : null },
+        { label: "I″k do curto", value: linkedIkKA != null ? `${linkedIkKA} kA` : null },
+      ]} />
       <VoltageDropCard onError={onError} onResult={onResult} />
       <CapacitorCard onError={onError} onResult={onResult} />
       <DetunedFilterCard onError={onError} onResult={onResult} />

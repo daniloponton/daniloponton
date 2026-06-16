@@ -14,6 +14,7 @@ import {
   type SpdaInput,
   type SpdaResult,
 } from "@core/index";
+import { LinkChips } from "./common";
 
 type ResultPatch = (patch: Partial<CircuitResults>) => void;
 
@@ -30,6 +31,10 @@ export function GroundingPanel({ onError, onResult, linkedIkKA, linkedXR }: Prop
   const [computedIgA, setComputedIgA] = useState<number | null>(null);
   return (
     <div className="pq">
+      <LinkChips chips={[
+        { label: "I″k do curto", value: linkedIkKA != null ? `${linkedIkKA} kA` : null },
+        { label: "X/R", value: linkedXR != null ? linkedXR : null },
+      ]} />
       <GroundingCard onError={onError} onResult={onResult} />
       <GridCurrentCard onError={onError} linkedIkKA={linkedIkKA} linkedXR={linkedXR} onComputed={setComputedIgA} />
       <GridCard onError={onError} onResult={onResult} linkedIgA={computedIgA} />

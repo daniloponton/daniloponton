@@ -1,20 +1,11 @@
 import type { CableSizingResult, ComplianceStatus } from "@core/index";
+import { StatusPill } from "./common";
 
 const badge: Record<ComplianceStatus, string> = {
   ok: "✅",
   warning: "⚠️",
   fail: "❌",
 };
-
-const pillLabel: Record<ComplianceStatus, string> = {
-  ok: "Conforme",
-  warning: "Com ressalvas",
-  fail: "Não conforme",
-};
-
-function Pill({ status }: { status: ComplianceStatus }) {
-  return <span className={`pill pill-${status}`}>{badge[status]} {pillLabel[status]}</span>;
-}
 
 export function CalculationReport({ result: r }: { result: CableSizingResult }) {
   return (
@@ -26,7 +17,7 @@ export function CalculationReport({ result: r }: { result: CableSizingResult }) 
             Critério determinante: <strong>{governingLabel(r.governingCriterion)}</strong>
           </p>
         </div>
-        <Pill status={r.overall} />
+        <StatusPill status={r.overall} />
       </div>
 
       <div className="stat-grid">

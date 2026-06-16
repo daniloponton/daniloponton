@@ -5,6 +5,7 @@ import {
   type ArcFlashResult,
   type CircuitResults,
 } from "@core/index";
+import { EmptyState, LinkChips, StatusPill } from "./common";
 
 type ResultPatch = (patch: Partial<CircuitResults>) => void;
 
@@ -53,6 +54,10 @@ export function ArcFlashPanel({ onError, onResult, linkedIkKA, linkedClearingS }
     <div className="pq">
       <section className="card">
         <h3>Arco elétrico — energia incidente e EPI (IEEE 1584-2018)</h3>
+        <LinkChips chips={[
+          { label: "I″k do curto", value: linkedIkKA != null ? `${linkedIkKA} kA` : null },
+          { label: "Tempo da proteção", value: linkedClearingS != null ? `${linkedClearingS} s` : null },
+        ]} />
         <div className="grid">
           <label className="field"><span>Tensão Voc [kV]</span>
             <input type="number" step="0.01" value={form.systemVoltageKV} onChange={(e) => set({ systemVoltageKV: Number(e.target.value) })} /></label>
@@ -86,15 +91,21 @@ export function ArcFlashPanel({ onError, onResult, linkedIkKA, linkedClearingS }
         </div>
         <div className="project-actions"><button type="button" onClick={calc}>Analisar arco elétrico</button></div>
 
-        {res && (
+        {res ? (
           <div className="result-mini">
             <p>
               Energia incidente: <strong>{res.incidentEnergyCalCm2} cal/cm²</strong>{" "}
-              <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : res.status === "warning" ? "⚠️" : "❌"}</span>
+              <StatusPill status={res.status} />
             </p>
             <p className="muted">I″arc = {res.arcingCurrentKA} kA (reduzida {res.reducedArcingCurrentKA} kA) · CF = {res.enclosureCorrectionFactor} · fronteira de arco = {res.arcFlashBoundaryM} m</p>
             <p><strong>EPI:</strong> {res.ppeCategory}</p>
           </div>
+        ) : (
+          <EmptyState icon="⚡">
+            Informe a tensão, o curto franco (ou herde a I″k do curto-circuito) e a
+            configuração de eletrodos; o resultado traz energia incidente, fronteira de
+            arco e categoria de EPI.
+          </EmptyState>
         )}
       </section>
     </div>

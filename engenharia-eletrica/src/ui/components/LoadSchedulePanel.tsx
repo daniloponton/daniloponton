@@ -7,6 +7,7 @@ import {
   type LoadScheduleInput,
   type LoadScheduleResult,
 } from "@core/index";
+import { EmptyState, StatusPill } from "./common";
 
 type ResultPatch = (patch: Partial<CircuitResults>) => void;
 
@@ -95,12 +96,19 @@ export function LoadSchedulePanel({ onError, onResult }: Props) {
           <button type="button" className="primary" onClick={calc}>Calcular quadro</button>
         </div>
 
+        {!res && (
+          <EmptyState icon="🧮">
+            Liste as cargas do quadro (potência, FP, fator de demanda e fase) e calcule:
+            o resultado traz a demanda total, a corrente do alimentador, o equilíbrio entre
+            as fases e a corrente de neutro.
+          </EmptyState>
+        )}
         {res && (
           <div className="result-mini">
             <p>
               Demanda: <strong>{res.demandedApparentKVA} kVA</strong> ({res.demandedActiveKW} kW · FP {res.demandPowerFactor}) ·
               corrente <strong>{res.demandCurrentA} A</strong>{" "}
-              <span className={`status status-${res.status}`}>{res.status === "ok" ? "✅" : res.status === "warning" ? "⚠️" : "❌"}</span>
+              <StatusPill status={res.status} />
             </p>
             <p className="muted">
               Por fase — {res.phaseLoads.map((p) => `${p.phase}: ${p.currentA} A`).join(" · ")} · neutro {res.neutralCurrentA} A ·

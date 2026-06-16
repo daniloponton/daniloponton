@@ -52,6 +52,7 @@ export function SingleLineDiagram({ elements, onSelect, selected }: Props) {
               />
             )}
             <Symbol kind={el.kind} cx={CX} cy={y} color={color} />
+            {el.status && <circle cx={140} cy={y - 8} r={4} fill={color} />}
             <text x={150} y={y - 4} className="sld-label">{el.label}</text>
             {el.details.map((d, k) => (
               <text key={k} x={150} y={y + 14 + k * 14} className="sld-detail">{d}</text>

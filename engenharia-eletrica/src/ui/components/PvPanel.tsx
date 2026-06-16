@@ -7,6 +7,7 @@ import {
   type PvStringResult,
   type DcVoltageDropResult,
 } from "@core/index";
+import { EmptyState } from "./common";
 
 const SECTIONS = [1.5, 2.5, 4, 6, 10, 16, 25, 35];
 
@@ -100,6 +101,13 @@ function StringCard({ onError, onResult }: { onError: (m: string | null) => void
       </div>
       <div className="project-actions"><button type="button" onClick={calc}>Dimensionar string</button></div>
 
+      {!res && (
+        <EmptyState icon="🔆">
+          Informe os dados do módulo (STC) e do inversor; o resultado traz o número de
+          módulos por string (mín. e recomendado), os limites de tensão na temperatura e a
+          queda CC da string.
+        </EmptyState>
+      )}
       {res && (
         <div className="result-mini">
           <p>

@@ -1,5 +1,15 @@
 import { describe, it, expect } from "vitest";
-import { buildProjectMemorial, buildComplianceMatrix, evaluateCircuit, type Circuit, type CircuitResults } from "@core/index";
+import {
+  buildProjectMemorial,
+  buildComplianceMatrix,
+  evaluateCircuit,
+  calculateVoltageDrop,
+  sizeCapacitorBank,
+  analyzeGrounding,
+  sizePvString,
+  type Circuit,
+  type CircuitResults,
+} from "@core/index";
 import { analyzeArcFlash } from "@core/modules/arcFlash";
 
 function feeder(name: string, ib: number): Circuit {
@@ -47,6 +57,30 @@ describe("buildProjectMemorial", () => {
     const arc = await analyzeArcFlash({ systemVoltageKV: 0.4, boltedFaultKA: 20, arcDurationS: 0.2 });
     const doc = buildProjectMemorial("P", data, { arcFlash: arc });
     expect(doc.projectSections.map((s) => s.id)).toEqual(["arc_flash"]);
+  });
+
+  it("documenta os módulos 4/5/6 — FP, aterramento e fotovoltaico", async () => {
+    const data = await Promise.all([feeder("A", 45)].map(results));
+    const capacitorBank = await sizeCapacitorBank({ activePowerKW: 100, currentCosPhi: 0.8, targetCosPhi: 0.95, voltageV: 380 });
+    const voltageDrop = await calculateVoltageDrop({
+      system: "three", baseVoltageV: 380,
+      segments: [{ sectionMm2: 35, lengthM: 100, currentA: 80, cosPhi: 0.9 }],
+    });
+    const grounding = await analyzeGrounding({ soilResistivity: 200, rodLengthM: 3, rodDiameterM: 0.016, faultCurrentA: 1000, faultClearingS: 0.5 });
+    const pvString = await sizePvString({
+      module: { vocStcV: 49.5, vmpStcV: 41.5, iscStcA: 11.5, impStcA: 10.8, tempCoeffVocPctPerC: -0.27 },
+      inverter: { maxDcVoltageV: 1100, mpptMinV: 200, mpptMaxV: 1000, maxInputCurrentA: 26 },
+      minCellTempC: -10, maxCellTempC: 70,
+    });
+    const doc = buildProjectMemorial("P", data, { voltageDrop, capacitorBank, grounding, pvString });
+    const ids = doc.projectSections.map((s) => s.id);
+    expect(ids).toContain("voltage_drop");
+    expect(ids).toContain("capacitor_bank");
+    expect(ids).toContain("grounding");
+    expect(ids).toContain("pv_string");
+    // Cada análise de projeto entra também na matriz de conformidade, escopo "Projeto".
+    const m = buildComplianceMatrix(doc);
+    expect(m.rows.filter((r) => r.scope === "Projeto").length).toBeGreaterThanOrEqual(4);
   });
 
   it("conformidade geral é a pior entre circuitos e análises de projeto", async () => {
