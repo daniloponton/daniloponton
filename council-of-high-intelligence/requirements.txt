@@ -1,0 +1,7 @@
+# Install only the SDK(s) for the providers you actually plan to use.
+anthropic>=0.40
+openai>=1.50
+google-generativeai>=0.8
+
+# For running the tests
+pytest>=8.0
